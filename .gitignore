@@ -8,12 +8,12 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+venv/
 build/
 develop-eggs/
 dist/
 downloads/
 eggs/
-.eggs/
 lib/
 lib64/
 parts/
@@ -22,6 +22,7 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+local_settings.py
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -37,11 +38,9 @@ pip-delete-this-directory.txt
 htmlcov/
 .tox/
 .coverage
-.coverage.*
 .cache
 nosetests.xml
 coverage.xml
-*,cover
 
 # Translations
 *.mo
@@ -55,3 +54,6 @@ docs/_build/
 
 # PyBuilder
 target/
+
+.DS_Store
+*sublime-*

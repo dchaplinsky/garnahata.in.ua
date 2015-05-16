@@ -1,0 +1,7 @@
+Django==1.7.8
+django-jinja==1.4.1
+django-pipeline==1.5.0
+elasticsearch-dsl==0.0.4
+gunicorn==19.3.0
+psycopg2==2.6
+wagtail==0.8.7
