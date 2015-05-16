@@ -1,27 +1,20 @@
 from django.db import models
-from treebeard.mp_tree import MP_Node
+from djgeojson.fields import PointField
 
 
-class Region(models.Model):
-    region_name = models.CharField("Назва регіону", max_length=100,
-                                   primary_key=True)
-    order_id = models.IntegerField()
-
-    def __unicode__(self):
-        return self.region_name
-
-    def __str__(self):
-        return self.region_name
+class Ownership(models.Model):
+    owner = models.TextField("Власник")
+    registered = models.DateTimeField("Реєстрація", blank=True, null=True)
+    asset = models.TextField("Власність")
+    comment = models.TextField("Коментар", blank=True)
+    mortgage = models.TextField("Іпотека", blank=True)
+    address = models.ForeignKey("Address", verbose_name="Адреса")
 
 
-class Office(MP_Node):
-    name = models.CharField("Назва органу", max_length=255, primary_key=True)
-    order_id = models.IntegerField()
-
-    node_order_by = ['order_id']
-
-    def __unicode__(self):
-        return self.name
-
-    def __str__(self):
-        return self.name
+class Address(models.Model):
+    address = models.TextField("Адреса")
+    city = models.CharField("Місто", max_length=50)
+    commercial_name = models.CharField(
+        "Назва комплексу або району", max_length=150, blank=True)
+    link = models.URLField("Посилання на сайт забудовника")
+    coords = PointField("Позиція на мапі", blank=True)

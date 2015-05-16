@@ -5,3 +5,5 @@ elasticsearch-dsl==0.0.4
 gunicorn==19.3.0
 psycopg2==2.6
 wagtail==0.8.7
+django-geojson==2.8.0
+jsonfield==1.0.3
