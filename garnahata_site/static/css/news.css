@@ -1,62 +1,82 @@
-
-
 .massonry .item {
- float: left;
- margin-bottom:10px;
+    float: left;
+    margin-bottom: 10px;
 }
-
 .massonry .well {
- padding:20px;
- position:relative;
- display: block;
- border: none !important;
- background:#FFFFFF !important;
- box-shadow:none !important;
+    padding: 20px;
+    position: relative;
+    display: block;
+    border: none !important;
+    background: #FFFFFF !important;
+    box-shadow: none !important;
 }
-
-
-
-
-.massonry .item h4 a {color:#262626;}
-
-.newsStats {color: #989898;}
-.timeCounter { margin-left:10px;}
-
-.moreAjax {margin-top:20px;}
-.moreAjax i {margin-left:10px; font-size:15px;}
-
-.blue.moreAjax:hover i {}
-.blue.moreAjax:hover {color:#fff;}
-
-h2 {font-size:24px; font-weight: normal; margin-top:10px;}
-h2.blue,
-h2.green {color:#FFFFFF; padding: 10px 20px; margin-bottom:0;}
-
-.topNewsContainer {overflow:hidden; position:relative; height:390px;}
-
-.dateInfo {padding: 5px 10px; background: #fff; color:#1352e2;} 
-
+.massonry .item h4 a {
+    color: #262626;
+}
+.newsStats {
+    color: #989898;
+}
+.timeCounter {
+    margin-left: 10px;
+}
+.moreAjax {
+    margin-top: 20px;
+}
+.moreAjax i {
+    margin-left: 10px;
+    font-size: 15px;
+}
+.blue.moreAjax:hover i {
+}
+.blue.moreAjax:hover {
+    color: #fff;
+}
+h2 {
+    font-size: 24px;
+    font-weight: normal;
+    margin-top: 10px;
+}
+h2.blue, h2.green {
+    color: #FFFFFF;
+    padding: 10px 20px;
+    margin-bottom: 0;
+}
+.topNewsContainer {
+    overflow: hidden;
+    position: relative;
+    height: 390px;
+}
+.dateInfo {
+    padding: 5px 10px;
+    background: #fff;
+    color: #1352e2;
+}
 .overImage {
-    position:absolute;
-    top:0;
-    left:0;
-    z-index:1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
 }
-
 .overInfo {
-    position:absolute;
-    bottom:12px;
-    z-index:2;
-    left:0;
-    width:100%;
-    padding:30px 40px; 
-    background:url(../images/picoverlay.png) repeat-x; 
-    color:#FFFFFF;
-    }
-
-.overInfo .newsStats {color:#FFFFFF; font-size:16px;}
-.overInfo .newsStats span {margin-right:10px;}
-.overInfo .newsStats .fa {color:#22c064;}
-    
-#topNews { margin-bottom:30px;}
-
+    position: absolute;
+    bottom: 12px;
+    z-index: 2;
+    left: 0;
+    width: 100%;
+    padding: 30px 40px;
+    background: url(../images/picoverlay.png) repeat-x;
+    color: #FFFFFF;
+}
+.overInfo .newsStats {
+    color: #FFFFFF;
+    font-size: 16px;
+}
+.overInfo .newsStats span {
+    margin-right: 10px;
+}
+.overInfo .newsStats .fa {
+    color: #22c064;
+}
+#topNews {
+    margin-bottom: 30px;
+}

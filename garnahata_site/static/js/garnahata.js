@@ -1,20 +1,16 @@
 (function($) {
     "use strict"; // Start of use strict
-	
 	 $('.massonry').masonry({
-// указываем элемент-контейнер в котором расположены блоки для динамической верстки
       itemSelector: '.item',
 	  columnWidth: '.grid-sizer',
 	  percentPosition: true,
        singleMode: false,
       isResizable: true,
       isAnimated: true,
-// анимируем перестроение блоков
           animationOptions: { 
           queue: false, 
           duration: 500 
       }
-// опции анимации - очередь и продолжительность анимации
     }); 
 	
 
@@ -54,9 +50,7 @@
             maxFontSize: '24px'
         }
     );
-	 
 
-    // Initialize WOW.js Scrolling Animations
  
 
 })(jQuery); // End of use strict
