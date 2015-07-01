@@ -9,6 +9,7 @@ from wagtail.wagtailadmin import urls as wagtailadmin_urls
 urlpatterns = patterns(
     '',
     (r'^$', TemplateView.as_view(template_name='home.jinja')),
+    (r'^base$', TemplateView.as_view(template_name='base.jinja')),
     # url(r'^ajax/suggest$', 'catalog.views.suggest', name='suggest'),
 
     # url(r'^search$', 'catalog.views.search', name='search'),

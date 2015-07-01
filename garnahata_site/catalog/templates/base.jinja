@@ -22,13 +22,15 @@
     <![endif]-->
 </head>
 
-<body id="" class="fixed-header regular-page">
+<body class="{% block bodyclass %}fixed-header regular-page{% endblock %}">
     <header id="intro">
         <div class="header_wrap">
             <div class="header-content">
                 <div class="header-content-inner container">
-                    <h1 class="logo ani"><img  class="ani" src="images/logo.png" width="403" height="113" alt=""/><span>ГарнаХата &#8212;  база даних власників найдорожчої нерухомості України.</span></h1>
-                    <div id="search-box" class="col-lg-6">
+                    <h1 class="logo ani"><img  class="ani" src="{{ static("images/logo.png")}}" width="403" height="113" alt=""/><span>ГарнаХата &#8212;  база даних власників найдорожчої нерухомості України.</span></h1>
+                    {% block header_intro %}
+                    {% endblock %}
+                    <div id="search-box" class="col-lg-6 col-lg-offset-3">
                         <div class="input-group">
                             <input type="text" class="form-control input-rounded" placeholder="Знайти негідника-багатія">
                             <span class="input-group-btn">
@@ -68,6 +70,7 @@
     </header>
     <div class="first-after-intro spacer"></div>
     <div class="container content">
+        {% block content %}
         <div class="row">
             <section id="main" class="col col-lg-8">
                 <article>
@@ -75,7 +78,7 @@
                         <div id="topNews">
                             <h2 class="blue">Останні новини</h2>
                             <div class="topNewsContainer">
-                                <div class="overImage"> <img class="img-responsive img-max" src="_tmpContent/_topNews.png" alt="" /> </div>
+                                <div class="overImage"> <img class="img-responsive img-max" src="{{ static("_tmpContent/_topNews.png")}}" alt="" /> </div>
                                 <div class="overInfo"> <span class="dateInfo">10 травня 2015</span>
                                     <h4 class="title">Екс-голова ДПА Папаіка купив 5-кімнатну «елітку» через 3 місяці після призначення</h4>
                                     <ul class="articleTags">
@@ -99,7 +102,7 @@
                 </article>
                 <div id="bigMap">
                     <h2 class="green text-left">ЖК «Альпійський»</h2>
-                    <img class="img-responsive img-max" src="_tmpContent/_tmp_bigMap2.png" alt="" /> </div>
+                    <img class="img-responsive img-max" src="{{ static("_tmpContent/_tmp_bigMap2.png") }}" alt="" /> </div>
             </section>
             <aside id="sidebar" role="complementary" class="col col-xl-3 col-lg-3">
                 <!-- TODO для Андрея: Пусть куки помнит что свернул юзер а что нет? -->
@@ -108,7 +111,7 @@
                     <div id="latestAboutPerson" class="collapse in" aria-expanded="true">
                         <div class="media">
                             <div class="media-left media-middle">
-                                <a href="#"> <img src="_tmpContent/s01.png" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
+                                <a href="#"> <img src="{{ static("_tmpContent/s01.png") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
                             </div>
                             <div class="media-body">
                                 <h5 class="media-heading" id="middle-aligned-media">Аваков шось там купив, і дуже дорог<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a><span>20.05.2015</span></h5>
@@ -116,7 +119,7 @@
                         </div>
                         <div class="media">
                             <div class="media-left media-middle">
-                                <a href="#"> <img src="_tmpContent/s02.png" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
+                                <a href="#"> <img src="{{ static("_tmpContent/s02.png") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
                             </div>
                             <div class="media-body">
                                 <h5 class="media-heading" id="middle-aligned-media">Ми побачили ремонт, та буди дуже вражені<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a><span>20.05.2015</span></h5>
@@ -124,7 +127,7 @@
                         </div>
                         <div class="media">
                             <div class="media-left media-middle">
-                                <a href="#"> <img src="_tmpContent/s03.png" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
+                                <a href="#"> <img src="{{ static("_tmpContent/s03.png") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
                             </div>
                             <div class="media-body">
                                 <h5 class="media-heading" id="middle-aligned-media">Син Авакова зробив такий дуже дорогий ремонт собі!<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a><span>20.05.2015</span></h5>
@@ -139,7 +142,7 @@
                     <div id="latestAboutObject" class="collapse in" aria-expanded="true">
                         <div class="media">
                             <div class="media-left media-middle">
-                                <a href="#"> <img src="_tmpContent/s01.png" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
+                                <a href="#"> <img src="{{ static("_tmpContent/s01.png") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
                             </div>
                             <div class="media-body">
                                 <h5 class="media-heading" id="middle-aligned-media">Аваков шось там купив, і дуже дорог<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a><span>20.05.2015</span></h5>
@@ -147,7 +150,7 @@
                         </div>
                         <div class="media">
                             <div class="media-left media-middle">
-                                <a href="#"> <img src="_tmpContent/s02.png" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
+                                <a href="#"> <img src="{{ static("_tmpContent/s02.png") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
                             </div>
                             <div class="media-body">
                                 <h5 class="media-heading" id="middle-aligned-media">Ми побачили ремонт, та буди дуже вражені<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a><span>20.05.2015</span></h5>
@@ -155,7 +158,7 @@
                         </div>
                         <div class="media">
                             <div class="media-left media-middle">
-                                <a href="#"> <img src="_tmpContent/s03.png" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
+                                <a href="#"> <img src="{{ static("_tmpContent/s03.png") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
                             </div>
                             <div class="media-body">
                                 <h5 class="media-heading" id="middle-aligned-media">Син Авакова зробив такий дуже дорогий ремонт собі!<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a><span>20.05.2015</span></h5>
@@ -163,7 +166,7 @@
                         </div>
                         <div class="media">
                             <div class="media-left media-middle">
-                                <a href="#"> <img src="_tmpContent/s01.png" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
+                                <a href="#"> <img src="{{ static("_tmpContent/s01.png") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
                             </div>
                             <div class="media-body">
                                 <h5 class="media-heading" id="middle-aligned-media">Аваков шось там купив, і дуже дорог<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a><span>20.05.2015</span></h5>
@@ -171,7 +174,7 @@
                         </div>
                         <div class="media">
                             <div class="media-left media-middle">
-                                <a href="#"> <img src="_tmpContent/s02.png" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
+                                <a href="#"> <img src="{{ static("_tmpContent/s02.png") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
                             </div>
                             <div class="media-body">
                                 <h5 class="media-heading" id="middle-aligned-media">Ми побачили ремонт, та буди дуже вражені<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a><span>20.05.2015</span></h5>
@@ -179,7 +182,7 @@
                         </div>
                         <div class="media">
                             <div class="media-left media-middle">
-                                <a href="#"> <img src="_tmpContent/s03.png" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
+                                <a href="#"> <img src="{{ static("_tmpContent/s03.png") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
                             </div>
                             <div class="media-body">
                                 <h5 class="media-heading" id="middle-aligned-media">Син Авакова зробив такий дуже дорогий ремонт собі!<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a><span>20.05.2015</span></h5>
@@ -189,12 +192,13 @@
                 </div>
             </aside>
         </div>
+        {% endblock %}
     </div>
     <footer id="footer">
         <div class="container">
             <div class="row">
                 <div class="copirights-logos">
-                    <div class="cl-block c100"><a href="а куди ставить лінк?" target="_blank"><span class ="clogos clogos_cs noAnimation">Канцелярська сотня</span> <span class="ctext">Проект канцелярської сотні</span></a></div>
+                    <div class="cl-block c100"><a href="https://www.facebook.com/kancelaristy" target="_blank"><span class ="clogos clogos_cs noAnimation">Канцелярська сотня</span> <span class="ctext">Проект канцелярської сотні</span></a></div>
                     <div class="cl-block laba"> <a class="clogos clogos_slab noAnimation" href="http://schroedingerscatlab.com/" target="_blank">Лабораторія кота Шрьодінгера</a> <span class="ctext">Дизайн Лабораторії кота Шрьодінгера</span> </div>
                 </div>
             </div>
