@@ -57,10 +57,3 @@ target/
 
 .DS_Store
 *sublime-*
-
-static/js/
-static/images/
-static/fonts/
-static/css/
-static/_tmpContent/
-static/CACHE/
