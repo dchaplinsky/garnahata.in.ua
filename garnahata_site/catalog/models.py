@@ -5,10 +5,31 @@ from openpyxl import load_workbook
 
 class Ownership(models.Model):
     owner = models.TextField("Власник")
-    registered = models.DateTimeField("Реєстрація", blank=True, null=True)
-    asset = models.TextField("Власність")
+    asset = models.TextField("Властивості нерухомості")
+    registered = models.DateTimeField("Дата реєстрації", blank=True, null=True)
+    ownership_ground = models.TextField("Підстава власності", blank=True)
+    ownership_form = models.TextField("Форма власності", blank=True)
+    share = models.TextField("Частка", blank=True)
     comment = models.TextField("Коментар", blank=True)
-    mortgage = models.TextField("Іпотека", blank=True)
+
+    mortgage_registered = models.DateTimeField(
+        "Дата реєстрації іпотекі", blank=True, null=True)
+
+    mortgage_charge = models.TextField("Підстава обтяження", blank=True)
+    mortgage_details = models.TextField("Деталі за іпотекой", blank=True)
+    mortgage_charge_subjects = models.TextField(
+        "Суб'єкти обтяження", blank=True)
+    mortgage_holder = models.TextField(
+        "Заявник або іпотекодержатель", blank=True)
+    mortgage_mortgagor = models.TextField(
+        "Власник або іпотекодавець", blank=True)
+    mortgage_guarantor = models.TextField(
+        "Власник або іпотекодавець", blank=True)
+
+    prop = models.ForeignKey("Property", verbose_name="Власність")
+
+
+class Property(models.Model):
     address = models.ForeignKey("Address", verbose_name="Адреса")
 
 
