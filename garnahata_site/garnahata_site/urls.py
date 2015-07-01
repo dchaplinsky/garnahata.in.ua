@@ -1,11 +1,14 @@
+from django.contrib import admin
+from django.views.generic import TemplateView
 from django.conf.urls import patterns, include, url
+
 from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtailadmin import urls as wagtailadmin_urls
-from django.contrib import admin
 
 
 urlpatterns = patterns(
     '',
+    (r'^$', TemplateView.as_view(template_name='home.jinja')),
     # url(r'^ajax/suggest$', 'catalog.views.suggest', name='suggest'),
 
     # url(r'^search$', 'catalog.views.search', name='search'),

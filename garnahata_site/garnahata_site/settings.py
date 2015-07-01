@@ -144,6 +144,13 @@ STATICFILES_FINDERS = (
 PIPELINE_CSS = {
     'css_all': {
         'source_filenames': (
+            'css/bootstrap.css',
+            'css/animate.css',
+            'css/nav.css',
+            'css/header.css',
+            'css/news.css',
+            'css/style.css',
+            'css/responsive.css',
         ),
         'output_filename': 'css/merged.css',
         'extra_context': {},
@@ -153,6 +160,12 @@ PIPELINE_CSS = {
 PIPELINE_JS = {
     'js_all': {
         'source_filenames': (
+            'js/jquery.js',
+            'js/bootstrap.js',
+            'js/masonry.pkgd.js',
+            'js/jquery.easing.min.js',
+            'js/jquery.fittext.js',
+            'js/garnahata.js',
         ),
         'output_filename': 'js/merged.js',
     }
