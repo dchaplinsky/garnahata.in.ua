@@ -13,7 +13,6 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-MEDIA_URL = '/media/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -41,6 +40,7 @@ INSTALLED_APPS = (
     'pipeline',
     'django_jinja',
     'django_jinja.contrib._humanize',
+    'django_jinja.contrib._easy_thumbnails',
 
     'compressor',
     'taggit',
@@ -86,6 +86,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
+    "cms_pages.context_processors.menu_processor"
 )
 
 # We don't need a database yet!
@@ -107,7 +108,7 @@ ELASTICSEARCH_CONNECTIONS = {
 LANGUAGE_CODE = 'uk-ua'
 TIME_ZONE = 'Europe/Kiev'
 
-USE_I18N = False
+USE_I18N = True
 USE_L10N = False
 USE_TZ = True
 
@@ -171,12 +172,19 @@ PIPELINE_JS = {
     }
 }
 
+THUMBNAIL_ALIASES = {
+    '': {
+        'homepage_news': {'size': (782, 394), 'crop': True}
+    },
+}
+
+
 PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.7/howto/static-files/
-
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+MEDIA_URL = '/media/'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 

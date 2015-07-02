@@ -50,10 +50,9 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-left">
-                            <li> <a class="page-scroll" href="#">Елітні будинки</a> </li>
-                            <li> <a class="page-scroll" href="#">Останні новини</a> </li>
-                            <li> <a class="page-scroll" href="#portfolio">Знайдені прізвища</a> </li>
-                            <li> <a class="page-scroll" href="#contact">Всі мешканці</a> </li>
+                            {% for menuitem in top_menu %}
+                                <li><a href="{{ menuitem.link }}">{{ menuitem.caption }}</a></li>
+                            {% endfor %}
                         </ul>
                         <ul class="nav navbar-nav nav-social navbar-right">
                             <li> <a class="green rounded" href="#">Я знаю цього тіпа</a> </li>

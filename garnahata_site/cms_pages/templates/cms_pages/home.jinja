@@ -2,27 +2,31 @@
 {% block bodyclass %}{% endblock %}
 
 {% block header_intro %}
-	<p class="text-center">Канцелярська сотня щаслива представити вам базу даних власників найдорожчої нерухомості України. Це офіційні дані на основі державного реєстру речових прав. Сподіваємось, що ця інформація допоможе у журналістських розслідуваннях.</p>
+	<p class="text-center">{{ page.body|richtext }}</p>
 {% endblock %}
 
 {% block content %}
 <div class="row">
     <section id="main" class="col col-lg-8">
+        {% if hp_news %}
         <div id="topNews">
             <h2 class="blue">Останні новини</h2>
             <div class="topNewsContainer">
-                <div class="overImage"> <img class="img-responsive img-max" src="{{ static("_tmpContent/_topNews.png") }}" alt="" /> </div>
-                <div class="overInfo"> <span class="dateInfo">10 травня 2015</span>
-                    <h3 class="shortTitle">5-ти кімнатна елітка</h3>
-                    <h4 class="title">Екс-голова ДПА Папаіка купив 5-кімнатну «елітку» через 3 місяці після призначення</h4>
+                <div class="overImage"><img class="img-responsive" src="{{ hp_news.image.file|thumbnail_url("homepage_news") }}" /></div>
+                <div class="overInfo"> <span class="dateInfo">{{ hp_news.date_added|date }}</span>
+                    <h3 class="shortTitle"><a href="{{ hp_news.url }}">{{ hp_news.title }}</a></h3>
+                    <h4 class="title"><a href="{{ hp_news.url }}">{{ hp_news.lead|richtext }}</a></h4>
                     <div class="newsStats"> <span class="viewsCounter"><i class="fa fa-eye"></i> 23</span> <span class="commentsCounter"><i class="fa fa-comment-o"></i> 12</span> </div>
                 </div>
                 <div class="clr"></div>
             </div>
         </div>
+        {% endif %}
         <div id="news">
             <div id="newsMassonry" class="massonry">
                 <div class="grid-sizer"></div>
+
+
                 <div class="item">
                     <div class="well">
                         <a href=""><img class="img-responsive" src="{{ static("_tmpContent/news01.png") }}" width="243" height="168" alt="" /></a>
@@ -88,7 +92,7 @@
                 </div>
             </div>
             <div class="clr h40"></div>
-            <p class="text-center"><a class="blue rounded text-center moreAjax">Ану покажіть більше новин <i class="fa fa-refresh"></i></a></p>
+            {# <p class="text-center"><a class="blue rounded text-center moreAjax">Ану покажіть більше новин <i class="fa fa-refresh"></i></a></p> #}
         </div>
     </section>
     <aside id="sidebar" role="complementary" class="col col-xl-3 col-lg-3">

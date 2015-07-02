@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.conf.urls import patterns, include, url
@@ -8,7 +10,6 @@ from wagtail.wagtailadmin import urls as wagtailadmin_urls
 
 urlpatterns = patterns(
     '',
-    (r'^$', TemplateView.as_view(template_name='home.jinja')),
     (r'^base$', TemplateView.as_view(template_name='base.jinja')),
     # url(r'^ajax/suggest$', 'catalog.views.suggest', name='suggest'),
 
@@ -34,4 +35,4 @@ urlpatterns = patterns(
     url(r'^admin/', include(admin.site.urls)),
     url(r'^cms/', include(wagtailadmin_urls)),
     url(r'', include(wagtail_urls)),
-)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

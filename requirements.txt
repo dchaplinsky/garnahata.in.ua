@@ -7,4 +7,5 @@ psycopg2==2.6
 wagtail==0.8.7
 django-geojson==2.8.0
 jsonfield==1.0.3
-openpyxl=2.2.2
+openpyxl==2.2.2
+easy-thumbnails==2.2
