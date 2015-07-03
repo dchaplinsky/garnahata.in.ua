@@ -25,71 +25,15 @@
         <div id="news">
             <div id="newsMassonry" class="massonry">
                 <div class="grid-sizer"></div>
-
-
-                <div class="item">
+                {% for news in latest_news %}
+                <div class="item{% if news.important %} important-news{% endif %}">
                     <div class="well">
-                        <a href=""><img class="img-responsive" src="{{ static("_tmpContent/news01.png") }}" width="243" height="168" alt="" /></a>
-                        <h4><a href="">Софії Кернес подарували квартиру на Печерську за $150 тисяч</a></h4>
-                        <div class="newsStats"> <span class="viewsCounter"><i class="fa fa-eye"></i> 23</span> <span class="commentsCounter"><i class="fa fa-comment-o"></i> 12</span> <span class="timeCounter">2 дні тому</span> </div>
+                        <a href="{{ news.url }}"><img class="img-responsive" src="{{ news.image.file|thumbnail_url("news_thumbnail") }}" alt="" /></a>
+                        <h4><a href="{{ news.url }}">{{ news.title }}</a></h4>
+                        <div class="newsStats"> <span class="viewsCounter"><span class="commentsCounter"><i class="fa fa-comment-o"></i> 12</span> <span class="timeCounter">{{ news.date_added|date }}</span> </div>
                     </div>
                 </div>
-                <div class="item">
-                    <div class="well">
-                        <a href=""><img class="img-responsive" src="{{ static("_tmpContent/news02.png") }}" width="243" height="391" alt="" /></a>
-                        <h4><a href="">Софії Кернес подарували квартиру на Печерську за $150 тисяч</a></h4>
-                        <div class="newsStats"> <span class="viewsCounter"><i class="fa fa-eye"></i> 23</span> <span class="commentsCounter"><i class="fa fa-comment-o"></i> 12</span> <span class="timeCounter">2 дні тому</span> </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="well">
-                        <a href=""><img class="img-responsive" src="{{ static("_tmpContent/news03.png") }}" width="242" height="239" alt="" /></a>
-                        <h4><a href="">Софії Кернес подарували квартиру на Печерську за $150 тисяч</a></h4>
-                        <div class="newsStats"> <span class="viewsCounter"><i class="fa fa-eye"></i> 23</span> <span class="commentsCounter"><i class="fa fa-comment-o"></i> 12</span> <span class="timeCounter">2 дні тому</span> </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="well">
-                        <a href=""><img class="img-responsive" src="{{ static("_tmpContent/news04.png") }}" width="243" height="370" alt="" /></a>
-                        <h4><a href="">Софії Кернес подарували квартиру на Печерську за $150 тисяч</a></h4>
-                        <div class="newsStats"> <span class="viewsCounter"><i class="fa fa-eye"></i> 23</span> <span class="commentsCounter"><i class="fa fa-comment-o"></i> 12</span> <span class="timeCounter">2 дні тому</span> </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="well">
-                        <a href=""><img class="img-responsive" src="{{ static("_tmpContent/news05.png") }}" width="243" height="168" alt="" /></a>
-                        <h4><a href="">Софії Кернес подарували квартиру на Печерську за $150 тисяч</a></h4>
-                        <div class="newsStats"> <span class="viewsCounter"><i class="fa fa-eye"></i> 23</span> <span class="commentsCounter"><i class="fa fa-comment-o"></i> 12</span> <span class="timeCounter">2 дні тому</span> </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="well">
-                        <a href=""><img class="img-responsive" src="{{ static("_tmpContent/news06.png") }}" width="243" height="391" alt="" /></a>
-                        <h4><a href="">Софії Кернес подарували квартиру на Печерську за $150 тисяч</a></h4>
-                        <div class="newsStats"> <span class="viewsCounter"><i class="fa fa-eye"></i> 23</span> <span class="commentsCounter"><i class="fa fa-comment-o"></i> 12</span> <span class="timeCounter">2 дні тому</span> </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="well">
-                        <a href=""><img class="img-responsive" src="{{ static("_tmpContent/news01.png") }}" width="243" height="168" alt="" /></a>
-                        <h4><a href="">Софії Кернес подарували квартиру на Печерську за $150 тисяч</a></h4>
-                        <div class="newsStats"> <span class="viewsCounter"><i class="fa fa-eye"></i> 23</span> <span class="commentsCounter"><i class="fa fa-comment-o"></i> 12</span> <span class="timeCounter">2 дні тому</span> </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="well">
-                        <a href=""><img class="img-responsive" src="{{ static("_tmpContent/news02.png") }}" width="243" height="391" alt="" /></a>
-                        <h4><a href="">Софії Кернес подарували квартиру на Печерську за $150 тисяч</a></h4>
-                        <div class="newsStats"> <span class="viewsCounter"><i class="fa fa-eye"></i> 23</span> <span class="commentsCounter"><i class="fa fa-comment-o"></i> 12</span> <span class="timeCounter">2 дні тому</span> </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="well">
-                        <a href=""><img class="img-responsive" src="{{ static("_tmpContent/news03.png") }}" width="242" height="239" alt="" /></a>
-                        <h4><a href="">Софії Кернес подарували квартиру на Печерську за $150 тисяч</a></h4>
-                        <div class="newsStats"> <span class="viewsCounter"><i class="fa fa-eye"></i> 23</span> <span class="commentsCounter"><i class="fa fa-comment-o"></i> 12</span> <span class="timeCounter">2 дні тому</span> </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
             <div class="clr h40"></div>
             {# <p class="text-center"><a class="blue rounded text-center moreAjax">Ану покажіть більше новин <i class="fa fa-refresh"></i></a></p> #}

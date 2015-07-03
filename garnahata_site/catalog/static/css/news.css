@@ -58,6 +58,14 @@ h2.green {
     height: 390px;
 }
 
+.topNewsContainer a {
+    color: white;
+}
+
+.topNewsContainer a:hover {
+    color: #22c064;
+}
+
 .dateInfo {
     padding: 5px 10px;
     background: #fff;

@@ -174,7 +174,8 @@ PIPELINE_JS = {
 
 THUMBNAIL_ALIASES = {
     '': {
-        'homepage_news': {'size': (782, 394), 'crop': True}
+        'homepage_news': {'size': (782, 394), 'crop': True},
+        'news_thumbnail': {'size': (243, 450), 'crop': False}
     },
 }
 

@@ -1,0 +1,10 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+    <div class="row">
+        <section id="main" class="col col-lg-12">
+		<h2>{{ page.title }}</h2>
+        {{ page.body|richtext }}
+        </section>
+    </div>
+{% endblock %}
