@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'django_jinja',
     'django_jinja.contrib._humanize',
     'django_jinja.contrib._easy_thumbnails',
+    'leaflet',
 
     'compressor',
     'taggit',
@@ -177,6 +178,12 @@ THUMBNAIL_ALIASES = {
         'homepage_news': {'size': (782, 394), 'crop': True},
         'news_thumbnail': {'size': (243, 450), 'crop': False}
     },
+}
+
+
+LEAFLET_CONFIG = {
+    'DEFAULT_CENTER': (50.387507803003146, 30.454101562499996),
+    'DEFAULT_ZOOM': 12,
 }
 
 
