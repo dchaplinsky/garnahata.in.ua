@@ -3,6 +3,7 @@ import logging
 from django.db import models
 from django.core.validators import RegexValidator
 from django.db import transaction
+from django.forms.models import model_to_dict
 from django.utils import timezone
 
 from djgeojson.fields import PointField
@@ -45,6 +46,21 @@ class Ownership(models.Model):
 
     def __str__(self):
         return self.__unicode__()
+
+    def to_dict(self):
+        """
+        Convert Ownership model to an indexable presentation for ES.
+        """
+        d = model_to_dict(self, fields=[
+            "id", "owner", "asset", "registered", "ownership_ground",
+            "ownership_form", "share", "comment", "mortgage_registered",
+            "mortgage_charge", "mortgage_details", "mortgage_charge_subjects",
+            "mortgage_holder", "mortgage_mortgagor", "mortgage_guarantor",
+            "mortgage_other_persons"])
+
+        d["_id"] = d["id"]
+
+        return d
 
     class Meta:
         verbose_name = u"Власник"
@@ -133,6 +149,23 @@ class Address(models.Model):
         verbose_name = u"Адреса"
         verbose_name_plural = u"Адреси"
 
+    def to_dict(self):
+        """
+        Convert Address model to an indexable presentation for ES.
+        """
+        d = model_to_dict(self, fields=[
+            "id", "title", "address", "cadastral_number", "city",
+             "commercial_name", "link", "coords", "date_added"])
+
+        owners = []
+        for owner in Ownership.objects.filter(prop__address=self):
+            owners.append(owner.to_dict())
+
+        d["_id"] = d["id"]
+        d["owners"] = owners
+
+        return d
+
     @transaction.atomic
     def import_owners(self, xls_file):
         wb = load_workbook(xls_file, read_only=True)
@@ -199,8 +232,6 @@ class Address(models.Model):
 
             prev_owner = owner
 
-        
-        print("Imported in total: %s" % total_imported)
         logging.debug("Imported in total: %s" % total_imported)
         self.date_added = timezone.now()
         self.save()
