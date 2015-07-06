@@ -70,6 +70,17 @@ class Ownership(models.Model):
 class Property(models.Model):
     address = models.ForeignKey("Address", verbose_name="Адреса")
 
+    def to_dict(self):
+        """
+        Convert Property model to an indexable presentation for ES.
+        """
+
+        owners = []
+        for owner in self.ownership_set.all():
+            owners.append(owner.to_dict())
+
+        return owners
+
     class Meta:
         verbose_name = u"Об'єкт"
         verbose_name_plural = u"Об'єкти"
@@ -155,14 +166,14 @@ class Address(models.Model):
         """
         d = model_to_dict(self, fields=[
             "id", "title", "address", "cadastral_number", "city",
-             "commercial_name", "link", "coords", "date_added"])
+            "commercial_name", "link", "coords", "date_added"])
 
-        owners = []
-        for owner in Ownership.objects.filter(prop__address=self):
-            owners.append(owner.to_dict())
+        properties = []
+        for prop in self.property_set.all():
+            properties.append(prop.to_dict())
 
         d["_id"] = d["id"]
-        d["owners"] = owners
+        d["properties"] = properties
 
         return d
 
@@ -203,6 +214,7 @@ class Address(models.Model):
             if prev_is_blank:
                 curr_property = Property(address=self)
                 curr_property.save()
+                prev_is_blank = False
 
             if not owner:
                 if not prev_owner:
