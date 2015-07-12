@@ -85,30 +85,28 @@
 
     $(window).on('map:init', function (e) {
         var detail = e.originalEvent ?
-                     e.originalEvent.detail : e.detail;
+                     e.originalEvent.detail : e.detail,
+            data = $(".geojson-container").data("geojson"),
+            markers = new L.MarkerClusterGroup();
 
-        $.get("/map_markers", function(data) {
-            var markers = new L.MarkerClusterGroup();
+        for (var i = data.length - 1; i >= 0; i--) {
+            markers.addLayer(
+                new L.Marker(data[i].coords, {
+                    "title": data[i].title
+                }
+            ).bindPopup([
+                    '<strong>',
+                    data[i].title,
+                    '</strong><br />',
+                    data[i].commercial_name,
+                    '<br />',
+                    '<a href="',
+                    data[i].href,
+                    '">Посилання</a>'
+                ].join("")
+            ));
+        };
 
-            for (var i = data.length - 1; i >= 0; i--) {
-                markers.addLayer(
-                    new L.Marker(data[i].coords, {
-                        "title": data[i].title
-                    }
-                ).bindPopup([
-                        '<strong>',
-                        data[i].title,
-                        '</strong><br />',
-                        data[i].commercial_name,
-                        '<br />',
-                        '<a href="',
-                        data[i].href,
-                        '">Посилання</a>'
-                    ].join("")
-                ));
-            };
-
-            detail.map.addLayer(markers);
-        })        
+        detail.map.addLayer(markers);
     });    
 })(jQuery); // End of use strict

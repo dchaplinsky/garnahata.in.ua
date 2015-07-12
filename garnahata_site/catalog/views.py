@@ -36,22 +36,6 @@ def suggest(request):
         return JsonResponse([], safe=False)
 
 
-def map_markers(request):
-    return JsonResponse(
-        [
-            {
-                # WTF!?
-                "coords": res.coords["coordinates"][::-1],
-                "title": res.title,
-                "commercial_name": res.commercial_name,
-                "href": res.get_absolute_url()
-            }
-            for res in Address.objects.all()
-        ],
-        safe=False
-    )
-
-
 def address_details(request, slug):
     address = get_object_or_404(
         Address, slug=slug

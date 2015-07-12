@@ -116,3 +116,8 @@ def leaflet_json_config():
                                               'xmax': xmax, 'ymax': ymax}
 
     return json.dumps(settings_as_json)
+
+
+@library.filter
+def jsonify(obj):
+    return json.dumps(obj, ensure_ascii=False)

@@ -4,6 +4,15 @@
 
 {% block content %}
     <div class="row">
+        <section id="bigMap" data-geojson="{{ [address.map_marker()]|jsonify }}" class="geojson-container">
+            <div class="container">
+                <div class="row">
+                    <h2 class="green text-center">Map of uncovered property (national level)</h2>
+                    {{ leaflet_map("yourmap") }}
+                </div>
+            </div>
+        </section>
+
         <section id="main" class="col col-lg-8">
             <article>
                 <h1>{{ address.title }}</h1>

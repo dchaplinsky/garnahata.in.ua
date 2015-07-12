@@ -1,0 +1,9 @@
+{% macro render_news(news) %}
+<div class="item{% if news.important %} important-news{% endif %}">
+    <div class="well">
+        <a href="{{ news.url }}"><img class="img-responsive" src="{{ news.image.file|thumbnail_url("news_thumbnail") }}" alt="" /></a>
+        <h4><a href="{{ news.url }}">{{ news.title }}</a></h4>
+        <div class="newsStats"> <span class="viewsCounter"><span class="commentsCounter"><i class="fa fa-comment-o"></i> 12</span> <span class="timeCounter">{{ news.date_added|date }}</span> </div>
+    </div>
+</div>
+{% endmacro %}

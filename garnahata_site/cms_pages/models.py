@@ -6,6 +6,7 @@ from modelcluster.fields import ParentalKey
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailcore.models import Page, Orderable
+from wagtail.wagtailsearch import index
 from wagtail.wagtailadmin.edit_handlers import (
     InlinePanel, FieldPanel, PageChooserPanel)
 
@@ -64,6 +65,11 @@ class NewsPage(AbstractJinjaPage, Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+'
+    )
+
+    search_fields = Page.search_fields + (
+        index.SearchField('lead'),
+        index.FilterField('body'),
     )
 
     template = "cms_pages/news_page.jinja"
@@ -135,7 +141,7 @@ class HomePage(AbstractJinjaPage, Page):
 
         ctx["hp_news"] = hp_news
         ctx["latest_news"] = latest_news
-        ctx["latest_addresses"] = Address.objects.order_by("-date_added")[:8]
+        ctx["latest_addresses"] = Address.objects.order_by("-date_added")
 
         return ctx
 

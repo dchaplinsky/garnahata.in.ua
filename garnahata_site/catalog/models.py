@@ -159,7 +159,14 @@ KOATUU = {
 }
 
 
+class MarkersQuerySet(models.QuerySet):
+    def map_markers(self):
+        return [res.map_marker() for res in self]
+
+
 class Address(models.Model):
+    objects = MarkersQuerySet.as_manager()
+
     title = models.CharField(
         "Коротка адреса", max_length=150)
 
@@ -301,3 +308,12 @@ class Address(models.Model):
         self.date_added = timezone.now()
         self.save()
         return total_imported
+
+    def map_marker(self):
+        return {
+            # WTF!?
+            "coords": self.coords["coordinates"][::-1],
+            "title": self.title,
+            "commercial_name": self.commercial_name,
+            "href": self.get_absolute_url()
+        }
