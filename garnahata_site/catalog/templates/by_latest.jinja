@@ -1,0 +1,16 @@
+{% extends "base.jinja" %}
+
+{% from "macros/_ownership.jinja" import render_address %}
+
+{% block content %}
+	<div>
+		{% set d = None %}
+		{% for address in addresses %}
+			{% if address.date_added|date != d %}
+				<h2>{{ address.date_added|date }}</h2>
+				{% set d = address.date_added|date %}
+			{% endif %}
+			{{ render_address(address) }}
+		{% endfor %}
+	</div>
+{% endblock %}

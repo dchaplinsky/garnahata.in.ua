@@ -1,0 +1,16 @@
+{% extends "base.jinja" %}
+
+{% from "macros/_ownership.jinja" import render_address %}
+
+{% block content %}
+	<div>
+		{% set city = None %}
+		{% for address in addresses %}
+			{% if address.get_city_display() != city %}
+				<h2>{{ address.get_city_display() }}</h2>
+				{% set city = address.get_city_display() %}
+			{% endif %}
+			{{ render_address(address) }}
+		{% endfor %}
+	</div>
+{% endblock %}

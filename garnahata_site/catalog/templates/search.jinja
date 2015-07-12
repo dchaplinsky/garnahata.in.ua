@@ -1,0 +1,37 @@
+{% extends "base.jinja" %}
+
+{% from "macros/_ownership.jinja" import render_address, render_ownership %}
+{% from "macros/_news.jinja" import render_news %}
+
+{% block content %}
+    <div>
+        <h1>{{ query }}</h1>
+
+        {% if ownerships %}
+        <h2>Права володіння</h2>
+        <table class="table">
+        {% for ownership in ownerships %}
+        {{ render_ownership(ownership, "active" if loop.index is divisibleby(2) else False, True) }}
+        {% endfor %}
+        </table>
+        {% endif %}
+
+        {% if addresses %}
+        <h2>Адреси</h2>
+        <div>
+        {% for address in addresses %}
+        {{ render_address(address) }}
+        {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if news_results %}
+        <h2>Новини</h2>
+        <div>
+        {% for news in news_results %}
+            {{ render_news(news) }}
+        {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

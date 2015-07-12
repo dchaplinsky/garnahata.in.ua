@@ -93,8 +93,16 @@ class Ownership(models.Model):
             }
 
         d["_id"] = d["id"]
+        d["url"] = self.url
 
         return d
+
+    def get_absolute_url(self):
+        return self.prop.address.get_absolute_url() + ("#ownership_%s" % self.pk)
+
+    @property
+    def url(self):
+        return self.get_absolute_url()
 
     class Meta:
         verbose_name = u"Власник"
@@ -195,6 +203,10 @@ class Address(models.Model):
     def get_absolute_url(self):
         return reverse('address_details', args=[self.slug])
 
+    @property
+    def url(self):
+        return self.get_absolute_url()
+
     class Meta:
         verbose_name = u"Адреса"
         verbose_name_plural = u"Адреси"
@@ -213,6 +225,7 @@ class Address(models.Model):
 
         d["_id"] = d["id"]
         d["properties"] = properties
+        d["url"] = self.url
 
         return d
 
@@ -221,6 +234,7 @@ class Address(models.Model):
         wb = load_workbook(xls_file, read_only=True)
         ws = wb.active
 
+        self.save()
         self.property_set.all().delete()
 
         prev_is_blank = True

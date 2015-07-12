@@ -1,7 +1,13 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
+
 from catalog.models import Address, Ownership
-from catalog.elastic_models import Ownership as ElasticOwnership
+from catalog.elastic_models import (
+    Ownership as ElasticOwnership,
+    Address as ElasticAddress
+)
+
+from cms_pages.models import NewsPage
 
 
 def suggest(request):
@@ -57,5 +63,63 @@ def address_details(request, slug):
         {
             "address": address,
             "ownerships": Ownership.objects.filter(prop__address=address)
+        }
+    )
+
+
+def addresses_by_city(request):
+    # TBD: pagination
+
+    # Because cities are weirdly ordered (according to koatuu), we are
+    # using this cheap hack to put Kiev on top.
+    addresses = Address.objects.order_by("-city")
+
+    return render(
+        request,
+        "by_city.jinja",
+        {
+            "addresses": addresses,
+        }
+    )
+
+
+def latest_addresses(request):
+    # TBD: pagination
+
+    # Because cities are weirdly ordered (according to koatuu), we are
+    # using this cheap hack to put Kiev on top.
+    addresses = Address.objects.order_by("-date_added")
+
+    return render(
+        request,
+        "by_latest.jinja",
+        {
+            "addresses": addresses,
+        }
+    )
+
+
+def search(request):
+    query = request.GET.get("q", "")
+
+    news_results = None
+    addresses = None
+    if query:
+        ownerships = ElasticOwnership.search().query(
+            "match", _all=query)[:20].execute()
+        addresses = ElasticAddress.search().query(
+            "match", _all=query)[:20].execute()
+        news_results = NewsPage.objects.search(query)
+    else:
+        ownerships = ElasticOwnership.search().query("match_all").execute()
+
+    return render(
+        request,
+        "search.jinja",
+        {
+            "query": query,
+            "ownerships": ownerships,
+            "news_results": news_results,
+            "addresses": addresses
         }
     )

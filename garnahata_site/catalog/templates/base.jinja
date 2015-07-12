@@ -32,9 +32,9 @@
                     {% block header_intro %}
                     {% endblock %}
                     <div id="search-box" class="col-lg-6 col-lg-offset-3">
-                        <form action="">
+                        <form action="{{ url("search") }}" method="GET">
                             <div class="input-group">
-                                <input type="text" id="search-form" class="form-control input-rounded" placeholder="Знайти негідника-багатія" />
+                                <input type="text" id="search-form" class="form-control input-rounded" placeholder="Знайти негідника-багатія" autocomplete="off" name="q"/>
                                 <span class="input-group-btn">
                                     <button class="btn btn-navigate" type="submit">Go!</button>
                                 </span>

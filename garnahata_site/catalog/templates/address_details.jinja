@@ -1,5 +1,7 @@
 {% extends "base.jinja" %}
 
+{% from "macros/_ownership.jinja" import render_property %}
+
 {% block content %}
     <div class="row">
         <section id="main" class="col col-lg-8">
@@ -12,17 +14,11 @@
                     <h3>{{ address.commercial_name }}</h3>
                 {% endif %}
 
-                <ul>
+                <table class="table">
                 {% for group in ownerships|groupby('prop_id') %}
-                    <li>
-                        <ul>
-                            {% for ownership in group.list %}
-                                <li>{{ ownership.owner }} {{ ownership.asset }}</li>
-                            {% endfor %}
-                        </ul>
-                    </li>
+                    {{ render_property(group.list, "active" if loop.index is divisibleby(2) else False) }}
                 {% endfor %}
-                </ul>
+                </table>
             </article>
         </section>
     </div>

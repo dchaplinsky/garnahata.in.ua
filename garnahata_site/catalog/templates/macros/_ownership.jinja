@@ -1,0 +1,26 @@
+{% macro render_property(list_of_ownerships, classname="") %}
+	{% for ownership in list_of_ownerships %}
+	{{ render_ownership(ownership, classname )}}
+	{% endfor %}
+{% endmacro %}
+
+{% macro render_ownership(ownership, classname="", with_link=False) %}
+	<tr{% if classname %} class="{{ classname }}"{% endif %}>
+		<td><a name="ownership_{{ ownership.pk }}"></a>
+			{% if with_link %}
+				<a href="{{ ownership.url }}">{{ ownership.owner }}</a>
+			{% else %}
+				{{ ownership.owner }}
+			{% endif %}
+		</td>
+		<td>{{ ownership.asset }}</td>
+	</tr>
+{% endmacro %}
+
+{% macro render_address(address) %}
+	<div>
+		<h4><a href="{{ address.url }}">{{ address.title }}</a></h4>
+		<p>{{ address.commercial_name }}</p>
+	</div>
+{% endmacro %}
+
