@@ -95,6 +95,16 @@
                     new L.Marker(data[i].coords, {
                         "title": data[i].title
                     }
+                ).bindPopup([
+                        '<strong>',
+                        data[i].title,
+                        '</strong><br />',
+                        data[i].commercial_name,
+                        '<br />',
+                        '<a href="',
+                        data[i].href,
+                        '">Посилання</a>'
+                    ].join("")
                 ));
             };
 

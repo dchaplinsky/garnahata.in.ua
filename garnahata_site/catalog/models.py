@@ -5,6 +5,7 @@ from django.core.validators import RegexValidator
 from django.db import transaction
 from django.forms.models import model_to_dict
 from django.utils import timezone
+from django.core.urlresolvers import reverse
 
 from djgeojson.fields import PointField
 from openpyxl import load_workbook
@@ -154,6 +155,8 @@ class Address(models.Model):
     title = models.CharField(
         "Коротка адреса", max_length=150)
 
+    slug = models.SlugField("slug", max_length=200)
+
     address = models.TextField(
         "Адреса", blank=True)
 
@@ -188,6 +191,9 @@ class Address(models.Model):
 
     def __str__(self):
         return self.__unicode__()
+
+    def get_absolute_url(self):
+        return reverse('address_details', args=[self.slug])
 
     class Meta:
         verbose_name = u"Адреса"

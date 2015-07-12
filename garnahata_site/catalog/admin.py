@@ -30,6 +30,8 @@ class AddressAdminForm(forms.ModelForm):
 class AddressAdmin(LeafletGeoAdmin):
     form = AddressAdminForm
 
+    prepopulated_fields = {"slug": ("title",)}
+
     def address_or_cadastral(self, obj):
         return " ".join([obj.address, obj.cadastral_number]).strip()
 

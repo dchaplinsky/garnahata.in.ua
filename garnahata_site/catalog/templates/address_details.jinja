@@ -1,0 +1,29 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+    <div class="row">
+        <section id="main" class="col col-lg-8">
+            <article>
+                <h1>{{ address.title }}</h1>
+                <h2>{{ address.get_city_display() }}, {{ address.address }} {{ address.cadastral_number }}</h2>
+                {% if address.link %}
+                    <h3><a href="{{ address.link }}" rel="nofollow" target="_blank">{{ address.commercial_name }}</a></h3>
+                {% else %}
+                    <h3>{{ address.commercial_name }}</h3>
+                {% endif %}
+
+                <ul>
+                {% for group in ownerships|groupby('prop_id') %}
+                    <li>
+                        <ul>
+                            {% for ownership in group.list %}
+                                <li>{{ ownership.owner }} {{ ownership.asset }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+                </ul>
+            </article>
+        </section>
+    </div>
+{% endblock %}
