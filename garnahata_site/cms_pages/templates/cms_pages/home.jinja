@@ -48,7 +48,7 @@
                 <div class="media">
                     <div class="media-body">
                         <h5 class="media-heading" id="middle-aligned-media">
-                            {{ address.title }}<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a>
+                            <a class="anchorjs-link" href="{{ address.get_absolute_url() }}">{{ address.title }}</a>
 
                             {% if address.commercial_name %}
                             <span>{{ address.commercial_name }}</span>

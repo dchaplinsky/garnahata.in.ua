@@ -13,20 +13,9 @@ urlpatterns = patterns(
     url(r'^ajax/suggest$', 'catalog.views.suggest', name='suggest'),
     url(r'^map_markers$', 'catalog.views.map_markers', name='map_markers'),
     (r'^base$', TemplateView.as_view(template_name='base.jinja')),
-    # url(r'^ajax/suggest$', 'catalog.views.suggest', name='suggest'),
 
-    # url(r'^search$', 'catalog.views.search', name='search'),
-    # url(r'^declaration/(?P<declaration_id>\d+)$', 'catalog.views.details',
-    #     name='details'),
-
-    # url(r'^region$', 'catalog.views.regions_home', name='regions_home',),
-    # url(r'^office$', 'catalog.views.offices_home', name='offices_home',),
-
-    # # Please maintain that order
-    # url(r'^region/(?P<region_name>[^\/]+)/(?P<office_name>.+)$',
-    #     'catalog.views.region_office', name='region_office'),
-    # url(r'^region/(?P<region_name>.+)$', 'catalog.views.region',
-    #     name='region'),
+    url(r'^a/(?P<slug>.+)$', 'catalog.views.address_details',
+        name='address_details'),
 
     # url(r'^office/(?P<office_name>.+)$', 'catalog.views.office',
     #     name='office'),
