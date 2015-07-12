@@ -106,6 +106,16 @@ ELASTICSEARCH_CONNECTIONS = {
     }
 }
 
+WAGTAILSEARCH_BACKENDS = {
+    'default': {
+        'BACKEND':
+            'wagtail.wagtailsearch.backends.elasticsearch.ElasticSearch',
+        'URLS': ['http://localhost:9200'],
+        'INDEX': 'garnahata',
+        'TIMEOUT': 5,
+    }
+}
+
 LANGUAGE_CODE = 'uk-ua'
 TIME_ZONE = 'Europe/Kiev'
 
@@ -185,7 +195,7 @@ THUMBNAIL_ALIASES = {
 
 LEAFLET_CONFIG = {
     'DEFAULT_CENTER': (50.387507803003146, 30.454101562499996),
-    'DEFAULT_ZOOM': 12,
+    'DEFAULT_ZOOM': 10,
     'MIN_ZOOM': 3,
     'MAX_ZOOM': 18,
 
