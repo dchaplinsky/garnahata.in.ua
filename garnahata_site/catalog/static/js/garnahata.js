@@ -108,5 +108,6 @@
         };
 
         detail.map.addLayer(markers);
+        detail.map.fitBounds(markers)
     });    
 })(jQuery); // End of use strict
