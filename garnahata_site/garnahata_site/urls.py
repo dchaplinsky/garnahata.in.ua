@@ -10,6 +10,8 @@ from wagtail.wagtailadmin import urls as wagtailadmin_urls
 
 urlpatterns = patterns(
     '',
+    url(r'^ajax/suggest$', 'catalog.views.suggest', name='suggest'),
+    url(r'^map_markers$', 'catalog.views.map_markers', name='map_markers'),
     (r'^base$', TemplateView.as_view(template_name='base.jinja')),
     # url(r'^ajax/suggest$', 'catalog.views.suggest', name='suggest'),
 

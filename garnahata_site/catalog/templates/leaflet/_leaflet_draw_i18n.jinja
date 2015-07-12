@@ -1,0 +1,91 @@
+L.drawLocal = {
+    draw: {
+        toolbar: {
+            actions: {
+                title: "{{ _("Cancel drawing") }}",
+                text: "{{ _("Cancel") }}"
+            },
+            undo: {
+                title: "{{ _("Delete last point drawn") }}",
+                text: "{{ _("Delete last point") }}"
+            },
+            buttons: {
+                polyline: "{{ _("Draw a polyline") }}",
+                polygon: "{{ _("Draw a polygon") }}",
+                rectangle: "{{ _("Draw a rectangle") }}",
+                circle: "{{ _("Draw a circle") }}",
+                marker: "{{ _("Draw a marker") }}"
+            }
+        },
+        handlers: {
+            circle: {
+                tooltip: {
+                    start: "{{ _("Click and drag to draw circle.") }}"
+                }
+            },
+            marker: {
+                tooltip: {
+                    start: "{{ _("Click map to place marker.") }}"
+                }
+            },
+            polygon: {
+                tooltip: {
+                    start: "{{ _("Click to start drawing shape.") }}",
+                    cont: "{{ _("Click to continue drawing shape.") }}",
+                    end: "{{ _("Click first point to close this shape.") }}"
+                }
+            },
+            polyline: {
+                error: "{{ _("<strong>Error:</strong> shape edges cannot cross!") }}",
+                tooltip: {
+                    start: "{{ _("Click to start drawing line.") }}",
+                    cont: "{{ _("Click to continue drawing line.") }}",
+                    end: "{{ _("Click last point to finish line.") }}"
+                }
+            },
+            rectangle: {
+                tooltip: {
+                    start: "{{ _("Click and drag to draw rectangle.") }}"
+                }
+            },
+            simpleshape: {
+                tooltip: {
+                    end: "{{ _("Release mouse to finish drawing.") }}"
+                }
+            }
+        }
+    },
+    edit: {
+        toolbar: {
+            actions: {
+                save: {
+                    title: "{{ _("Save changes.") }}",
+                    text: "{{ _("Save") }}"
+                },
+                cancel: {
+                    title: "{{ _("Cancel editing, discards all changes.") }}",
+                    text: "{{ _("Cancel") }}"
+                }
+            },
+            buttons: {
+                edit: "{{ _("Edit layers") }}",
+                editDisabled: "{{ _("No layers to edit.") }}",
+                remove: "{{ _("Delete layers") }}",
+                removeDisabled: "{{ _("No layers to delete.") }}"
+            }
+        },
+        handlers: {
+            edit: {
+                tooltip: {
+                    text: "{{ _("Drag handles, or marker to edit feature.") }}",
+                    subtext: "{{ _("Click cancel to undo changes.") }}"
+                }
+            },
+            remove: {
+                tooltip: {
+                    text: "{{ _("Click on a feature to remove") }}"
+                }
+            }
+        }
+    }
+};

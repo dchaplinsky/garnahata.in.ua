@@ -47,7 +47,7 @@ class Ownership(models.Model):
     def __str__(self):
         return self.__unicode__()
 
-    def to_dict(self):
+    def to_dict(self, include_address=False, include_name_alternatives=False):
         """
         Convert Ownership model to an indexable presentation for ES.
         """
@@ -57,6 +57,39 @@ class Ownership(models.Model):
             "mortgage_charge", "mortgage_details", "mortgage_charge_subjects",
             "mortgage_holder", "mortgage_mortgagor", "mortgage_guarantor",
             "mortgage_other_persons"])
+
+        if include_address:
+            addr = self.prop.address
+            d["addr_title"] = addr.title
+            d["addr_address"] = addr.address
+            d["addr_commercial_name"] = addr.commercial_name
+            d["addr_city"] = addr.get_city_display()
+
+        if include_name_alternatives:
+            last_name = ""
+            first_name = ""
+            patronymic = ""
+            name_parts = d["owner"].split(None, 3)
+            last_name = name_parts[0]
+
+            if len(name_parts) > 1:
+                first_name = name_parts[1]
+
+            if len(name_parts) > 2:
+                patronymic = name_parts[2]
+
+            d["full_name_suggest"] = {
+                "input": [
+                    u" ".join([last_name, first_name,
+                               patronymic]),
+                    u" ".join([first_name,
+                               patronymic,
+                               last_name]),
+                    u" ".join([first_name,
+                               last_name])
+                ],
+                "output": d["owner"]
+            }
 
         d["_id"] = d["id"]
 

@@ -9,6 +9,8 @@ from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailadmin.edit_handlers import (
     InlinePanel, FieldPanel, PageChooserPanel)
 
+from catalog.models import Address
+
 
 class AbstractJinjaPage(object):
     def get_context(self, request, *args, **kwargs):
@@ -133,6 +135,8 @@ class HomePage(AbstractJinjaPage, Page):
 
         ctx["hp_news"] = hp_news
         ctx["latest_news"] = latest_news
+        ctx["latest_addresses"] = Address.objects.order_by("-date_added")[:8]
+
         return ctx
 
     class Meta:

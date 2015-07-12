@@ -5,17 +5,34 @@
         $w = $(window),
         $b = $("body");
 
-    $('.massonry').masonry({
-        itemSelector: '.item',
-        columnWidth: '.grid-sizer',
-        percentPosition: true,
-        singleMode: false,
-        isResizable: true,
-        isAnimated: true,
-        animationOptions: {
-            queue: false,
-            duration: 500
+    $("#search-form").typeahead({
+        minLength: 2, 
+        autoSelect: false,
+        source: function(query, process) {
+            $.get('/ajax/suggest', {"q": query})
+                .success(function(data){
+                    process(data);
+                })
+        },
+        matcher: function() {
+            // Big guys are playing here
+            return true;
         }
+    })
+
+    $('.massonry').imagesLoaded(function() {
+        $('.massonry').masonry({
+            itemSelector: '.item',
+            columnWidth: '.grid-sizer',
+            percentPosition: true,
+            singleMode: false,
+            isResizable: true,
+            isAnimated: true,
+            animationOptions: {
+                queue: false,
+                duration: 500
+            }
+        });
     });
 
     // jQuery for page scrolling feature - requires jQuery Easing plugin
@@ -65,4 +82,23 @@
             maxFontSize: '24px'
         }
     );
+
+    $(window).on('map:init', function (e) {
+        var detail = e.originalEvent ?
+                     e.originalEvent.detail : e.detail;
+
+        $.get("/map_markers", function(data) {
+            var markers = new L.MarkerClusterGroup();
+
+            for (var i = data.length - 1; i >= 0; i--) {
+                markers.addLayer(
+                    new L.Marker(data[i].coords, {
+                        "title": data[i].title
+                    }
+                ));
+            };
+
+            detail.map.addLayer(markers);
+        })        
+    });    
 })(jQuery); // End of use strict

@@ -164,6 +164,8 @@ PIPELINE_JS = {
         'source_filenames': (
             'js/jquery.js',
             'js/bootstrap.js',
+            "js/bootstrap3-typeahead.js",
+            'js/imagesloaded.pkgd.js',
             'js/masonry.pkgd.js',
             'js/jquery.easing.min.js',
             'js/jquery.fittext.js',
@@ -184,6 +186,16 @@ THUMBNAIL_ALIASES = {
 LEAFLET_CONFIG = {
     'DEFAULT_CENTER': (50.387507803003146, 30.454101562499996),
     'DEFAULT_ZOOM': 12,
+    'MIN_ZOOM': 3,
+    'MAX_ZOOM': 18,
+
+    'PLUGINS': {
+        'markercluster': {
+            'css': ['css/MarkerCluster.Default.css', 'css/MarkerCluster.css'],
+            'js': 'js/leaflet.markercluster.js',
+            'auto-include': True
+        },
+    }
 }
 
 

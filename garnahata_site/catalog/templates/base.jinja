@@ -12,6 +12,7 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700&subset=latin,cyrillic,cyrillic-ext' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     {% stylesheet 'css_all' %}
+    {{ leaflet_css() }}
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -31,11 +32,14 @@
                     {% block header_intro %}
                     {% endblock %}
                     <div id="search-box" class="col-lg-6 col-lg-offset-3">
-                        <div class="input-group">
-                            <input type="text" class="form-control input-rounded" placeholder="Знайти негідника-багатія">
-                            <span class="input-group-btn">
-                        <button class="btn btn-navigate" type="button">Go!</button>
-                        </span> </div>
+                        <form action="">
+                            <div class="input-group">
+                                <input type="text" id="search-form" class="form-control input-rounded" placeholder="Знайти негідника-багатія" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-navigate" type="submit">Go!</button>
+                                </span>
+                            </div>
+                        </form>
                         <!-- /input-group -->
                     </div>
                     <!-- /.col-lg-6 -->
@@ -204,6 +208,7 @@
         </div>
     </footer>
 
+    {{ leaflet_js() }}
     {% javascript 'js_all' %}
 </body>
 </html>

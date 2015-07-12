@@ -68,7 +68,6 @@
     width: 100%;
     z-index: 99;
     min-height: 0 !important;
-    overflow: hidden;
     border-bottom: #fff 20px solid;
 }
 
@@ -93,4 +92,8 @@
 .fixed-header #search-box {
     float: right;
     left: 40px;
+}
+
+.typeahead.dropdown-menu {
+    z-index: 100;
 }
