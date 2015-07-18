@@ -10,6 +10,8 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from django_jinja.builtins import DEFAULT_EXTENSIONS
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
@@ -79,16 +81,6 @@ ROOT_URLCONF = 'garnahata_site.urls'
 
 WSGI_APPLICATION = 'garnahata_site.wsgi.application'
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.core.context_processors.tz",
-    "django.core.context_processors.request",
-    "django.contrib.messages.context_processors.messages",
-    "cms_pages.context_processors.menu_processor"
-)
 
 # We don't need a database yet!
 DATABASES = {
@@ -124,26 +116,56 @@ USE_L10N = False
 USE_TZ = True
 
 
-TEMPLATE_LOADERS = (
-    'django_jinja.loaders.AppLoader',
-    'django_jinja.loaders.FileSystemLoader',
-)
-DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja'
-JINJA2_EXTENSIONS = [
-    "jinja2.ext.do",
-    "jinja2.ext.loopcontrols",
-    "jinja2.ext.with_",
-    "jinja2.ext.i18n",
-    "jinja2.ext.autoescape",
-    "django_jinja.builtins.extensions.CsrfExtension",
-    "django_jinja.builtins.extensions.CacheExtension",
-    "django_jinja.builtins.extensions.TimezoneExtension",
-    "django_jinja.builtins.extensions.UrlsExtension",
-    "django_jinja.builtins.extensions.StaticFilesExtension",
-    "django_jinja.builtins.extensions.DjangoFiltersExtension",
-    "pipeline.jinja2.ext.PipelineExtension"
+TEMPLATES = [
+    {
+        "BACKEND": "django_jinja.backend.Jinja2",
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "match_extension": ".jinja",
+            "context_processors": (
+                "django.contrib.auth.context_processors.auth",
+                "django.core.context_processors.debug",
+                "django.core.context_processors.media",
+                "django.core.context_processors.static",
+                "django.core.context_processors.tz",
+                "django.core.context_processors.request",
+                "django.contrib.messages.context_processors.messages",
+                "cms_pages.context_processors.menu_processor"
+            ),
+            "extensions": DEFAULT_EXTENSIONS + [
+                "jinja2.ext.do",
+                "jinja2.ext.loopcontrols",
+                "jinja2.ext.with_",
+                "jinja2.ext.i18n",
+                "jinja2.ext.autoescape",
+                "django_jinja.builtins.extensions.CsrfExtension",
+                "django_jinja.builtins.extensions.CacheExtension",
+                "django_jinja.builtins.extensions.TimezoneExtension",
+                "django_jinja.builtins.extensions.UrlsExtension",
+                "django_jinja.builtins.extensions.StaticFilesExtension",
+                "django_jinja.builtins.extensions.DjangoFiltersExtension",
+                "pipeline.jinja2.ext.PipelineExtension"
+            ]
+        }
+    },
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "OPTIONS": {
+            "context_processors": (
+                "django.contrib.auth.context_processors.auth",
+                "django.core.context_processors.debug",
+                "django.core.context_processors.media",
+                "django.core.context_processors.static",
+                "django.core.context_processors.tz",
+                "django.core.context_processors.request",
+                "django.contrib.messages.context_processors.messages",
+                "cms_pages.context_processors.menu_processor"
+            )
+        },
+        "APP_DIRS": True
+    },
 ]
-
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 STATICFILES_FINDERS = (

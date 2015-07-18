@@ -183,7 +183,7 @@ class Address(models.Model):
         max_length=25)
 
     city = models.IntegerField(
-        "Місто", max_length=50, default=80, choices=KOATUU.items())
+        "Місто", default=80, choices=KOATUU.items())
 
     commercial_name = models.CharField(
         "Назва комплексу або району", max_length=150, blank=True)

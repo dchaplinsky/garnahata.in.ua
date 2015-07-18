@@ -23,8 +23,15 @@ class AddressAdminForm(forms.ModelForm):
 
         return m
 
+    class Media:
+        css = {
+            'all': ('css/Control.Geocoder.css',)
+        }
+        js = ('js/Control.Geocoder.js', 'js/geocoder.init.js')
+
     class Meta:
         model = Address
+        fields = '__all__'
 
 
 class AddressAdmin(LeafletGeoAdmin):
