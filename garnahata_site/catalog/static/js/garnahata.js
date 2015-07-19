@@ -43,6 +43,10 @@
         }, 1250, 'easeInOutExpo');
         event.preventDefault();
     });
+    
+    $.fn.hasScrollBar = function() {
+        return this.get(0).scrollHeight > this.get(0).clientHeight;
+    }
 
     function adjust_margin() {
         $('.homepage .first-after-intro').css('margin-top', $('header').height());
@@ -118,6 +122,12 @@
     });    
     
     $(document).ready(function () {
+          	
+    if (!$('body').hasScrollBar())
+    { 
+       $('#footer').addClass("fixed");
+    }
+
         $('.objectAdressTable').each(function () {
             var Column_number_to_Merge = 1;
  
