@@ -31,6 +31,7 @@
     text-transform: uppercase;
     font-size: 13px;
     color: #222;
+    z-index: 6;
 }
 
 .navbar-default .nav > li>a:hover,
