@@ -2,8 +2,14 @@
 
 {% from "macros/_ownership.jinja" import render_address %}
 
+{% block bodyclass %}fixed-header regular-page by_latest bigMapPage{% endblock %}
+
 {% block content %}
-	<div id="searchAdresses">
+    <section id="bigMap" data-geojson="{{ addresses.map_markers()|jsonify }}" class="geojson-container fullScreenMap col col-sm-9 pull-right">
+                <h2 class="green text-center">Map of uncovered property (national level)</h2>
+                {{ leaflet_map("yourmap") }}
+    </section> 
+	<div class="col col-sm-3 pull-left pre-scrollable" id="searchAdresses">
 		{% set d = None %}
 		{% for address in addresses %}
 			{% if address.date_added|date != d %}
@@ -14,3 +20,4 @@
 		{% endfor %}
 	</div>
 {% endblock %}
+

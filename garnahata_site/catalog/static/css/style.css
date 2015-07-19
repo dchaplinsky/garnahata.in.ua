@@ -137,6 +137,11 @@ p {
     padding-top: 20px;
 }
 
+.regular-page .container.content {
+    padding-top: 180px;
+    padding-bottom: 80px;
+}
+
 .regular-page .first-after-intro {
     padding-bottom: 20px;
 }
@@ -166,6 +171,16 @@ article p {
     padding-top: 20px;
     padding-bottom: 20px;
     margin-top: 40px;
+}
+
+.regular-page #footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 80px;
+  margin-top:0;
+  padding:0;
 }
 
 .copirights-logos {
@@ -521,3 +536,6 @@ td.emptyTd {/* border: none !important; padding: 0 !important; display: none; */
     height: 336px;
     width:auto;
 }
+
+.bigMapPage .pre-scrollable { max-height:none;}
+.bigMapPage .leaflet-container-default {height: 100%;}

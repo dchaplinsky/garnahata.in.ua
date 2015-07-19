@@ -42,10 +42,10 @@
                         <div class="panel-heading" role="tab" id="headingThree">
                             
                             
-                            <a class="collapsed btn blue rounded" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{ ownership.pk }}" aria-expanded="false" aria-controls="collapse_{{ ownership.pk }}">Іпотека ↓</a>
+                            <a class="collapsed btn blue rounded" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{ ownership.id }}" aria-expanded="false" aria-controls="collapse_{{ ownership.id }}">Іпотека ↓</a>
                           
                         </div>
-                        <div id="collapse_{{ ownership.pk }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <div id="collapse_{{ ownership.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                           <div class="panel-body">
                                 <b>Дата реєстрації іпотекі:</b> {{ ownership.mortgage_registered }}<br>
                                 <b>Підстава обтяження:</b> {{ ownership.mortgage_charge }}<br>

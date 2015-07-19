@@ -45,13 +45,17 @@
     });
 
     function adjust_margin() {
-        $('.first-after-intro').css('margin-top', $('header').height());
+        $('.homepage .first-after-intro').css('margin-top', $('header').height());
     }
 
     function toggle_header() {
         $b.toggleClass('fixed-header', $w.scrollTop() >= $d);
     }
-
+    
+    function bigMap() {
+        $(".bigMapPage #bigMap, .bigMapPage .pre-scrollable").height($(window).height()-360);
+    }
+    
     $w.on("scroll", function() {
         toggle_header();
     });
@@ -59,9 +63,11 @@
     $w.on("resize", function() {
         toggle_header();
         adjust_margin();
+        bigMap();
     });
 
     adjust_margin();
+    bigMap();
 
     // Closes the Responsive Menu on Menu Item Click
     $('.navbar-collapse ul li a').click(function() {
