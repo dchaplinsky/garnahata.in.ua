@@ -10,13 +10,14 @@ body {
     height: 100%;
 }
 
-#scrollToMe
-{
+#scrollToMe,
+.ownerAnchor {
   display: block;
-  height: 160px; /*same height as header*/
+  height: 160px;
   margin-top: -160px; /*same height as header*/
   visibility: hidden;
 }
+
 body {
     font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
     font-weight: 400;
@@ -180,11 +181,10 @@ article p {
     margin-top: 40px;
 }
 
-.regular-page #footer {
-  position: absolute;
+.regular-page #footer.fixed {
+  position: fixed;
   bottom: 0;
   width: 100%;
-  /* Set the fixed height of the footer here */
   height: 80px;
   margin-top:0;
   padding:0;
@@ -519,10 +519,15 @@ td.emptyTd {/* border: none !important; padding: 0 !important; display: none; */
 .ownerCol-4 .panel-heading a { font-weight:400;}
 
 .ownerCol-4 .panel-heading,
-.ownerCol-4 .panel
- {border: none; background: none; box-shadow: none;}
+.ownerCol-4 .panel {
+    border: none; 
+    background: none; 
+    box-shadow: none;
+}
  
-.ownerCol-4 .panel-collapse.collapse.in {background: #fff;}
+.ownerCol-4 .panel-collapse.collapse.in {
+    background: #fff;
+}
 
 .ownerCol-3 {font-size: 13px;}
 
@@ -531,18 +536,23 @@ td.emptyTd {/* border: none !important; padding: 0 !important; display: none; */
 .imgResponsiveHeightContainer {
     width: 100%;
     text-align: center;
-    overflow: hidden; /* hide the cropped portion */
+    overflow: hidden;
     height: 336px;
     margin-bottom: 20px;
 }
 
 .imgResponsiveHeightContainer img {
-    position: relative; /* allows repositioning */
-    left: 100%; /* move the whole width of the image to the right */
-    margin-left: -200%; /* magic! */
+    position: relative;
+    left: 100%;
+    margin-left: -200%;
     height: 336px;
     width:auto;
 }
 
-.bigMapPage .pre-scrollable { max-height:none;}
-.bigMapPage .leaflet-container-default {height: 100%;}
+.bigMapPage .pre-scrollable {
+     max-height:none;
+}
+
+.bigMapPage .leaflet-container-default {
+    height: 100%;
+}
