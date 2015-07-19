@@ -11,16 +11,18 @@
         
         <div class="container mt">
                 <div class="row">
+                    {% if address.photo %}
                     <section class="col-sm-4">
                         <div class="imgResponsiveHeightContainer">
-                            <img class="imgResponsiveHeight" src="http://forum.domik.ua/resources/image/34963.jpg"/>
+                            <img class="imgResponsiveHeight" src="{{ address.photo|thumbnail_url("address_thumbnail") }}"/>
                         </div>
-                    </section>
-                    
+                    </section>                    
                     <section id="bigMap" data-geojson="{{ [address.map_marker()]|jsonify }}" class="geojson-container col-sm-8">
-                                <h2 class="green text-center">Map of uncovered property (national level)</h2>
-                                {{ leaflet_map("yourmap") }}
-                     
+                    {% else %}
+                    <section id="bigMap" data-geojson="{{ [address.map_marker()]|jsonify }}" class="geojson-container col-sm-12">
+                    {% endif %}
+                        <h2 class="green text-center">Map of uncovered property (national level)</h2>
+                        {{ leaflet_map("yourmap") }}
                     </section>
             </div>
        </div>

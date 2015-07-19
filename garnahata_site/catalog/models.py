@@ -199,6 +199,8 @@ class Address(models.Model):
         "Дата додання на сайт",
         default=timezone.now)
 
+    photo = models.ImageField(u"Фото об'єкта", blank=True, upload_to="images")
+
     def __unicode__(self):
         return u"%s %s" % (
             self.get_city_display(),
