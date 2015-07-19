@@ -76,7 +76,7 @@ a:focus {
 
 .blue {
     background: #1352e2;
-    color: #FFFFFF;
+    color: #FFFFFF !important;
 }
 
 .rounded {
@@ -470,13 +470,26 @@ body {
 .leaflet-control-container > div {z-index: 10;}
 
 .mt {margin-top: 40px;}
+.nmb {margin-bottom: 0;}
 
 .col {padding-left: 15px; padding-right: 15px;}
 
+
 table.objectAdressTable td {padding:15px !important;}
+
 .ownershipOwner {font-weight:600;}
 
-td.emptyTd { border: none !important; padding: 0 !important; display: none;}
+td.emptyTd {/* border: none !important; padding: 0 !important; display: none; */} 
+.ownerCol-4 .panel-group {min-width: 350px; margin-bottom: 0;}
+.ownerCol-4 .panel-heading {text-align:center;}
+.ownerCol-4 .panel-heading a { font-weight:400;}
+.ownerCol-4 .panel-heading,
+.ownerCol-4 .panel
+ {border: none; background: none; box-shadow: none;}
+.ownerCol-4 .panel-collapse.collapse.in {background: #fff;}
+
+.ownerCol-3 {font-size: 13px;}
+.ownerCol-4 p {font-size:12px;}
 
 .imgResponsiveHeightContainer {
     width: 100%; /* or whatever is required */

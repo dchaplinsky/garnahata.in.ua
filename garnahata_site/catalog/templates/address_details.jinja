@@ -32,12 +32,24 @@
                 {% else %}
                     <h3>{{ address.commercial_name }}</h3>
                 {% endif %}
-
-                <table class="table objectAdressTable">
-                {% for group in ownerships|groupby('prop_id') %}
-                    {{ render_property(group.list, "active" if loop.index is divisibleby(2) else False) }}
-                {% endfor %}
-                </table>
+                
+                <div class="table-responsive">
+                    <table class="table objectAdressTable">
+                        <thead>
+                            <tr>
+                                <th>Власник</th>
+                                <th>Тип нерухомості, частка</th>
+                                <th>Дата реєстрації, підстава власності, форма власності</th>
+                                <th><!--Іпотека--></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for group in ownerships|groupby('prop_id') %}
+                                {{ render_property(group.list, "active" if loop.index is divisibleby(2) else False) }}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </article>
         </section>
 {% endblock %}

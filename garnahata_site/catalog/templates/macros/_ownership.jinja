@@ -6,17 +6,62 @@
 
 {% macro render_ownership(ownership, classname="", with_link=False) %}
 	<tr{% if classname %} class="{{ classname }}"{% endif %}>
-		<td class="owner">
+		<td class="ownerCol-1">
 			{% if with_link %}
 				<a href="{{ ownership.url }}">{{ ownership.owner }}</a>
 			{% else %}
 				<span class="ownershipOwner">{{ ownership.owner }}</span>
 			{% endif %}
 		</td>
-		<td class="asset">
+		<td class="ownerCol-2">
             <a name="ownership_{{ ownership.pk }}"></a>
             <span class="ownershipAsset">{{ ownership.asset }}</span>
+            {% if ownership.share %}
+                <br> частка: {{ ownership.share }}
+            {% endif %}
+            
         </td>
+        <td class="ownerCol-3">
+            {% if ownership.registered %}
+                {{ ownership.registered.strftime('%d-%m-%Y') }}<br> 
+            {% endif %}
+            
+            {% if ownership.ownership_ground %}
+                {{ ownership.ownership_ground }}<br>
+            {% endif %}
+            
+            {% if ownership.ownership_form %}
+                {{ ownership.ownership_form }}
+            {% endif %}
+        </td>
+        
+        <td class="ownerCol-4">
+            {% if ownership.mortgage_registered %}
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingThree">
+                            
+                            
+                            <a class="collapsed btn blue rounded" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{ ownership.pk }}" aria-expanded="false" aria-controls="collapse_{{ ownership.pk }}">Іпотека ↓</a>
+                          
+                        </div>
+                        <div id="collapse_{{ ownership.pk }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                          <div class="panel-body">
+                                <b>Дата реєстрації іпотекі:</b> {{ ownership.mortgage_registered.strftime('%d-%m-%Y') }}<br>
+                                <b>Підстава обтяження:</b> {{ ownership.mortgage_charge }}<br>
+                                <b>Деталі за іпотекой:</b> {{ ownership.mortgage_details }}<br>
+                                <b>Суб'єкти обтяження:</b> {{ ownership.mortgage_charge_subjects }}<br>
+                                <b>Заявник або іпотекодержатель:</b> {{ ownership.mortgage_holder }}<br>
+                                <b>Власник або іпотекодавець:</b> {{ ownership.mortgage_mortgagor }}<br>
+                                <b>Поручитель:</b> {{ ownership.mortgage_guarantor }}<br>
+                                <b>Інші суб'єкти обтяження:</b> {{ ownership.mortgage_other_persons }}
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </td>
+        
 	</tr>
 {% endmacro %}
 
