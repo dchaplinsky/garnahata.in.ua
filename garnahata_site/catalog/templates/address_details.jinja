@@ -3,32 +3,41 @@
 {% from "macros/_ownership.jinja" import render_property %}
 
 {% block content %}
-    <div class="row">
-        <section id="bigMap" data-geojson="{{ [address.map_marker()]|jsonify }}" class="geojson-container">
-            <div class="container">
+        
+        <div class="col">
+            <h1>{{ address.title }}</h1>
+            <h2>{{ address.get_city_display() }}, {{ address.address }} {{ address.cadastral_number }}</h2>    
+        </div>
+        
+        <div class="container mt">
                 <div class="row">
-                    <h2 class="green text-center">Map of uncovered property (national level)</h2>
-                    {{ leaflet_map("yourmap") }}
-                </div>
+                    <section class="col-sm-4">
+                        <div class="imgResponsiveHeightContainer">
+                            <img class="imgResponsiveHeight" src="http://forum.domik.ua/resources/image/34963.jpg"/>
+                        </div>
+                    </section>
+                    
+                    <section id="bigMap" data-geojson="{{ [address.map_marker()]|jsonify }}" class="geojson-container col-sm-8">
+                                <h2 class="green text-center">Map of uncovered property (national level)</h2>
+                                {{ leaflet_map("yourmap") }}
+                     
+                    </section>
             </div>
-        </section>
-
-        <section id="main" class="col col-lg-8">
+       </div>
+       
+        <section id="main" class="col col-sm-12 objectAdress">
             <article>
-                <h1>{{ address.title }}</h1>
-                <h2>{{ address.get_city_display() }}, {{ address.address }} {{ address.cadastral_number }}</h2>
                 {% if address.link %}
                     <h3><a href="{{ address.link }}" rel="nofollow" target="_blank">{{ address.commercial_name }}</a></h3>
                 {% else %}
                     <h3>{{ address.commercial_name }}</h3>
                 {% endif %}
 
-                <table class="table">
+                <table class="table objectAdressTable">
                 {% for group in ownerships|groupby('prop_id') %}
                     {{ render_property(group.list, "active" if loop.index is divisibleby(2) else False) }}
                 {% endfor %}
                 </table>
             </article>
         </section>
-    </div>
 {% endblock %}

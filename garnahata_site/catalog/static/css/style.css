@@ -277,9 +277,11 @@ aside .more {
     margin-top: 5px;
 }
 
-#bigMap {
+#bigMap.frontMap {
     margin-top: 20px;
 }
+
+#bigMap h2 {margin-top: 0;}
 
 .input-rounded {
     -webkit-border-radius: 100px;
@@ -463,4 +465,31 @@ img::-moz-selection {
 
 body {
     webkit-tap-highlight-color: #222;
+}
+
+.leaflet-control-container > div {z-index: 10;}
+
+.mt {margin-top: 40px;}
+
+.col {padding-left: 15px; padding-right: 15px;}
+
+table.objectAdressTable td {padding:15px !important;}
+.ownershipOwner {font-weight:600;}
+
+td.emptyTd { border: none !important; padding: 0 !important; display: none;}
+
+.imgResponsiveHeightContainer {
+    width: 100%; /* or whatever is required */
+    text-align: center; /* ensures the image is always in the h-middle */
+    overflow: hidden; /* hide the cropped portion */
+    height: 346px;
+    margin-bottom: 20px;
+}
+
+.imgResponsiveHeightContainer img {
+    position: relative; /* allows repositioning */
+    left: 100%; /* move the whole width of the image to the right */
+    margin-left: -200%; /* magic! */
+    height: 346px;
+    width:auto;
 }

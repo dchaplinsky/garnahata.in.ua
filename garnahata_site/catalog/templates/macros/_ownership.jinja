@@ -6,14 +6,17 @@
 
 {% macro render_ownership(ownership, classname="", with_link=False) %}
 	<tr{% if classname %} class="{{ classname }}"{% endif %}>
-		<td><a name="ownership_{{ ownership.pk }}"></a>
+		<td class="owner">
 			{% if with_link %}
 				<a href="{{ ownership.url }}">{{ ownership.owner }}</a>
 			{% else %}
-				{{ ownership.owner }}
+				<span class="ownershipOwner">{{ ownership.owner }}</span>
 			{% endif %}
 		</td>
-		<td>{{ ownership.asset }}</td>
+		<td class="asset">
+            <a name="ownership_{{ ownership.pk }}"></a>
+            <span class="ownershipAsset">{{ ownership.asset }}</span>
+        </td>
 	</tr>
 {% endmacro %}
 
