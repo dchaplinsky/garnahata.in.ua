@@ -17,6 +17,7 @@
     width: 100%;
     padding: 100px 15px;
     text-align: center;
+    z-index: 5;
 }
 
 #intro .header-content .header-content-inner h1 {

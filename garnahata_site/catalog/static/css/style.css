@@ -10,6 +10,13 @@ body {
     height: 100%;
 }
 
+#scrollToMe
+{
+  display: block;
+  height: 160px; /*same height as header*/
+  margin-top: -160px; /*same height as header*/
+  visibility: hidden;
+}
 body {
     font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
     font-weight: 400;
@@ -76,7 +83,7 @@ a:focus {
 
 .blue {
     background: #1352e2;
-    color: #FFFFFF;
+    color: #FFFFFF !important;
 }
 
 .rounded {
@@ -137,6 +144,11 @@ p {
     padding-top: 20px;
 }
 
+.regular-page .container.content {
+    padding-top: 180px;
+    padding-bottom: 80px;
+}
+
 .regular-page .first-after-intro {
     padding-bottom: 20px;
 }
@@ -166,6 +178,16 @@ article p {
     padding-top: 20px;
     padding-bottom: 20px;
     margin-top: 40px;
+}
+
+.regular-page #footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 80px;
+  margin-top:0;
+  padding:0;
 }
 
 .copirights-logos {
@@ -227,12 +249,15 @@ aside .block .collapse.in {
     margin-bottom: 60px;
 }
 
-aside .block h4 {
+aside .block h4,
+#searchAdresses h2{
     margin-bottom: 20px;
 }
 
 aside .block h4,
-aside .block h4 a {
+aside .block h4 a,
+h2.green
+ {
     color: #fff;
     text-transform: uppercase;
     font-size: 14px;
@@ -252,23 +277,27 @@ aside .more {
 }
 
 #latestAdresses .media,
-#byPrice .media {
+#byPrice .media,
+#searchAdresses .media {
     padding: 0 0 10px 15px;
     border-bottom: #e6e6e6 1px solid;
 }
 
 #latestAdresses .media:last-child,
-#byPrice .media:last-child {
+#byPrice .media:last-child,
+#searchAdresses .media:last-child {
     border: none;
 }
 
-#sidebar .media h5 {
+#sidebar .media h5,
+#searchAdresses .media h5 {
     font-size: 13px;
     font-weight: 600;
     display: block;
 }
 
-#sidebar .media h5 span {
+#sidebar .media h5 span,
+#searchAdresses .media h5 span {
     font-size: 11px;
     color: #262626;
     line-height: 18px;
@@ -277,9 +306,11 @@ aside .more {
     margin-top: 5px;
 }
 
-#bigMap {
+#bigMap.frontMap {
     margin-top: 20px;
 }
+
+#bigMap h2 {margin-top: 0;}
 
 .input-rounded {
     -webkit-border-radius: 100px;
@@ -464,3 +495,54 @@ img::-moz-selection {
 body {
     webkit-tap-highlight-color: #222;
 }
+
+.leaflet-control-container > div {z-index: 10;}
+
+.mt {margin-top: 40px;}
+.nmb {margin-bottom: 0;}
+
+.col {padding-left: 15px; padding-right: 15px;}
+
+
+table.objectAdressTable  {margin-bottom: 40px;}
+
+table.objectAdressTable td {padding:15px !important;}
+
+.ownershipOwner {font-weight:600;}
+
+td.emptyTd {/* border: none !important; padding: 0 !important; display: none; */} 
+
+.ownerCol-4 .panel-group {min-width: 350px; margin-bottom: 0;}
+
+.ownerCol-4 .panel-heading {text-align:center;}
+
+.ownerCol-4 .panel-heading a { font-weight:400;}
+
+.ownerCol-4 .panel-heading,
+.ownerCol-4 .panel
+ {border: none; background: none; box-shadow: none;}
+ 
+.ownerCol-4 .panel-collapse.collapse.in {background: #fff;}
+
+.ownerCol-3 {font-size: 13px;}
+
+.ownerCol-4 p {font-size:12px;}
+
+.imgResponsiveHeightContainer {
+    width: 100%;
+    text-align: center;
+    overflow: hidden; /* hide the cropped portion */
+    height: 336px;
+    margin-bottom: 20px;
+}
+
+.imgResponsiveHeightContainer img {
+    position: relative; /* allows repositioning */
+    left: 100%; /* move the whole width of the image to the right */
+    margin-left: -200%; /* magic! */
+    height: 336px;
+    width:auto;
+}
+
+.bigMapPage .pre-scrollable { max-height:none;}
+.bigMapPage .leaflet-container-default {height: 100%;}

@@ -6,21 +6,75 @@
 
 {% macro render_ownership(ownership, classname="", with_link=False) %}
 	<tr{% if classname %} class="{{ classname }}"{% endif %}>
-		<td><a name="ownership_{{ ownership.pk }}"></a>
+		<td class="ownerCol-1">
 			{% if with_link %}
 				<a href="{{ ownership.url }}">{{ ownership.owner }}</a>
 			{% else %}
-				{{ ownership.owner }}
+				<span class="ownershipOwner">{{ ownership.owner }}</span>
 			{% endif %}
 		</td>
-		<td>{{ ownership.asset }}</td>
+		<td class="ownerCol-2">
+            <a name="ownership_{{ ownership.pk }}"></a>
+            <span class="ownershipAsset">{{ ownership.asset }}</span>
+            {% if ownership.share %}
+                <br> частка: {{ ownership.share }}
+            {% endif %}
+            
+        </td>
+        <td class="ownerCol-3">
+            {% if ownership.registered %}
+                {{ ownership.registered }}<br> 
+            {% endif %}
+            
+            {% if ownership.ownership_ground %}
+                {{ ownership.ownership_ground }}<br>
+            {% endif %}
+            
+            {% if ownership.ownership_form %}
+                {{ ownership.ownership_form }}
+            {% endif %}
+        </td>
+        
+        <td class="ownerCol-4">
+            {% if ownership.mortgage_registered %}
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingThree">
+                            
+                            
+                            <a class="collapsed btn blue rounded" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{ ownership.id }}" aria-expanded="false" aria-controls="collapse_{{ ownership.id }}">Іпотека ↓</a>
+                          
+                        </div>
+                        <div id="collapse_{{ ownership.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                          <div class="panel-body">
+                                <b>Дата реєстрації іпотекі:</b> {{ ownership.mortgage_registered }}<br>
+                                <b>Підстава обтяження:</b> {{ ownership.mortgage_charge }}<br>
+                                <b>Деталі за іпотекой:</b> {{ ownership.mortgage_details }}<br>
+                                <b>Суб'єкти обтяження:</b> {{ ownership.mortgage_charge_subjects }}<br>
+                                <b>Заявник або іпотекодержатель:</b> {{ ownership.mortgage_holder }}<br>
+                                <b>Власник або іпотекодавець:</b> {{ ownership.mortgage_mortgagor }}<br>
+                                <b>Поручитель:</b> {{ ownership.mortgage_guarantor }}<br>
+                                <b>Інші суб'єкти обтяження:</b> {{ ownership.mortgage_other_persons }}
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </td>
+        
 	</tr>
 {% endmacro %}
 
 {% macro render_address(address) %}
-	<div>
-		<h4><a href="{{ address.url }}">{{ address.title }}</a></h4>
-		<p>{{ address.commercial_name }}</p>
-	</div>
+    <div class="media">
+        <div class="media-body">
+            <h5 class="media-heading" id="middle-aligned-media">
+                <a class="anchorjs-link" href="{{ address.url }}">{{ address.title }}</a>
+                {% if address.commercial_name %}
+                <span>{{ address.commercial_name }}</span>
+                {% endif %}
+            </h5>
+        </div>
+    </div>
 {% endmacro %}
 

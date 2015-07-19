@@ -1,7 +1,7 @@
 {% extends "base.jinja" %}
 {% from "macros/_news.jinja" import render_news %}
 
-{% block bodyclass %}{% endblock %}
+{% block bodyclass %}homepage{% endblock %}
 
 {% block header_intro %}
 	<p class="text-center">{{ page.body|richtext }}</p>
@@ -9,16 +9,20 @@
 
 {% block content %}
 <div class="row">
+    <a id="scrollToMe"></a> 
     <section id="main" class="col col-lg-8">
         {% if hp_news %}
         <div id="topNews">
             <h2 class="blue">Останні новини</h2>
             <div class="topNewsContainer">
-                <div class="overImage"><img class="img-responsive" src="{{ hp_news.image.file|thumbnail_url("homepage_news") }}" /></div>
-                <div class="overInfo"> <span class="dateInfo">{{ hp_news.date_added|date }}</span>
-                    <h3 class="shortTitle"><a href="{{ hp_news.url }}">{{ hp_news.title }}</a></h3>
-                    <h4 class="title"><a href="{{ hp_news.url }}">{{ hp_news.lead|richtext }}</a></h4>
-                    <div class="newsStats"> <span class="viewsCounter"><!-- <span class="commentsCounter"><i class="fa fa-comment-o"></i> 12 --></span> </div>
+                <div class="overImage"><img src="{{ hp_news.image.file|thumbnail_url("homepage_news") }}" /></div>
+                <div class="overInfo">
+                    <div>
+                        <span class="dateInfo">{{ hp_news.date_added|date }}</span>
+                        <h3 class="shortTitle"><a href="{{ hp_news.url }}">{{ hp_news.title }}</a></h3>
+                        <h4 class="title"><a href="{{ hp_news.url }}">{{ hp_news.lead|richtext }}</a></h4>
+                        <div class="newsStats"> <span class="viewsCounter"><!-- <span class="commentsCounter"><i class="fa fa-comment-o"></i> 12 --></span> </div>
+                    </div>
                 </div>
                 <div class="clr"></div>
             </div>
@@ -36,7 +40,7 @@
         </div>
     </section>
     <aside id="sidebar" role="complementary" class="col col-xl-3 col-lg-3">
-        <!-- TODO для меня: Пусть куки помнит что свернул юзер а что нет -->
+        <!-- TODO: Пусть куки помнит что свернул юзер а что нет -->
         <div class="block">
             <h4 class="green rounded"> <a data-toggle="collapse" href="#latestAdresses" aria-expanded="true" aria-controls="latestAdresses">New Adresses (by latest)</a> </h4>
             <div id="latestAdresses" class="collapse in" aria-expanded="true">
@@ -96,7 +100,7 @@
         #}
     </aside>
 </div>
-<section id="bigMap" data-geojson="{{ latest_addresses.map_markers()|jsonify }}" class="geojson-container">
+<section id="bigMap" data-geojson="{{ latest_addresses.map_markers()|jsonify }}" class="geojson-container frontMap">
     <div class="container">
         <div class="row">
             <h2 class="green text-center">Map of uncovered property (national level)</h2>

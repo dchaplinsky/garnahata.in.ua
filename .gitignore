@@ -57,3 +57,12 @@ target/
 
 .DS_Store
 *sublime-*
+readme.txt
+Vagrantfile
+.vagrant/machines/default/virtualbox/action_provision
+.vagrant/machines/default/virtualbox/action_set_name
+.vagrant/machines/default/virtualbox/id
+.vagrant/machines/default/virtualbox/index_uuid
+.vagrant/machines/default/virtualbox/synced_folders
+garnahata_site/index.html
+garnahata_site/catalog/static/images/Thumbs.db
