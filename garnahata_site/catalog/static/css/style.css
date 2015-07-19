@@ -227,12 +227,15 @@ aside .block .collapse.in {
     margin-bottom: 60px;
 }
 
-aside .block h4 {
+aside .block h4,
+#searchAdresses h2{
     margin-bottom: 20px;
 }
 
 aside .block h4,
-aside .block h4 a {
+aside .block h4 a,
+h2.green
+ {
     color: #fff;
     text-transform: uppercase;
     font-size: 14px;
@@ -252,23 +255,27 @@ aside .more {
 }
 
 #latestAdresses .media,
-#byPrice .media {
+#byPrice .media,
+#searchAdresses .media {
     padding: 0 0 10px 15px;
     border-bottom: #e6e6e6 1px solid;
 }
 
 #latestAdresses .media:last-child,
-#byPrice .media:last-child {
+#byPrice .media:last-child,
+#searchAdresses .media:last-child {
     border: none;
 }
 
-#sidebar .media h5 {
+#sidebar .media h5,
+#searchAdresses .media h5 {
     font-size: 13px;
     font-weight: 600;
     display: block;
 }
 
-#sidebar .media h5 span {
+#sidebar .media h5 span,
+#searchAdresses .media h5 span {
     font-size: 11px;
     color: #262626;
     line-height: 18px;

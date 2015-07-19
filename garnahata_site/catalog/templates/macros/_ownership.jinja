@@ -23,7 +23,7 @@
         </td>
         <td class="ownerCol-3">
             {% if ownership.registered %}
-                {{ ownership.registered.strftime('%d-%m-%Y') }}<br> 
+                {{ ownership.registered }}<br> 
             {% endif %}
             
             {% if ownership.ownership_ground %}
@@ -47,7 +47,7 @@
                         </div>
                         <div id="collapse_{{ ownership.pk }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                           <div class="panel-body">
-                                <b>Дата реєстрації іпотекі:</b> {{ ownership.mortgage_registered.strftime('%d-%m-%Y') }}<br>
+                                <b>Дата реєстрації іпотекі:</b> {{ ownership.mortgage_registered }}<br>
                                 <b>Підстава обтяження:</b> {{ ownership.mortgage_charge }}<br>
                                 <b>Деталі за іпотекой:</b> {{ ownership.mortgage_details }}<br>
                                 <b>Суб'єкти обтяження:</b> {{ ownership.mortgage_charge_subjects }}<br>
@@ -66,9 +66,15 @@
 {% endmacro %}
 
 {% macro render_address(address) %}
-	<div>
-		<h4><a href="{{ address.url }}">{{ address.title }}</a></h4>
-		<p>{{ address.commercial_name }}</p>
-	</div>
+    <div class="media">
+        <div class="media-body">
+            <h5 class="media-heading" id="middle-aligned-media">
+                <a class="anchorjs-link" href="{{ address.url }}">{{ address.title }}</a>
+                {% if address.commercial_name %}
+                <span>{{ address.commercial_name }}</span>
+                {% endif %}
+            </h5>
+        </div>
+    </div>
 {% endmacro %}
 
