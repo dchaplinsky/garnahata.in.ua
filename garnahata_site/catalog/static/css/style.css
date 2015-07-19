@@ -10,6 +10,13 @@ body {
     height: 100%;
 }
 
+#scrollToMe
+{
+  display: block;
+  height: 160px; /*same height as header*/
+  margin-top: -160px; /*same height as header*/
+  visibility: hidden;
+}
 body {
     font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
     font-weight: 400;

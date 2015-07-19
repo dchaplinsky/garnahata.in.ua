@@ -58,6 +58,21 @@ h2.green {
     height: 390px;
 }
 
+.overImage {
+    width: 100%;
+    text-align: center;
+    overflow: hidden; /* hide the cropped portion */
+    height: 390px;
+}
+
+.overImage img {
+    position: relative; /* allows repositioning */
+    left: 100%; /* move the whole width of the image to the right */
+    margin-left: -200%; /* magic! */
+    height: 390px;
+    width:auto;
+}
+
 .topNewsContainer a {
     color: white;
 }
@@ -81,14 +96,17 @@ h2.green {
 
 .overInfo {
     position: absolute;
-    bottom: 12px;
+    bottom: 0;
     z-index: 2;
     left: 0;
     width: 100%;
     padding: 30px 40px;
     background: url(../images/picoverlay.png) repeat-x;
     color: #FFFFFF;
+    display:table;
 }
+
+.overInfo > div {display: table-cell; vertical-align:bottom;}
 
 .overInfo .newsStats {
     color: #FFFFFF;
