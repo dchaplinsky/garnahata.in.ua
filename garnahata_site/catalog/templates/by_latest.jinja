@@ -3,7 +3,7 @@
 {% from "macros/_ownership.jinja" import render_address %}
 
 {% block content %}
-	<div>
+	<div id="searchAdresses">
 		{% set d = None %}
 		{% for address in addresses %}
 			{% if address.date_added|date != d %}

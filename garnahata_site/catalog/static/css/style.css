@@ -482,27 +482,35 @@ body {
 .col {padding-left: 15px; padding-right: 15px;}
 
 
+table.objectAdressTable  {margin-bottom: 40px;}
+
 table.objectAdressTable td {padding:15px !important;}
 
 .ownershipOwner {font-weight:600;}
 
 td.emptyTd {/* border: none !important; padding: 0 !important; display: none; */} 
+
 .ownerCol-4 .panel-group {min-width: 350px; margin-bottom: 0;}
+
 .ownerCol-4 .panel-heading {text-align:center;}
+
 .ownerCol-4 .panel-heading a { font-weight:400;}
+
 .ownerCol-4 .panel-heading,
 .ownerCol-4 .panel
  {border: none; background: none; box-shadow: none;}
+ 
 .ownerCol-4 .panel-collapse.collapse.in {background: #fff;}
 
 .ownerCol-3 {font-size: 13px;}
+
 .ownerCol-4 p {font-size:12px;}
 
 .imgResponsiveHeightContainer {
-    width: 100%; /* or whatever is required */
-    text-align: center; /* ensures the image is always in the h-middle */
+    width: 100%;
+    text-align: center;
     overflow: hidden; /* hide the cropped portion */
-    height: 346px;
+    height: 336px;
     margin-bottom: 20px;
 }
 
@@ -510,6 +518,6 @@ td.emptyTd {/* border: none !important; padding: 0 !important; display: none; */
     position: relative; /* allows repositioning */
     left: 100%; /* move the whole width of the image to the right */
     margin-left: -200%; /* magic! */
-    height: 346px;
+    height: 336px;
     width:auto;
 }
