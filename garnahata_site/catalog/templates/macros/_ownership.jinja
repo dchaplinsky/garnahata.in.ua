@@ -67,6 +67,13 @@
 
 {% macro render_address(address) %}
     <div class="media">
+        {% if address.photo %}
+            <div class="media-left">
+                <a href="{{ address.url }}">
+                    <img class="media-object media64" src="{{ address.photo|thumbnail_url("address_thumbnail") }}" alt="{{ address.title }}">
+                </a>
+            </div>
+        {% endif %}
         <div class="media-body">
             <h5 class="media-heading" id="middle-aligned-media">
                 <a class="anchorjs-link" href="{{ address.url }}">{{ address.title }}</a>
