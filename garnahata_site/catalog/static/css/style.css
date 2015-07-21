@@ -6,11 +6,28 @@
 
 html,
 body {
-    width: 100%;
-    height: 100%;
+	margin:0;
+	padding:0;
+	height:100%;
 }
 
-#scrollToMe,
+.regular-page #wrapper {
+	min-height:100%;
+	position:relative;
+}
+
+.regular-page #footer {
+	width:100%;
+	position:absolute;
+	bottom:0;
+	left:0;
+}
+
+#footer {
+    height:80px;
+    background: #14130e;
+}
+
 .ownerAnchor {
   display: block;
   height: 160px;
@@ -147,7 +164,7 @@ p {
 
 .regular-page .container.content {
     padding-top: 180px;
-    padding-bottom: 80px;
+    padding-bottom: 120px; /* 80 footer + estetic margin 40 */
 }
 
 .regular-page .first-after-intro {
@@ -172,22 +189,6 @@ article p {
 
 .articleTags li a:hover {
     color: #fff;
-}
-
-#footer {
-    background: #14130e;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    margin-top: 40px;
-}
-
-.regular-page #footer.fixed {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 80px;
-  margin-top:0;
-  padding:0;
 }
 
 .copirights-logos {
@@ -276,10 +277,15 @@ aside .more {
     padding-left: 15px;
 }
 
+img.media64 {
+    max-width: 64px;
+    height: auto;
+}
+
 #latestAdresses .media,
 #byPrice .media,
 #searchAdresses .media {
-    padding: 0 0 10px 15px;
+    padding: 0 0 10px 0;
     border-bottom: #e6e6e6 1px solid;
 }
 

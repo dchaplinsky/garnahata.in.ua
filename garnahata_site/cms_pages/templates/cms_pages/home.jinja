@@ -9,7 +9,7 @@
 
 {% block content %}
 <div class="row">
-    <a id="scrollToMe"></a> 
+    <a id="home" class="ownerAnchor"></a> 
     <section id="main" class="col col-lg-8">
         {% if hp_news %}
         <div id="topNews">
@@ -46,6 +46,13 @@
             <div id="latestAdresses" class="collapse in" aria-expanded="true">
                 {% for address in latest_addresses[:8] %}
                 <div class="media">
+                    {% if address.photo %}
+                        <div class="media-left">
+                            <a href="{{ address.url }}">
+                                <img class="media-object media64" src="{{ address.photo|thumbnail_url("address_thumbnail") }}" alt="{{ address.title }}">
+                            </a>
+                        </div>
+                    {% endif %}
                     <div class="media-body">
                         <h5 class="media-heading" id="middle-aligned-media">
                             <a class="anchorjs-link" href="{{ address.get_absolute_url() }}">{{ address.title }}</a>
