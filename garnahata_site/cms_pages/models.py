@@ -1,16 +1,29 @@
 # coding: utf-8
+import json
 from django.db import models
 
-from modelcluster.fields import ParentalKey
-
+from django.core.urlresolvers import reverse
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailsearch import index
+from wagtail.wagtailadmin import widgets
+
 from wagtail.wagtailadmin.edit_handlers import (
     InlinePanel, FieldPanel, PageChooserPanel)
 
+from modelcluster.fields import ParentalKey
+from modelcluster.tags import ClusterTaggableManager
+from taggit.models import TaggedItemBase
+
 from catalog.models import Address
+
+
+class AdminMultiTagWidget(widgets.AdminTagWidget):
+    def render_js_init(self, id_, name, value):
+        return "$('#' + {0}).tagit({{autocomplete: {{source: {1}}}, allowSpaces: true}});".format(
+            json.dumps(id_),
+            json.dumps(reverse('wagtailadmin_tag_autocomplete')))
 
 
 class AbstractJinjaPage(object):
@@ -47,6 +60,11 @@ RawHTMLPage.content_panels = [
 ]
 
 
+class BlogPageTag(TaggedItemBase):
+    content_object = ParentalKey(
+        'cms_pages.NewsPage', related_name='tagged_items')
+
+
 class NewsPage(AbstractJinjaPage, Page):
     lead = RichTextField(verbose_name="Лід", blank=True)
     body = RichTextField(verbose_name="Текст новини")
@@ -58,6 +76,8 @@ class NewsPage(AbstractJinjaPage, Page):
                                  default=False)
     important = models.BooleanField(verbose_name="Важлива новина",
                                     default=False)
+
+    tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
 
     image = models.ForeignKey(
         'wagtailimages.Image',
@@ -86,6 +106,7 @@ NewsPage.content_panels = [
     FieldPanel('important', classname="full"),
     FieldPanel('reprint', classname="full"),
     ImageChooserPanel('image'),
+    FieldPanel('tags', widget=AdminMultiTagWidget),
 ]
 
 
