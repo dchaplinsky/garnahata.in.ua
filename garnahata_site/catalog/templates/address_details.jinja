@@ -3,7 +3,6 @@
 {% from "macros/_ownership.jinja" import render_property %}
 
 {% block content %}
-        
         <div class="col">
             <h1>{{ address.title }}</h1>
             <h2>{{ address.get_city_display() }}, {{ address.address }} {{ address.cadastral_number }}</h2>    
@@ -47,7 +46,9 @@
                         </thead>
                         <tbody>
                             {% for group in ownerships|groupby('prop_id') %}
-                                {{ render_property(group.list, "active" if loop.index is divisibleby(2) else False) }}
+                                {{ render_property(group.list, 
+                                                   "active" if loop.index is divisibleby(2) else False,
+                                                   tags) }}
                             {% endfor %}
                         </tbody>
                     </table>

@@ -1,10 +1,10 @@
-{% macro render_property(list_of_ownerships, classname="") %}
+{% macro render_property(list_of_ownerships, classname="", tags={}) %}
 	{% for ownership in list_of_ownerships %}
-	{{ render_ownership(ownership, classname )}}
+	{{ render_ownership(ownership, classname, tags=tags)}}
 	{% endfor %}
 {% endmacro %}
 
-{% macro render_ownership(ownership, classname="", with_link=False) %}
+{% macro render_ownership(ownership, classname="", with_link=False, tags={}) %}
 	<tr{% if classname %} class="{{ classname }}"{% endif %}>
 		<td class="ownerCol-1">
 			{% if with_link %}
@@ -12,6 +12,9 @@
 			{% else %}
 				<span class="ownershipOwner">{{ ownership.owner }}</span>
 			{% endif %}
+            {% if ownership.owner.lower() in tags %}
+            <a href="#">&#x1f517;</a>
+            {% endif %}
 		</td>
 		<td class="ownerCol-2">
             <a class="ownerAnchor" name="ownership_{{ ownership.pk }}"></a>
@@ -19,7 +22,6 @@
             {% if ownership.share %}
                 <br> частка: {{ ownership.share }}
             {% endif %}
-            
         </td>
         <td class="ownerCol-3">
             {% if ownership.registered %}

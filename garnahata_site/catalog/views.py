@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 
+from cms_pages.models import NewsPageTag
 from catalog.models import Address, Ownership
 from catalog.elastic_models import (
     Ownership as ElasticOwnership,
@@ -41,11 +42,20 @@ def address_details(request, slug):
         Address, slug=slug
     )
 
+    # Todo: cache
+    tags = {t["tag__name"].lower(): {
+            "slug": t["tag__slug"],
+            "name": t["tag__name"]}
+
+            for t in NewsPageTag.objects.select_related("tag").values(
+        "tag__slug", "tag__name")}
+
     return render(
         request,
         "address_details.jinja",
         {
             "address": address,
+            "tags": tags,
             "ownerships": Ownership.objects.filter(prop__address=address)
         }
     )

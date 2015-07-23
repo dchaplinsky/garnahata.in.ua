@@ -60,7 +60,7 @@ RawHTMLPage.content_panels = [
 ]
 
 
-class BlogPageTag(TaggedItemBase):
+class NewsPageTag(TaggedItemBase):
     content_object = ParentalKey(
         'cms_pages.NewsPage', related_name='tagged_items')
 
@@ -77,7 +77,7 @@ class NewsPage(AbstractJinjaPage, Page):
     important = models.BooleanField(verbose_name="Важлива новина",
                                     default=False)
 
-    tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
+    tags = ClusterTaggableManager(through=NewsPageTag, blank=True)
 
     image = models.ForeignKey(
         'wagtailimages.Image',
