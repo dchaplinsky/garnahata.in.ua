@@ -13,11 +13,7 @@
 				<span class="ownershipOwner">{{ ownership.owner }}</span>
 			{% endif %}
             {% if ownership.owner.lower() in tags %}
-                {% for key,value in tags.items() %}
-                    {% if key == ownership.owner.lower() %}
-                        <a href = {{ url('news_details',slug = value.slug ) }}>&#x1f517;</a>
-                    {% endif %}
-                {% endfor %}
+                <a href = {{ url('cms_pages:tag_news',slug = tags[ownership.owner.lower()].slug ) }}>&#x1f517;</a>
             {% endif %}
 		</td>
 		<td class="ownerCol-2">
