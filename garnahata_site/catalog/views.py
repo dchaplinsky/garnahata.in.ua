@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect, Http404
 
 from cms_pages.models import NewsPageTag
 from catalog.models import Address, Ownership
@@ -13,7 +13,7 @@ from cms_pages.models import NewsPage
 
 def suggest(request):
     search = ElasticOwnership.search()\
-        .suggest(
+        .suggest(   
             'name',
             request.GET.get('q', ''),
             completion={
@@ -59,6 +59,30 @@ def address_details(request, slug):
             "ownerships": Ownership.objects.filter(prop__address=address)
         }
     )
+
+def news_details(request,slug):
+    if slug:
+        news_results = NewsPage.objects.all()
+        print (news_results)
+        news_results = news_results.filter(tags__slug=slug)
+        print (news_results)
+        if not news_results:
+            raise Http404("No News posts for that tag are found.")
+        else:
+            if len(news_results) == 1:
+                return render(request,"cms_pages/news_page.jinja",
+                                {
+                                    'page': news_results[0],
+                                 }
+                        )
+    return render(
+        request,
+        "news_details.jinja",
+        {
+            'news_results': news_results,
+        }
+    )
+
 
 
 def addresses_by_city(request):

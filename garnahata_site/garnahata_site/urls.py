@@ -14,6 +14,9 @@ urlpatterns = patterns(
     url(r'^a/(?P<slug>.+)$', 'catalog.views.address_details',
         name='address_details'),
 
+    url(r'^tag/(?P<slug>.+)$', 'catalog.views.news_details',
+        name='news_details'),
+
     url(r'^latest$', 'catalog.views.latest_addresses',
         name='latest_addresses'),
 
