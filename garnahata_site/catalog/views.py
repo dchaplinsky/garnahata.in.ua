@@ -13,7 +13,7 @@ from cms_pages.models import NewsPage
 
 def suggest(request):
     search = ElasticOwnership.search()\
-        .suggest(   
+        .suggest(
             'name',
             request.GET.get('q', ''),
             completion={
