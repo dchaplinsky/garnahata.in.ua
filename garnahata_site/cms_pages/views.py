@@ -15,7 +15,7 @@ def tag_news(request,slug):
     
     return render(
         request,
-        "news_details.jinja",
+        "cms_pages/news_details.jinja",
         {
             'news_results': news_results,
         }
