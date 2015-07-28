@@ -1,0 +1,9 @@
+{% extends "base.jinja" %}
+
+{% from "macros/_news.jinja" import render_news %}
+
+{% block content %}
+    {% for news in news_results %}
+        {{ render_news(news) }}
+    {% endfor %}
+{% endblock %}
