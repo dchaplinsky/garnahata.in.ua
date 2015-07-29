@@ -5,9 +5,12 @@
 {% block content %}
         <div class="col">
             <h1>{{ address.title }}</h1>
-            <h2>{{ address.get_city_display() }}, {{ address.address }} {{ address.cadastral_number }}</h2>    
+            <h2>{{ address.get_city_display() }}, {{ address.address }} {{ address.cadastral_number }}</h2>
+
+            {{ address.description|safe }}
         </div>
         
+        {% if address.photo or address.coordinates %}
         <div class="container mt">
                 <div class="row">
                     {% if address.photo %}
@@ -15,16 +18,18 @@
                         <div class="imgResponsiveHeightContainer">
                             <img class="imgResponsiveHeight" src="{{ address.photo|thumbnail_url("address_thumbnail") }}"/>
                         </div>
-                    </section>                    
-                    <section id="bigMap" data-geojson="{{ [address.map_marker()]|jsonify }}" class="geojson-container col-sm-8">
-                    {% else %}
-                    <section id="bigMap" data-geojson="{{ [address.map_marker()]|jsonify }}" class="geojson-container col-sm-12">
+                    </section>
                     {% endif %}
+                    
+                    {% if address.coordinates %}
+                    <section id="bigMap" data-geojson="{{ [address.map_marker()]|jsonify }}" class="geojson-container {% if address.photo %}col-sm-8{% else %}col-sm-12{% endif %}">
                         <h2 class="green text-center">Map of uncovered property (national level)</h2>
                         {{ leaflet_map("yourmap") }}
                     </section>
+                    {% endif %}
             </div>
        </div>
+       {% endif %}
        
         <section id="main" class="col col-sm-12 objectAdress">
             <article>

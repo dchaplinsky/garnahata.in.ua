@@ -26,19 +26,19 @@
         {% endif %}
 
         <div class="row">
+            {% if addresses %}
             <div class="col col-xl-3 col-lg-3" id="searchAdresses">
-                {% if addresses %}
-                    <h2 class="green rounded">Адреси</h2>
-                    <div>
-                    {% for address in addresses %}
-                        {{ render_address(address) }}                    
-                    {% endfor %}
-                    </div>
-                {% endif %}
+                <h2 class="green rounded">Адреси</h2>
+                <div>
+                {% for address in addresses %}
+                    {{ render_address(address) }}
+                {% endfor %}
+                </div>
             </div>
+            {% endif %}
             
+            {% if news_results %}
             <div class="col col-lg-8">
-                {% if news_results %}{% endif %}
                 <h2>Новини</h2>
                 <div id="newsMassonry" class="massonry">
                     <div class="grid-sizer"></div>
@@ -47,8 +47,9 @@
                             {{ render_news(news) }}
                         {% endfor %}
                     </div>
-                </div>             
+                </div>
             </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

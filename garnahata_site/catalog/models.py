@@ -11,6 +11,7 @@ from djgeojson.fields import PointField
 from openpyxl import load_workbook
 from dateutil.parser import parse
 
+from tinymce import models as tinymce_models
 from catalog.exc import ImportException
 
 
@@ -171,6 +172,8 @@ class Address(models.Model):
 
     title = models.CharField(
         "Коротка адреса", max_length=150)
+
+    description = tinymce_models.HTMLField("Опис об'єкта", default="")
 
     slug = models.SlugField("slug", max_length=200)
 
