@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 
 from djgeojson.fields import PointField
 from openpyxl import load_workbook
+from dateutil.parser import parse
 
 from catalog.exc import ImportException
 
@@ -285,6 +286,12 @@ class Address(models.Model):
                         % i)
 
                 owner = prev_owner
+
+            if isinstance(registered, str) and registered:
+                registered = parse(registered, dayfirst=True)
+
+            if isinstance(mortgage_registered, str) and mortgage_registered:
+                mortgage_registered = parse(mortgage_registered, dayfirst=True)
 
             Ownership(
                 prop=curr_property,
