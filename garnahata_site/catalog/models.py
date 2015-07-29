@@ -320,10 +320,14 @@ class Address(models.Model):
         return total_imported
 
     def map_marker(self):
-        return {
-            # WTF!?
-            "coords": self.coords["coordinates"][::-1],
-            "title": self.title,
-            "commercial_name": self.commercial_name,
-            "href": self.get_absolute_url()
-        }
+        if self.coords:
+            return {
+                # WTF!?
+                "coords": self.coords["coordinates"][::-1],
+                "title": self.title,
+                "commercial_name": self.commercial_name,
+                "href": self.get_absolute_url()
+            }
+        else:
+            return ""
+
