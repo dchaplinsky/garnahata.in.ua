@@ -11,23 +11,16 @@ from catalog.elastic_models import (
 class Command(BaseCommand):
     def handle(self, *args, **options):
         ElasticAddress.init()
-        counter = 0
-        for p in Address.objects.all():
-            item = ElasticAddress(**p.to_dict())
-            item.save()
-            counter += 1
+
+        Address.objects.all().reindex()
 
         self.stdout.write(
-            'Loaded {} addresses to persistence storage'.format(counter))
+            'Loaded {} addresses to persistence storage'.format(
+                Address.objects.count()))
 
         ElasticOwnership.init()
-        counter = 0
-        for p in Ownership.objects.all():
-            item = ElasticOwnership(**p.to_dict(
-                include_address=True, include_name_alternatives=True
-            ))
-            item.save()
-            counter += 1
+        Ownership.objects.all().reindex()
 
         self.stdout.write(
-            'Loaded {} ownerships to persistence storage'.format(counter))
+            'Loaded {} ownerships to persistence storage'.format(
+                Ownership.objects.count()))

@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     'wagtail.wagtailsearch',
     'wagtail.wagtailredirects',
     'wagtail.wagtailforms',
+    'tinymce',
 
     'catalog',
     'cms_pages',

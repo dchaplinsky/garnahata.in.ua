@@ -6,16 +6,33 @@ from django.db import transaction
 from django.forms.models import model_to_dict
 from django.utils import timezone
 from django.core.urlresolvers import reverse
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
+
+from tinymce import models as tinymce_models
 from djgeojson.fields import PointField
 from openpyxl import load_workbook
 from dateutil.parser import parse
 
-from tinymce import models as tinymce_models
 from catalog.exc import ImportException
+from catalog.elastic_models import (
+    Address as ElasticAddress,
+    Ownership as ElasticOwnership
+)
+
+
+class OwnershipsQuerySet(models.QuerySet):
+    def reindex(self):
+        for p in self:
+            item = ElasticOwnership(**p.to_dict(
+                include_address=True, include_name_alternatives=True))
+            item.save()
 
 
 class Ownership(models.Model):
+    objects = OwnershipsQuerySet.as_manager()
+
     owner = models.TextField("Власник")
     asset = models.TextField("Властивості нерухомості")
     registered = models.DateTimeField("Дата реєстрації", blank=True, null=True)
@@ -162,18 +179,24 @@ KOATUU = {
 }
 
 
-class MarkersQuerySet(models.QuerySet):
+class AddressesQuerySet(models.QuerySet):
     def map_markers(self):
         return [res.map_marker() for res in self if res.coords]
 
+    def reindex(self):
+        for p in self:
+            item = ElasticAddress(**p.to_dict())
+            item.save()
+
 
 class Address(models.Model):
-    objects = MarkersQuerySet.as_manager()
+    objects = AddressesQuerySet.as_manager()
 
     title = models.CharField(
         "Коротка адреса", max_length=150)
 
-    description = tinymce_models.HTMLField("Опис об'єкта", default="")
+    description = tinymce_models.HTMLField(
+        "Опис об'єкта", default="", blank=True)
 
     slug = models.SlugField("slug", max_length=200)
 
@@ -230,8 +253,8 @@ class Address(models.Model):
         Convert Address model to an indexable presentation for ES.
         """
         d = model_to_dict(self, fields=[
-            "id", "title", "address", "cadastral_number", "city",
-            "commercial_name", "link", "coords", "date_added"])
+            "id", "title", "description", "address", "cadastral_number",
+            "city", "commercial_name", "link", "coords", "date_added"])
 
         properties = []
         for prop in self.property_set.all():
@@ -334,3 +357,8 @@ class Address(models.Model):
         else:
             return ""
 
+
+@receiver(post_save, sender=Address)
+def reindex_addresses(sender, **kwargs):
+    Address.objects.all().reindex()
+    Ownership.objects.all().reindex()
