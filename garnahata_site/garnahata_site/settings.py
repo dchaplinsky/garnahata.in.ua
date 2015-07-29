@@ -103,7 +103,7 @@ WAGTAILSEARCH_BACKENDS = {
         'BACKEND':
             'wagtail.wagtailsearch.backends.elasticsearch.ElasticSearch',
         'URLS': ['http://localhost:9200'],
-        'INDEX': 'garnahata',
+        'INDEX': 'garnahata_cms',
         'TIMEOUT': 5,
     }
 }

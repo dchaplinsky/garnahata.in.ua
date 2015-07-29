@@ -99,7 +99,8 @@ class Ownership(models.Model):
         return d
 
     def get_absolute_url(self):
-        return self.prop.address.get_absolute_url() + ("#ownership_%s" % self.pk)
+        return self.prop.address.get_absolute_url() + (
+            "#ownership_%s" % self.pk)
 
     @property
     def url(self):
@@ -162,7 +163,7 @@ KOATUU = {
 
 class MarkersQuerySet(models.QuerySet):
     def map_markers(self):
-        return [res.map_marker() for res in self]
+        return [res.map_marker() for res in self if res.coords]
 
 
 class Address(models.Model):
