@@ -128,6 +128,10 @@ class Ownership(models.Model):
         verbose_name = u"Власник"
         verbose_name_plural = u"Власники"
 
+        index_together = [
+            ["id", "prop", "owner"],
+        ]
+
 
 class Property(models.Model):
     address = models.ForeignKey("Address", verbose_name="Адреса")
@@ -211,7 +215,8 @@ class Address(models.Model):
         max_length=25)
 
     city = models.IntegerField(
-        "Місто", default=80, choices=sorted(KOATUU.items(), key=lambda x: x[1]))
+        "Місто", default=80,
+        choices=sorted(KOATUU.items(), key=lambda x: x[1]))
 
     commercial_name = models.CharField(
         "Назва комплексу або району", max_length=150, blank=True)

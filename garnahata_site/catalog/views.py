@@ -56,7 +56,8 @@ def address_details(request, slug):
         {
             "address": address,
             "tags": tags,
-            "ownerships": Ownership.objects.filter(prop__address=address).order_by("prop__id", "owner")
+            "ownerships": Ownership.objects.filter(
+                prop__address=address).order_by("prop_id", "owner", "pk")
         }
     )
 
