@@ -1,12 +1,13 @@
 {% macro render_property(list_of_ownerships, classname="", tags={}) %}
 	{% for ownership in list_of_ownerships %}
-	{{ render_ownership(ownership, classname, tags=tags)}}
+	{{ render_ownership(ownership, classname, tags=tags, rowspan=list_of_ownerships|length if loop.first else 0 )}}
 	{% endfor %}
 {% endmacro %}
 
-{% macro render_ownership(ownership, classname="", with_link=False, tags={}) %}
+{% macro render_ownership(ownership, classname="", with_link=False, tags={}, rowspan=1) %}
 	<tr{% if classname %} class="{{ classname }}"{% endif %}>
-		<td class="ownerCol-1">
+        {% if rowspan %}
+		<td class="ownerCol-1" rowspan="{{ rowspan }}">
 			{% if with_link %}
 				<a href="{{ ownership.url }}">{{ ownership.owner }}</a>
 			{% else %}
@@ -16,6 +17,7 @@
                 <a href = {{ url('cms_pages:tag_news',slug = tags[ownership.owner.lower()].slug ) }}>&#x1f517;</a>
             {% endif %}
 		</td>
+        {% endif %}
 		<td class="ownerCol-2">
             <a class="ownerAnchor" name="ownership_{{ ownership.pk }}"></a>
             <span class="ownershipAsset">{{ ownership.asset }}</span>
@@ -25,7 +27,7 @@
         </td>
         <td class="ownerCol-3">
             {% if ownership.registered %}
-                {{ ownership.registered }}<br> 
+                {{ ownership.registered|date }}<br> 
             {% endif %}
             
             {% if ownership.ownership_ground %}
