@@ -1,22 +1,27 @@
 {% macro render_property(list_of_ownerships, classname="", tags={}) %}
+    {% set owner = "" %}
 	{% for ownership in list_of_ownerships %}
-	{{ render_ownership(ownership, classname, tags=tags, rowspan=list_of_ownerships|length if loop.first else 0 )}}
+	{{ render_ownership(ownership, classname, tags=tags, hide_owner=(owner==ownership.owner))}}
+    {% set owner = ownership.owner %}
 	{% endfor %}
 {% endmacro %}
 
-{% macro render_ownership(ownership, classname="", with_link=False, tags={}, rowspan=1) %}
+{% macro render_ownership(ownership, classname="", with_link=False, tags={}, hide_owner=False) %}
 	<tr{% if classname %} class="{{ classname }}"{% endif %}>
-        {% if rowspan %}
-		<td class="ownerCol-1" rowspan="{{ rowspan }}">
-			{% if with_link %}
-				<a href="{{ ownership.url }}">{{ ownership.owner }}</a>
-			{% else %}
-				<span class="ownershipOwner">{{ ownership.owner }}</span>
-			{% endif %}
-            {% if ownership.owner.lower() in tags %}
-                <a href = {{ url('cms_pages:tag_news',slug = tags[ownership.owner.lower()].slug ) }}>&#x1f517;</a>
-            {% endif %}
-		</td>
+        {% if not hide_owner %}
+    		<td class="ownerCol-1">
+    			{% if with_link %}
+    				<a href="{{ ownership.url }}">{{ ownership.owner }}</a>
+    			{% else %}
+    				<span class="ownershipOwner">{{ ownership.owner }}</span>
+    			{% endif %}
+                {% if ownership.owner.lower() in tags %}
+                    <a href = {{ url('cms_pages:tag_news', slug = tags[ownership.owner.lower()].slug ) }}>&#x1f517;</a>
+                {% endif %}
+    		</td>
+        {% else %}
+            <td class="ownerCol-1 hidden_cell">
+            </td>
         {% endif %}
 		<td class="ownerCol-2">
             <a class="ownerAnchor" name="ownership_{{ ownership.pk }}"></a>

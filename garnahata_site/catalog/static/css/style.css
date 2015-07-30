@@ -562,3 +562,7 @@ td.emptyTd {/* border: none !important; padding: 0 !important; display: none; */
 .bigMapPage .leaflet-container-default {
     height: 100%;
 }
+
+td.hidden_cell {
+    border: none!important;
+}

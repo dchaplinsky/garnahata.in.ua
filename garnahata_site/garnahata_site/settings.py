@@ -249,6 +249,7 @@ COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_libsass.SassCompiler'),
 )
 
+DATE_FORMAT = "d.m.Y"
 LOGIN_URL = "/admin/login/"
 WAGTAIL_SITE_NAME = 'GarnaHata!'
 

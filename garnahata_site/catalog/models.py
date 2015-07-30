@@ -149,8 +149,9 @@ class Property(models.Model):
 
 
 KOATUU = {
-    1: "Сімферополь",
     5: "Вінниця",
+    80: "м. Київ",
+    1: "Сімферополь",
     7: "Луцьк",
     12: "Дніпропетровськ",
     14: "Донецьк",
@@ -158,7 +159,7 @@ KOATUU = {
     21: "Ужгород",
     23: "Запоріжжя",
     26: "Івано-Франківськ",
-    32: "Київ",
+    32: "Київська область",
     35: "Кіровоград",
     44: "Луганськ",
     46: "Львів",
@@ -174,7 +175,6 @@ KOATUU = {
     71: "Черкаси",
     73: "Чернівці",
     74: "Чернігів",
-    80: "Київ",
     85: "Севастополь"
 }
 
@@ -211,7 +211,7 @@ class Address(models.Model):
         max_length=25)
 
     city = models.IntegerField(
-        "Місто", default=80, choices=KOATUU.items())
+        "Місто", default=80, choices=sorted(KOATUU.items(), key=lambda x: x[1]))
 
     commercial_name = models.CharField(
         "Назва комплексу або району", max_length=150, blank=True)
