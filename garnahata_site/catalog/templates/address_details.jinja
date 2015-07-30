@@ -9,9 +9,13 @@
             <h2>{{ address.get_city_display() }}, {{ address.address }} {{ address.cadastral_number }}</h2>
             {% endif %}
             {% if address.commercial_name %}
-            <h2>{{ address.commercial_name }}</h2>
+            <h3>{{ address.commercial_name }}</h3>
             {% endif %}
             {{ address.description|safe }}
+
+            {% if address.link %}
+                <h5><a href="{{ address.link }}" rel="nofollow" target="_blank">Додаткова інформація</a></h5>
+            {% endif %}
         </div>
         
         {% if address.photo or address.coords %}
@@ -39,10 +43,6 @@
        
         <section id="main" class="col col-sm-12 objectAdress">
             <article>
-                {% if address.link %}
-                    <h3><a href="{{ address.link }}" rel="nofollow" target="_blank">Додаткова інформація</a></h3>
-                {% endif %}
-                
                 <div class="table-responsive">
                     <table class="table objectAdressTable">
                         <thead>
