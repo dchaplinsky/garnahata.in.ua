@@ -90,26 +90,28 @@ class Ownership(models.Model):
             first_name = ""
             patronymic = ""
             name_parts = d["owner"].split(None, 3)
-            last_name = name_parts[0]
 
-            if len(name_parts) > 1:
-                first_name = name_parts[1]
+            if name_parts:
+                last_name = name_parts[0]
 
-            if len(name_parts) > 2:
-                patronymic = name_parts[2]
+                if len(name_parts) > 1:
+                    first_name = name_parts[1]
 
-            d["full_name_suggest"] = {
-                "input": [
-                    u" ".join([last_name, first_name,
-                               patronymic]),
-                    u" ".join([first_name,
-                               patronymic,
-                               last_name]),
-                    u" ".join([first_name,
-                               last_name])
-                ],
-                "output": d["owner"]
-            }
+                if len(name_parts) > 2:
+                    patronymic = name_parts[2]
+
+                d["full_name_suggest"] = {
+                    "input": [
+                        u" ".join([last_name, first_name,
+                                   patronymic]),
+                        u" ".join([first_name,
+                                   patronymic,
+                                   last_name]),
+                        u" ".join([first_name,
+                                   last_name])
+                    ],
+                    "output": d["owner"]
+                }
 
         d["_id"] = d["id"]
         d["url"] = self.url
@@ -304,6 +306,7 @@ class Address(models.Model):
 
             if not any(row):
                 prev_is_blank = True
+                prev_owner = ""
                 continue
 
             if prev_is_blank:
@@ -312,11 +315,6 @@ class Address(models.Model):
                 prev_is_blank = False
 
             if not owner:
-                if not prev_owner:
-                    raise ImportException(
-                        "В строці %s й попередніх до неї не вказан власник"
-                        % i)
-
                 owner = prev_owner
 
             if isinstance(registered, str) and registered:
