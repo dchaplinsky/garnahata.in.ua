@@ -213,6 +213,7 @@ THUMBNAIL_ALIASES = {
         'homepage_news': {'size': (782, 394), 'crop': True},
         'news_thumbnail': {'size': (243, 450), 'crop': False},
         'address_thumbnail': {'size': (475, 336), 'crop': True},
+        'small_thumbnail': {'size': (64, 64), 'crop': True},
     },
 }
 

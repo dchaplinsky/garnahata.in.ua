@@ -58,7 +58,7 @@
                     {% if address.photo %}
                         <div class="media-left">
                             <a href="{{ address.url }}">
-                                <img class="media-object media64" src="{{ address.photo|thumbnail_url("address_thumbnail") }}" alt="{{ address.title }}">
+                                <img class="media-object media64" src="{{ address.photo|thumbnail_url("small_thumbnail") }}" alt="{{ address.title }}">
                             </a>
                         </div>
                     {% endif %}
