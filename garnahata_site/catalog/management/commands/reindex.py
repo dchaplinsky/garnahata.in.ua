@@ -11,15 +11,14 @@ from catalog.elastic_models import (
 class Command(BaseCommand):
     def handle(self, *args, **options):
         ElasticAddress.init()
-
-        Address.objects.all().reindex()
+        Address.objects.reindex()
 
         self.stdout.write(
             'Loaded {} addresses to persistence storage'.format(
                 Address.objects.count()))
 
         ElasticOwnership.init()
-        Ownership.objects.all().reindex()
+        Ownership.objects.select_related("prop__address").reindex()
 
         self.stdout.write(
             'Loaded {} ownerships to persistence storage'.format(

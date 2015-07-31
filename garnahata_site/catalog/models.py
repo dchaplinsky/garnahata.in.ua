@@ -15,7 +15,6 @@ from djgeojson.fields import PointField
 from openpyxl import load_workbook
 from dateutil.parser import parse
 
-from catalog.exc import ImportException
 from catalog.elastic_models import (
     Address as ElasticAddress,
     Ownership as ElasticOwnership
@@ -361,7 +360,7 @@ class Address(models.Model):
             return ""
 
 
-@receiver(post_save, sender=Address)
+# @receiver(post_save, sender=Address)
 def reindex_addresses(sender, **kwargs):
     Address.objects.all().reindex()
-    Ownership.objects.all().reindex()
+    Ownership.objects.select_related("prop__address").reindex()
