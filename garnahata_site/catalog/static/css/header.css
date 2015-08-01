@@ -35,6 +35,29 @@
     text-transform: uppercase;
 }
 
+#intro .header-content .header-content-inner p.nm {
+    margin-bottom: 10px
+}
+
+#intro .header-content .header-content-inner p a {
+    color: white;
+}
+
+#intro .header-content .header-content-inner .clogos {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+#intro .header-content .header-content-inner .clogos_cs {
+    width: 42px;
+    background: url(../images/sc-logo-front.png) no-repeat -42px 0;
+}
+
+#intro .header-content .header-content-inner .clogos_cs:hover {
+     background-position: 0 0;
+}
+
+
 #intro {
     position: absolute;
     top: 0;
