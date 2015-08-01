@@ -65,6 +65,22 @@
         adjust_margin();
         bigMap();
     });
+    
+    $( document ).ready(function() {
+        $(".overInfo h3").fitText(
+        1.4, {
+            minFontSize: '30px',
+            maxFontSize: '65px'
+        }
+    );
+
+        $(".overInfo h4").fitText(
+            1.4, {
+                minFontSize: '18px',
+                maxFontSize: '24px'
+            }
+        );
+    });
 
     adjust_margin();
     bigMap();
@@ -75,19 +91,7 @@
     });
 
     // Fit Text Plugin for Main Header
-    $(".overInfo h3").fitText(
-        1.2, {
-            minFontSize: '35px',
-            maxFontSize: '65px'
-        }
-    );
-
-    $(".overInfo h4").fitText(
-        1.2, {
-            minFontSize: '18px',
-            maxFontSize: '24px'
-        }
-    );
+    
 
     $(window).on('map:init', function (e) {
         var detail = e.originalEvent ?
@@ -115,5 +119,5 @@
 
         detail.map.addLayer(markers);
         detail.map.fitBounds(markers)
-    });    
+    });
 })(jQuery); // End of use strict

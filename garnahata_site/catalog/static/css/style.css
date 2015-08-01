@@ -116,13 +116,10 @@ a.rounded {
     cursor: pointer;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    /*font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif; */
+h1 {
+    color: #1352e2;
+    text-transform: uppercase;
+    font-size: 40px;
 }
 
 .bc {
@@ -312,11 +309,16 @@ img.media64 {
     margin-top: 5px;
 }
 
+
 #bigMap.frontMap {
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-#bigMap h2 {margin-top: 0;}
+#bigMap h2 {
+    margin-top: 0;
+}
+
 
 .input-rounded {
     -webkit-border-radius: 100px;
@@ -566,3 +568,5 @@ td.emptyTd {/* border: none !important; padding: 0 !important; display: none; */
 td.hidden_cell {
     border: none!important;
 }
+
+#social-likes { margin-top: 20px; margin-bottom: 40px;}
