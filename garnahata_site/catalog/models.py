@@ -1,4 +1,6 @@
 import logging
+from itertools import groupby
+from operator import itemgetter
 
 from django.db import models
 from django.core.validators import RegexValidator
@@ -14,6 +16,9 @@ from tinymce import models as tinymce_models
 from djgeojson.fields import PointField
 from openpyxl import load_workbook
 from dateutil.parser import parse
+from elasticsearch.helpers import streaming_bulk
+from elasticsearch_dsl.connections import connections
+
 
 from catalog.elastic_models import (
     Address as ElasticAddress,
@@ -23,10 +28,17 @@ from catalog.elastic_models import (
 
 class OwnershipsQuerySet(models.QuerySet):
     def reindex(self):
-        for p in self:
-            item = ElasticOwnership(**p.to_dict(
-                include_address=True, include_name_alternatives=True))
-            item.save()
+        conn = connections.get_connection()
+        docs_to_index = [
+            ElasticOwnership(**p.to_dict(include_address=True,
+                             include_name_alternatives=True))
+            for p in self]
+
+        for response in streaming_bulk(
+                conn, ({'_index': getattr(d.meta, 'index', d._doc_type.index),
+                        '_type': d._doc_type.name,
+                        '_source': d.to_dict()} for d in docs_to_index)):
+            pass
 
 
 class Ownership(models.Model):
@@ -113,6 +125,7 @@ class Ownership(models.Model):
                 }
 
         d["_id"] = d["id"]
+        d["prop_id"] = self.prop_id
         d["url"] = self.url
 
         return d
@@ -189,9 +202,16 @@ class AddressesQuerySet(models.QuerySet):
         return [res.map_marker() for res in self if res.coords]
 
     def reindex(self):
-        for p in self:
-            item = ElasticAddress(**p.to_dict())
-            item.save()
+        conn = connections.get_connection()
+        docs_to_index = [
+            ElasticAddress(**p.to_dict())
+            for p in self]
+
+        for response in streaming_bulk(
+                conn, ({'_index': getattr(d.meta, 'index', d._doc_type.index),
+                        '_type': d._doc_type.name,
+                        '_source': d.to_dict()} for d in docs_to_index)):
+            pass
 
 
 class Address(models.Model):
@@ -260,13 +280,19 @@ class Address(models.Model):
         """
         d = model_to_dict(self, fields=[
             "id", "title", "description", "address", "cadastral_number",
-            "city", "commercial_name", "link", "coords", "date_added"])
+            "commercial_name", "link", "coords", "date_added"])
 
-        properties = []
-        for prop in self.property_set.all():
-            properties.append(prop.to_dict())
+        raw_props = [
+            o.to_dict()
+            for o in Ownership.objects.select_related("prop__address").filter(
+                prop__address_id=self.pk).order_by("prop_id")]
+
+        properties = [
+            list(owns)
+            for x, owns in groupby(raw_props, itemgetter("prop_id"))]
 
         d["_id"] = d["id"]
+        d["city"] = self.get_city_display()
         d["properties"] = properties
         d["url"] = self.url
 

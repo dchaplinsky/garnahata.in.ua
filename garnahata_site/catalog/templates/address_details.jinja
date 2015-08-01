@@ -33,7 +33,7 @@
                     
                     {% if address.coords %}
                     <section id="bigMap" data-geojson="{{ [address.map_marker()]|jsonify }}" class="geojson-container {% if address.photo %}col-sm-8{% else %}col-sm-12{% endif %}">
-                        <h2 class="green text-center">Елітне житло України</h2>
+                        <h2 class="green text-center">{{ address.title }}</h2>
                         {{ leaflet_map("yourmap") }}
                     </section>
                     {% endif %}

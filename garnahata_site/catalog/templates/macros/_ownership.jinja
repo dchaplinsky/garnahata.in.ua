@@ -1,5 +1,5 @@
 {% macro render_property(list_of_ownerships, classname="", tags={}) %}
-    {% set owner = "" %}
+    {% set owner = None %}
 	{% for ownership in list_of_ownerships %}
 	{{ render_ownership(ownership, classname, tags=tags, hide_owner=(owner==ownership.owner))}}
     {% set owner = ownership.owner %}
