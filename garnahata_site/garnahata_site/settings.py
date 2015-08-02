@@ -131,7 +131,8 @@ TEMPLATES = [
                 "django.core.context_processors.tz",
                 "django.core.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
-                "cms_pages.context_processors.menu_processor"
+                "cms_pages.context_processors.menu_processor",
+                "cms_pages.context_processors.expose_settings",
             ),
             "extensions": DEFAULT_EXTENSIONS + [
                 "jinja2.ext.do",
@@ -161,7 +162,8 @@ TEMPLATES = [
                 "django.core.context_processors.tz",
                 "django.core.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
-                "cms_pages.context_processors.menu_processor"
+                "cms_pages.context_processors.menu_processor",
+                "cms_pages.context_processors.expose_settings",
             )
         },
         "APP_DIRS": True
