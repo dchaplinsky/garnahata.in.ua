@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.core.management.base import BaseCommand
+from elasticsearch_dsl import Index
+
 from catalog.models import Address, Ownership
 from catalog.elastic_models import (
     Address as ElasticAddress,
@@ -10,6 +12,8 @@ from catalog.elastic_models import (
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        Index(ElasticAddress._doc_type.index).delete(ignore=404)
+
         ElasticAddress.init()
         Address.objects.reindex()
 

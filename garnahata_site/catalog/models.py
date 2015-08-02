@@ -8,15 +8,13 @@ from django.db import transaction
 from django.forms.models import model_to_dict
 from django.utils import timezone
 from django.core.urlresolvers import reverse
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
 
 from tinymce import models as tinymce_models
 from djgeojson.fields import PointField
 from openpyxl import load_workbook
 from dateutil.parser import parse
 from elasticsearch.helpers import streaming_bulk
+from elasticsearch_dsl import Index
 from elasticsearch_dsl.connections import connections
 
 
@@ -388,5 +386,7 @@ class Address(models.Model):
 
 # @receiver(post_save, sender=Address)
 def reindex_addresses(sender, **kwargs):
+    Index(ElasticAddress.META.index).delete(ignore=404)
+
     Address.objects.all().reindex()
     Ownership.objects.select_related("prop__address").reindex()

@@ -3,6 +3,7 @@ from django.http import JsonResponse
 
 from cms_pages.models import NewsPageTag
 from catalog.models import Address, Ownership
+from catalog.api import hybrid_response
 from catalog.paginator import paginated_search
 
 from catalog.elastic_models import (
@@ -105,7 +106,7 @@ def _ownership_search(request):
         ))
 
     return paginated_search(
-        request, ElasticOwnership.search().query("match_all").execute())
+        request, ElasticOwnership.search().query("match_all"))
 
 
 def _addresses_search(request):
@@ -116,7 +117,8 @@ def _addresses_search(request):
             "match", _all={"query": query, "minimum_should_match": "2"}
         ))
 
-    return None
+    return paginated_search(
+        request, ElasticAddress.search().query("match_all"))
 
 
 def _news_search(request):
@@ -128,6 +130,7 @@ def _news_search(request):
         return None
 
 
+@hybrid_response("search.jinja")
 def search(request, sources=["ownerships", "addresses", "news"]):
     query = request.GET.get("q", "")
 
@@ -144,8 +147,4 @@ def search(request, sources=["ownerships", "addresses", "news"]):
     if "news" in sources:
         res["news_results"] = _news_search(request)
 
-    return render(
-        request,
-        "search.jinja",
-        res
-    )
+    return res
