@@ -1,6 +1,7 @@
 {% extends "base.jinja" %}
 
 {% from "macros/_ownership.jinja" import render_address, render_ownership %}
+{% from "macros/_pagination.jinja" import render_pagination with context %}
 {% from "macros/_news.jinja" import render_news %}
 
 {% block content %}
@@ -20,21 +21,35 @@
                 <tbody>
                     {% for ownership in ownerships %}
                     {{ render_ownership(ownership, "active" if loop.index is divisibleby(2) else False, True) }}
-                    {% endfor %}
+                    {% endfor %}                    
                 </tbody>
             </table>
+            {% if ownerships.paginator.num_pages > 1 %}
+            <div class="text-center">
+                <nav>
+                {{ render_pagination(ownerships, url("search_ownerships")) }}
+                </nav>
+            </div>
+            {% endif %}
         {% endif %}
 
         <div class="row">
             {% if addresses %}
-            <div class="col col-xl-3 col-lg-3" id="searchAdresses">
-                <h2 class="green rounded">Адреси</h2>
-                <div>
-                {% for address in addresses %}
-                    {{ render_address(address) }}
-                {% endfor %}
+                <div class="col col-xl-3 col-lg-3" id="searchAdresses">
+                    <h2 class="green rounded">Адреси</h2>
+                    <div>
+                    {% for address in addresses %}
+                        {{ render_address(address) }}
+                    {% endfor %}
+                    </div>
+                    {% if addresses.paginator.num_pages > 1 %}
+                    <div class="text-center">
+                        <nav>
+                        {{ render_pagination(addresses, url("search_addresses")) }}
+                        </nav>
+                    </div>
+                    {% endif %}
                 </div>
-            </div>
             {% endif %}
             
             {% if news_results %}

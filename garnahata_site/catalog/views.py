@@ -3,6 +3,8 @@ from django.http import JsonResponse
 
 from cms_pages.models import NewsPageTag
 from catalog.models import Address, Ownership
+from catalog.paginator import paginated_search
+
 from catalog.elastic_models import (
     Ownership as ElasticOwnership,
     Address as ElasticAddress
@@ -94,31 +96,56 @@ def latest_addresses(request):
     )
 
 
-def search(request):
+def _ownership_search(request):
     query = request.GET.get("q", "")
 
-    news_results = None
-    addresses = None
     if query:
-        # TODO: pagination
-        ownerships = ElasticOwnership.search().query(
+        return paginated_search(request, ElasticOwnership.search().query(
             "match", _all={"query": query, "minimum_should_match": "2"}
-        )[:20].execute()
-        addresses = ElasticAddress.search().query(
-            "match", _all={"query": query, "minimum_should_match": "2"}
-        )[:20].execute()
+        ))
 
-        news_results = NewsPage.objects.search(query)
+    return paginated_search(
+        request, ElasticOwnership.search().query("match_all").execute())
+
+
+def _addresses_search(request):
+    query = request.GET.get("q", "")
+
+    if query:
+        return paginated_search(request, ElasticAddress.search().query(
+            "match", _all={"query": query, "minimum_should_match": "2"}
+        ))
+
+    return None
+
+
+def _news_search(request):
+    query = request.GET.get("q", "")
+
+    if query:
+        return NewsPage.objects.search(query)
     else:
-        ownerships = ElasticOwnership.search().query("match_all").execute()
+        return None
+
+
+def search(request, sources=["ownerships", "addresses", "news"]):
+    query = request.GET.get("q", "")
+
+    res = {
+        "query": query,
+    }
+
+    if "ownerships" in sources:
+        res["ownerships"] = _ownership_search(request)
+
+    if "addresses" in sources:
+        res["addresses"] = _addresses_search(request)
+
+    if "news" in sources:
+        res["news_results"] = _news_search(request)
 
     return render(
         request,
         "search.jinja",
-        {
-            "query": query,
-            "ownerships": ownerships,
-            "news_results": news_results,
-            "addresses": addresses
-        }
+        res
     )

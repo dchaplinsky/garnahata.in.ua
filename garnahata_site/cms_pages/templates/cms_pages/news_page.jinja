@@ -10,12 +10,12 @@
                             <div class="overImage"><img class="img-responsive" src="{{ page.image.file|thumbnail_url("homepage_news") }}" /></div>
                             <div class="overInfo"> <span class="dateInfo">{{ page.date_added|date }}</span>
                                 <h4 class="title">{{ page.title }}</h4>
-                                <ul class="articleTags">
+<!--                                 <ul class="articleTags">
                                     <i class="fa fa-tags"></i>
                                     {% for tag in page.tags.all() %}
                                     <li><a href="#">{{ tag }}</a>{% if not loop.last %},{% endif %}</li>
                                     {% endfor %}
-                                </ul>
+                                </ul> -->
                                 <!-- <div class="newsStats"><span class="commentsCounter"><i class="fa fa-comment-o"></i> 12</span> </div> -->
                             </div>
                             <div class="clr"></div>

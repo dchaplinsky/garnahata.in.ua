@@ -247,7 +247,7 @@ MEDIA_URL = '/media/'
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # Application settings
-CATALOG_PER_PAGE = 30
+CATALOG_PER_PAGE = 20
 
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_libsass.SassCompiler'),

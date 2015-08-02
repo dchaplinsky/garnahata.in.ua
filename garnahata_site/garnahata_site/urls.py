@@ -25,6 +25,12 @@ urlpatterns = patterns(
     url(r'^search$', 'catalog.views.search',
         name='search'),
 
+    url(r'^search_ownerships$', 'catalog.views.search',
+        name='search_ownerships', kwargs={"sources": ["ownerships"]}),
+
+    url(r'^search_addresses$', 'catalog.views.search',
+        name='search_addresses', kwargs={"sources": ["addresses"]}),
+
     url(r'^tinymce/', include('tinymce.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^cms/', include(wagtailadmin_urls)),

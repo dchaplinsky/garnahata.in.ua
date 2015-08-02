@@ -22,7 +22,7 @@ class ElasticPaginator(Paginator):
 
 class ElasticPage(Page):
     def __len__(self):
-        raise NotImplemented
+        return self.paginator.count
 
     def __getitem__(self, index):
         if not isinstance(index, (slice,) + six.integer_types):
