@@ -6,19 +6,27 @@
         $b = $("body");
 
     $("#search-form").typeahead({
-        minLength: 2, 
+        minLength: 2,
         autoSelect: false,
         source: function(query, process) {
-            $.get('/ajax/suggest', {"q": query})
-                .success(function(data){
+            $.get('/ajax/suggest', {
+                    "q": query
+                })
+                .success(function(data) {
                     process(data);
                 })
         },
         matcher: function() {
             // Big guys are playing here
             return true;
+        },
+        afterSelect: function(item) {
+            var form = $("#search-form").closest("form");
+            form.find("input[name=is_exact]").val("on");
+
+            form.submit();
         }
-    })
+    });
 
     $('.massonry').imagesLoaded(function() {
         $('.massonry').masonry({

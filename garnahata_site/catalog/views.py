@@ -100,10 +100,14 @@ def search(request):
     news_results = None
     addresses = None
     if query:
+        # TODO: pagination
         ownerships = ElasticOwnership.search().query(
-            "match", _all=query)[:20].execute()
+            "match", _all={"query": query, "minimum_should_match": "2"}
+        )[:20].execute()
         addresses = ElasticAddress.search().query(
-            "match", _all=query)[:20].execute()
+            "match", _all={"query": query, "minimum_should_match": "2"}
+        )[:20].execute()
+
         news_results = NewsPage.objects.search(query)
     else:
         ownerships = ElasticOwnership.search().query("match_all").execute()
