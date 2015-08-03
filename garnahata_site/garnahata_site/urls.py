@@ -7,14 +7,14 @@ from django.contrib.sitemaps import GenericSitemap
 from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtailadmin import urls as wagtailadmin_urls
 
-from garnahata_site.sitemaps import LatestXML, СitiesXML, NewsXML, AdressXML, HomeXML
+from garnahata_site.sitemaps import MainXML, AdressXML, NewsXML, StaticXML
 
 sitemaps = {
-        'news': NewsXML,
-        'adress': AdressXML,
-        'home': HomeXML,
+    'main': MainXML,
+    'adresses': AdressXML,
+    'news': NewsXML,
+    'static': StaticXML,
 }
-
 
 
 urlpatterns = patterns(
