@@ -207,7 +207,6 @@ PIPELINE_JS = {
             'js/jquery.fittext.js',
             'js/social-likes.min.js',
             'js/garnahata.js',
-            
         ),
         'output_filename': 'js/merged.js',
     }
@@ -228,6 +227,8 @@ LEAFLET_CONFIG = {
     'DEFAULT_ZOOM': 10,
     'MIN_ZOOM': 3,
     'MAX_ZOOM': 18,
+    'TILES': [],
+    'OVERLAYS': [],
 
     'PLUGINS': {
         'markercluster': {
@@ -235,6 +236,10 @@ LEAFLET_CONFIG = {
             'js': 'js/leaflet.markercluster.js',
             'auto-include': True
         },
+        'yandex': {
+            'js': 'js/Yandex.js',
+            'auto-include': True
+        }
     }
 }
 

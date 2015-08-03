@@ -105,7 +105,17 @@
         var detail = e.originalEvent ?
                      e.originalEvent.detail : e.detail,
             data = $(".geojson-container").data("geojson"),
-            markers = new L.MarkerClusterGroup();
+            markers = new L.MarkerClusterGroup(),
+            yndx = new L.Yandex(),
+            yndxs = new L.Yandex('satellite'),
+            cadastre = new L.tileLayer.wms('http://212.26.144.110/geowebcache/service/wms', {
+                maxZoom: 19,
+                layers: 'kadastr',
+                format: 'image/png',
+                transparent: true,
+                hash: "cadastre",
+                overlay:true
+            });
 
         for (var i = data.length - 1; i >= 0; i--) {
             markers.addLayer(
@@ -126,6 +136,12 @@
         };
 
         detail.map.addLayer(markers);
+        detail.map.addLayer(yndx);
+
+        detail.map.layerscontrol.addBaseLayer(yndx, "Яндекс");
+        detail.map.layerscontrol.addBaseLayer(yndxs, "Яндекс Супутник");
+        detail.map.layerscontrol.addOverlay(cadastre, "Кадастр");
+
         detail.map.fitBounds(markers)
     });
 })(jQuery); // End of use strict
