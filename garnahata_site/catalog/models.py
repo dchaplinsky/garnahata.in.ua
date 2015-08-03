@@ -272,6 +272,10 @@ class Address(models.Model):
         verbose_name = u"Адреса"
         verbose_name_plural = u"Адреси"
 
+        index_together = [
+            ["id", "city", "title"],
+        ]
+
     def to_dict(self):
         """
         Convert Address model to an indexable presentation for ES.

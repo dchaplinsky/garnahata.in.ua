@@ -70,7 +70,7 @@ def addresses_by_city(request):
 
     # Because cities are weirdly ordered (according to koatuu), we are
     # using this cheap hack to put Kiev on top.
-    addresses = Address.objects.order_by("-city")
+    addresses = Address.objects.order_by("-city", "title")
 
     return render(
         request,
