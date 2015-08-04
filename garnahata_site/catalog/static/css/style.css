@@ -517,7 +517,19 @@ table.objectAdressTable  {margin-bottom: 40px;}
 table.objectAdressTable td {padding:15px !important;}
 
 .ownershipOwner {font-weight:600;}
-
+.objectAdress .btn-alert {
+    border: #22c064 1px solid;
+    padding: 4px 12px;
+    margin-top: 5px;
+}
+.objectAdress .btn-alert:hover {
+    background: #22c064;
+    color: white;
+}
+.objectAdress .btn-alert span {
+    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: normal;
+}
 td.emptyTd {/* border: none !important; padding: 0 !important; display: none; */} 
 
 .ownerCol-4 .panel-group {min-width: 350px; margin-bottom: 0;}
