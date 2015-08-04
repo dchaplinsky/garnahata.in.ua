@@ -51,10 +51,10 @@ class Ownership(models.Model):
     comment = models.TextField("Коментар", blank=True)
 
     mortgage_registered = models.DateTimeField(
-        "Дата реєстрації іпотекі", blank=True, null=True)
+        "Дата реєстрації іпотеки", blank=True, null=True)
 
     mortgage_charge = models.TextField("Підстава обтяження", blank=True)
-    mortgage_details = models.TextField("Деталі за іпотекой", blank=True)
+    mortgage_details = models.TextField("Деталі за іпотекою", blank=True)
     mortgage_charge_subjects = models.TextField(
         "Суб'єкти обтяження", blank=True)
     mortgage_holder = models.TextField(
