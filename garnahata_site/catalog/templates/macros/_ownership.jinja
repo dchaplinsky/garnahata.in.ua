@@ -18,7 +18,7 @@
 
                 {% for tag in tags.keys() %}
                     {% if tag in ownership.owner.lower() %}
-                        <a href = {{ url('cms_pages:tag_news', slug = tags[tag].slug ) }}>&#x1f517;</a>
+                        <a class="btn btn-alert" href = {{ url('cms_pages:tag_news', slug = tags[tag].slug ) }}><i class="fa fa-user-secret"></i> <span>Є інформація</span></a>
                     {% endif %}
                 {% endfor %}
     		</td>
