@@ -11,17 +11,22 @@ class MainXML(sitemaps.Sitemap):
     changefreq = 'daily'
 
     def items(self):
-        return ['/#home','/latest', '/by_city']
+        pages = (
+            ('wagtail_serve', ['']),
+            ('latest_addresses', ''),
+            ('addresses_by_city', ''),
+        )
+        return [pages[0],pages[1],pages[2]]
 
     def location(self, item):
-        return item
+        return reverse(item[0], args=item[1])
 
 
 class NewsXML(sitemaps.Sitemap):
     changefreq = "daily"
 
     def items(self):
-        return NewsPage.objects.all()
+        return NewsPage.objects.live()
 
     def lastmod(self, obj):
         return obj.date_added
@@ -47,7 +52,7 @@ class StaticXML(sitemaps.Sitemap):
     changefreq = "daily"
 
     def items(self):
-        return StaticPage.objects.all()
+        return StaticPage.objects.live()
 
     def location(self, item):
         return item.url
