@@ -11,12 +11,28 @@
     </section>
 	<div class="col col-sm-3 pull-left pre-scrollable" id="searchAdresses">
 		{% set city = None %}
+        <div class="panel-group" id="byCityAccordion" role="tablist" aria-multiselectable="true">
 		{% for address in addresses %}
 			{% if address.get_city_display() != city %}
-				<h2>{{ address.get_city_display() }}</h2>
-				{% set city = address.get_city_display() %}
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="heading-{{loop.index}}">
+                      <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#byCityAccordion" href="#collapse-{{loop.index}}" aria-expanded="true" aria-controls="collapse-{{loop.index}}">
+                          {{ address.get_city_display() }}                    
+                          {# TODO: show quantity of objects, ex: Kyiv (19) #}
+                        </a>
+                      </h4>
+                    </div>
+    	        {% set city = address.get_city_display() %}
 			{% endif %}
-			{{ render_address(address) }}
+                <div id="collapse-{{loop.index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{{loop.index}}">
+                    <div class="panel-body">
+                        {{ render_address(address) }}
+                    </div>
+                </div>
+            </div>
 		{% endfor %}
+        
+        </div>
 	</div>
 {% endblock %}

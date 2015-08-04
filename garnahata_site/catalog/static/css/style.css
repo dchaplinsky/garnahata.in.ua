@@ -569,4 +569,38 @@ td.hidden_cell {
     border: none!important;
 }
 
-#social-likes { margin-top: 20px; margin-bottom: 40px;}
+#social-likes {
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+.bigMapPage #social-likes {
+    position: absolute;
+    top: auto;
+    bottom: 90px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.bigMapPage #social-likes .social-likes {
+    padding-right: 30px;
+}
+#byCityAccordion .panel,
+#byCityAccordion .panel-heading,
+#byCityAccordion .panel-body{
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+}
+#byCityAccordion .panel-heading {
+    padding: 0;
+    background: none;
+}
+#byCityAccordion .panel-heading a {
+    width: 100%;
+    display: block;
+    padding: 10px 15px;
+    background: #f5f5f5;
+}
+#byCityAccordion .panel-heading a:hover {
+    background: #22c064;
+    color: white;
+}
