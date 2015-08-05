@@ -66,11 +66,7 @@ def address_details(request, slug):
 
 
 def addresses_by_city(request):
-    # TBD: pagination
-
-    # Because cities are weirdly ordered (according to koatuu), we are
-    # using this cheap hack to put Kiev on top.
-    addresses = Address.objects.order_by("-city", "title")
+    addresses = Address.objects.order_by("city", "title")
 
     return render(
         request,
@@ -82,10 +78,6 @@ def addresses_by_city(request):
 
 
 def latest_addresses(request):
-    # TBD: pagination
-
-    # Because cities are weirdly ordered (according to koatuu), we are
-    # using this cheap hack to put Kiev on top.
     addresses = Address.objects.order_by("-date_added")
 
     return render(
