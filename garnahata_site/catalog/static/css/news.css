@@ -55,21 +55,20 @@ h2.green {
 .topNewsContainer {
     overflow: hidden;
     position: relative;
-    height: 390px;
+    margin-bottom: 30px;
 }
 
 .overImage {
     width: 100%;
-    text-align: center;
-    overflow: hidden; /* hide the cropped portion */
-    height: 390px;
+    overflow: hidden;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 1;
 }
 
 .overImage img {
-    position: relative; /* allows repositioning */
-    left: 100%; /* move the whole width of the image to the right */
-    margin-left: -200%; /* magic! */
-    height: 390px;
+    position: relative;
     width:auto;
 }
 
@@ -87,23 +86,22 @@ h2.green {
     color: #1352e2;
 }
 
-.overImage {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-}
-
 .overInfo {
     position: absolute;
-    bottom: 0;
+    top: 0;
     z-index: 2;
     left: 0;
     width: 100%;
     padding: 30px 40px;
     background: url(../images/picoverlay.png) repeat-x;
     color: #FFFFFF;
-    display:table;
+    height: 100%;
+    text-align: left;
+}
+
+.overInfo div {
+    display: block;
+    width: 100%;
 }
 
 .overInfo > div {display: table-cell; vertical-align:bottom;}

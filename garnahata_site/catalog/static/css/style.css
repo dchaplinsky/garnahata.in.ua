@@ -116,13 +116,10 @@ a.rounded {
     cursor: pointer;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    /*font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif; */
+h1 {
+    color: #1352e2;
+    text-transform: uppercase;
+    font-size: 40px;
 }
 
 .bc {
@@ -312,11 +309,16 @@ img.media64 {
     margin-top: 5px;
 }
 
+
 #bigMap.frontMap {
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-#bigMap h2 {margin-top: 0;}
+#bigMap h2 {
+    margin-top: 0;
+}
+
 
 .input-rounded {
     -webkit-border-radius: 100px;
@@ -515,7 +517,19 @@ table.objectAdressTable  {margin-bottom: 40px;}
 table.objectAdressTable td {padding:15px !important;}
 
 .ownershipOwner {font-weight:600;}
-
+.objectAdress .btn-alert {
+    border: #22c064 1px solid;
+    padding: 4px 12px;
+    margin-top: 5px;
+}
+.objectAdress .btn-alert:hover {
+    background: #22c064;
+    color: white;
+}
+.objectAdress .btn-alert span {
+    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: normal;
+}
 td.emptyTd {/* border: none !important; padding: 0 !important; display: none; */} 
 
 .ownerCol-4 .panel-group {min-width: 350px; margin-bottom: 0;}
@@ -561,4 +575,44 @@ td.emptyTd {/* border: none !important; padding: 0 !important; display: none; */
 
 .bigMapPage .leaflet-container-default {
     height: 100%;
+}
+
+td.hidden_cell {
+    border: none!important;
+}
+
+#social-likes {
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+.bigMapPage #social-likes {
+    position: absolute;
+    top: auto;
+    bottom: 90px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.bigMapPage #social-likes .social-likes {
+    padding-right: 30px;
+}
+#byCityAccordion .panel,
+#byCityAccordion .panel-heading,
+#byCityAccordion .panel-body{
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+}
+#byCityAccordion .panel-heading {
+    padding: 0;
+    background: none;
+}
+#byCityAccordion .panel-heading a {
+    width: 100%;
+    display: block;
+    padding: 10px 15px;
+    background: #f5f5f5;
+}
+#byCityAccordion .panel-heading a:hover {
+    background: #22c064;
+    color: white;
 }

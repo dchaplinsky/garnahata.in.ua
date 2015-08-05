@@ -5,35 +5,44 @@
 {% block content %}
         <div class="col">
             <h1>{{ address.title }}</h1>
-            <h2>{{ address.get_city_display() }}, {{ address.address }} {{ address.cadastral_number }}</h2>    
+            {% if address.address %}
+            <h2>{{ address.get_city_display() }}, {{ address.address }} {{ address.cadastral_number }}</h2>
+            {% endif %}
+            {% if address.commercial_name %}
+            <h3>{{ address.commercial_name }}</h3>
+            {% endif %}
+            {{ address.description|safe }}
+
+            {% if address.link %}
+                <h5><a href="{{ address.link }}" rel="nofollow" target="_blank">Додаткова інформація</a></h5>
+            {% endif %}
         </div>
         
+        {% if address.photo or address.coords %}
         <div class="container mt">
                 <div class="row">
                     {% if address.photo %}
                     <section class="col-sm-4">
                         <div class="imgResponsiveHeightContainer">
+                            <a href="{{ address.photo.url }}" target="_blank">
                             <img class="imgResponsiveHeight" src="{{ address.photo|thumbnail_url("address_thumbnail") }}"/>
+                            </a>
                         </div>
-                    </section>                    
-                    <section id="bigMap" data-geojson="{{ [address.map_marker()]|jsonify }}" class="geojson-container col-sm-8">
-                    {% else %}
-                    <section id="bigMap" data-geojson="{{ [address.map_marker()]|jsonify }}" class="geojson-container col-sm-12">
+                    </section>
                     {% endif %}
-                        <h2 class="green text-center">Map of uncovered property (national level)</h2>
+                    
+                    {% if address.coords %}
+                    <section id="bigMap" data-geojson="{{ [address.map_marker()]|jsonify }}" class="geojson-container {% if address.photo %}col-sm-8{% else %}col-sm-12{% endif %}">
+                        <h2 class="green text-center">{{ address.title }}</h2>
                         {{ leaflet_map("yourmap") }}
                     </section>
+                    {% endif %}
             </div>
        </div>
+       {% endif %}
        
         <section id="main" class="col col-sm-12 objectAdress">
             <article>
-                {% if address.link %}
-                    <h3><a href="{{ address.link }}" rel="nofollow" target="_blank">{{ address.commercial_name }}</a></h3>
-                {% else %}
-                    <h3>{{ address.commercial_name }}</h3>
-                {% endif %}
-                
                 <div class="table-responsive">
                     <table class="table objectAdressTable">
                         <thead>

@@ -1,10 +1,11 @@
 from functools import wraps
 
-from elasticsearch_dsl.result import Response
-from elasticsearch_dsl.utils import AttrDict, AttrList, ObjectBase
-
 from django.http import JsonResponse
 from django.shortcuts import render
+
+from elasticsearch_dsl.result import Response
+from elasticsearch_dsl.utils import AttrDict, AttrList, ObjectBase
+from wagtail.wagtailsearch.backends.base import BaseSearchResults
 
 
 def serialize_for_api(data):
@@ -15,6 +16,7 @@ def serialize_for_api(data):
     TODO: this is rather ugly, would look better if views/models defined
     transformations explicitly. This is hard to achieve with function-based
     views, so it's pending a CBV move."""
+
     if hasattr(data, 'to_api'):
         return serialize_for_api(data.to_api())
     elif isinstance(data, Response):
@@ -27,6 +29,9 @@ def serialize_for_api(data):
         return {k: serialize_for_api(v) for k, v in data.items()}
     elif isinstance(data, (list, tuple)):
         return list(map(serialize_for_api, data))
+    elif isinstance(data, BaseSearchResults):
+        return None
+
     return data
 
 

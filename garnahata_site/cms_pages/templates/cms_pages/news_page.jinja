@@ -2,20 +2,17 @@
 
 {% block content %}
     <div class="row">
-        <section id="main" class="col col-lg-8">
+        <section id="main" class="col col-sm-8">
             <article>
                 <header>
                     <div id="topNews">
                         <div class="topNewsContainer">
-                            <div class="overImage"><img class="img-responsive" src="{{ page.image.file|thumbnail_url("homepage_news") }}" /></div>
-                            <div class="overInfo"> <span class="dateInfo">{{ page.date_added|date }}</span>
-                                <h4 class="title">{{ page.title }}</h4>
-                                <ul class="articleTags">
-                                    <i class="fa fa-tags"></i>
-                                    <li><a href="#">Аваков</a>,</li>
-                                    <li><a href="#">ЖК “Альпійський”</a></li>
-                                </ul>
-                                <div class="newsStats"><span class="commentsCounter"><i class="fa fa-comment-o"></i> 12</span> </div>
+                            <div class="overImage">
+                                <img class="img-responsive" src="{{ page.image.file|thumbnail_url("homepage_news") }}" />
+                                <div class="overInfo">
+                                    <span class="dateInfo">{{ page.date_added|date }}</span>
+                                    <h4 class="title">{{ page.title }}</h4>
+                                </div>
                             </div>
                             <div class="clr"></div>
                         </div>
@@ -23,98 +20,34 @@
                 </header>
                 {{ page.body|richtext }}
             </article>
-            <div id="bigMap">
-                <h2 class="green text-left">ЖК «Альпійський»</h2>
-                <img class="img-responsive img-max" src="{{ static("_tmpContent/_tmp_bigMap2.png") }}" alt="" />
-            </div>
         </section>
 
-        <aside id="sidebar" role="complementary" class="col col-xl-3 col-lg-3">
+        <aside id="sidebar" role="complementary" class="col col-sm-3">
+            {% for tag in page.tags.all() %}
+            {% set related_articles = tag.cms_pages_newspagetag_items.all() %}
+
+            {% if related_articles|length > 1 %}
             <!-- TODO для Андрея: Пусть куки помнит что свернул юзер а что нет? -->
             <div class="block">
-                <h4 class="green rounded"> <a data-toggle="collapse" href="#latestAboutPerson" aria-expanded="true" aria-controls="latestAboutPerson">Аваков:</a> </h4>
+                <h4 class="green rounded"> <a data-toggle="collapse" href="#latestAboutPerson" aria-expanded="true" aria-controls="latestAboutPerson">{{ tag }}:</a> </h4>
                 <div id="latestAboutPerson" class="collapse in" aria-expanded="true">
-                    <div class="media">
-                        <div class="media-left media-middle">
-                            <a href="#"> <img src="{{ static("_tmpContent/s01.png") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
+                    {% for related_article in related_articles %}
+                        {% set article = related_article.content_object %}
+                        {% if article != page %}
+                        <div class="media">
+                            <div class="media-left media-middle">
+                                <a href="{{ article.url }}"> <img src="{{ article.image.file|thumbnail_url("small_thumbnail") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
+                            </div>
+                            <div class="media-body">
+                                <h5 class="media-heading" id="middle-aligned-media"><a class="anchorjs-link" href="{{ article.url }}">{{ article.title }}<span class="anchorjs-icon"></span></a><span>{{ article.date_added|date }}</span></h5>
+                            </div>
                         </div>
-                        <div class="media-body">
-                            <h5 class="media-heading" id="middle-aligned-media">Аваков шось там купив, і дуже дорог<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a><span>20.05.2015</span></h5>
-                        </div>
-                    </div>
-                    <div class="media">
-                        <div class="media-left media-middle">
-                            <a href="#"> <img src="{{ static("_tmpContent/s02.png") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
-                        </div>
-                        <div class="media-body">
-                            <h5 class="media-heading" id="middle-aligned-media">Ми побачили ремонт, та буди дуже вражені<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a><span>20.05.2015</span></h5>
-                        </div>
-                    </div>
-                    <div class="media">
-                        <div class="media-left media-middle">
-                            <a href="#"> <img src="{{ static("_tmpContent/s03.png") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
-                        </div>
-                        <div class="media-body">
-                            <h5 class="media-heading" id="middle-aligned-media">Син Авакова зробив такий дуже дорогий ремонт собі!<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a><span>20.05.2015</span></h5>
-                        </div>
-                    </div>
-                    <!-- Включим когда много будет
-      <a class="more">Більше новин <i class="fa fa-long-arrow-right"></i></a> -->
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
-            <div class="block">
-                <h4 class="green rounded"> <a data-toggle="collapse" href="#latestAboutObject" aria-expanded="true" aria-controls="latestAboutObject">ЖК “Альпійський”:</a> </h4>
-                <div id="latestAboutObject" class="collapse in" aria-expanded="true">
-                    <div class="media">
-                        <div class="media-left media-middle">
-                            <a href="#"> <img src="{{ static("_tmpContent/s01.png") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
-                        </div>
-                        <div class="media-body">
-                            <h5 class="media-heading" id="middle-aligned-media">Аваков шось там купив, і дуже дорог<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a><span>20.05.2015</span></h5>
-                        </div>
-                    </div>
-                    <div class="media">
-                        <div class="media-left media-middle">
-                            <a href="#"> <img src="{{ static("_tmpContent/s02.png") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
-                        </div>
-                        <div class="media-body">
-                            <h5 class="media-heading" id="middle-aligned-media">Ми побачили ремонт, та буди дуже вражені<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a><span>20.05.2015</span></h5>
-                        </div>
-                    </div>
-                    <div class="media">
-                        <div class="media-left media-middle">
-                            <a href="#"> <img src="{{ static("_tmpContent/s03.png") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
-                        </div>
-                        <div class="media-body">
-                            <h5 class="media-heading" id="middle-aligned-media">Син Авакова зробив такий дуже дорогий ремонт собі!<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a><span>20.05.2015</span></h5>
-                        </div>
-                    </div>
-                    <div class="media">
-                        <div class="media-left media-middle">
-                            <a href="#"> <img src="{{ static("_tmpContent/s01.png") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
-                        </div>
-                        <div class="media-body">
-                            <h5 class="media-heading" id="middle-aligned-media">Аваков шось там купив, і дуже дорог<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a><span>20.05.2015</span></h5>
-                        </div>
-                    </div>
-                    <div class="media">
-                        <div class="media-left media-middle">
-                            <a href="#"> <img src="{{ static("_tmpContent/s02.png") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
-                        </div>
-                        <div class="media-body">
-                            <h5 class="media-heading" id="middle-aligned-media">Ми побачили ремонт, та буди дуже вражені<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a><span>20.05.2015</span></h5>
-                        </div>
-                    </div>
-                    <div class="media">
-                        <div class="media-left media-middle">
-                            <a href="#"> <img src="{{ static("_tmpContent/s03.png") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
-                        </div>
-                        <div class="media-body">
-                            <h5 class="media-heading" id="middle-aligned-media">Син Авакова зробив такий дуже дорогий ремонт собі!<a class="anchorjs-link" href="#middle-aligned-media"><span class="anchorjs-icon"></span></a><span>20.05.2015</span></h5>
-                        </div>
-                    </div>
-                    <a class="more">Більше новин <i class="fa fa-long-arrow-right"></i></a></div>
-            </div>
+            {% endif %}
+            {% endfor %}
         </aside>
     </div>
 {% endblock %}

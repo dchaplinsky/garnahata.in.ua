@@ -2,7 +2,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.conf.urls import patterns, include, url
-from django.contrib.sitemaps import GenericSitemap
 
 from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtailadmin import urls as wagtailadmin_urls
@@ -24,7 +23,7 @@ urlpatterns = patterns(
     url(r'^a/(?P<slug>.+)$', 'catalog.views.address_details',
         name='address_details'),
 
-    url(r'^tag/', include('cms_pages.urls',namespace="cms_pages")),
+    url(r'^tag/', include('cms_pages.urls', namespace="cms_pages")),
 
     url(r'^latest$', 'catalog.views.latest_addresses',
         name='latest_addresses'),
@@ -36,10 +35,18 @@ urlpatterns = patterns(
         name='search'),
 
     url(r'^sitemap.xml$', 'django.contrib.sitemaps.views.index',
-                        {'sitemaps': sitemaps}),
+        {'sitemaps': sitemaps}),
     url(r'^sitemap-(?P<section>.+).xml$',
-                        'django.contrib.sitemaps.views.sitemap',
-                        {'sitemaps': sitemaps}),
+        'django.contrib.sitemaps.views.sitemap',
+        {'sitemaps': sitemaps}),
+
+    url(r'^search_ownerships$', 'catalog.views.search',
+        name='search_ownerships', kwargs={"sources": ["ownerships"]}),
+
+    url(r'^search_addresses$', 'catalog.views.search',
+        name='search_addresses', kwargs={"sources": ["addresses"]}),
+
+    url(r'^tinymce/', include('tinymce.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^cms/', include(wagtailadmin_urls)),
