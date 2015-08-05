@@ -2,21 +2,17 @@
 
 {% block content %}
     <div class="row">
-        <section id="main" class="col col-lg-8">
+        <section id="main" class="col col-sm-8">
             <article>
                 <header>
                     <div id="topNews">
                         <div class="topNewsContainer">
-                            <div class="overImage"><img class="img-responsive" src="{{ page.image.file|thumbnail_url("homepage_news") }}" /></div>
-                            <div class="overInfo"> <span class="dateInfo">{{ page.date_added|date }}</span>
-                                <h4 class="title">{{ page.title }}</h4>
-<!--                                 <ul class="articleTags">
-                                    <i class="fa fa-tags"></i>
-                                    {% for tag in page.tags.all() %}
-                                    <li><a href="#">{{ tag }}</a>{% if not loop.last %},{% endif %}</li>
-                                    {% endfor %}
-                                </ul> -->
-                                <!-- <div class="newsStats"><span class="commentsCounter"><i class="fa fa-comment-o"></i> 12</span> </div> -->
+                            <div class="overImage">
+                                <img class="img-responsive" src="{{ page.image.file|thumbnail_url("homepage_news") }}" />
+                                <div class="overInfo">
+                                    <span class="dateInfo">{{ page.date_added|date }}</span>
+                                    <h4 class="title">{{ page.title }}</h4>
+                                </div>
                             </div>
                             <div class="clr"></div>
                         </div>
@@ -24,13 +20,9 @@
                 </header>
                 {{ page.body|richtext }}
             </article>
-<!--             <div id="bigMap">
-                <h2 class="green text-left">ЖК «Альпійський»</h2>
-                <img class="img-responsive img-max" src="{{ static("_tmpContent/_tmp_bigMap2.png") }}" alt="" />
-            </div> -->
         </section>
 
-        <aside id="sidebar" role="complementary" class="col col-xl-3 col-lg-3">
+        <aside id="sidebar" role="complementary" class="col col-sm-3">
             {% for tag in page.tags.all() %}
             {% set related_articles = tag.cms_pages_newspagetag_items.all() %}
 
