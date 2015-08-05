@@ -6,6 +6,15 @@ from django.conf.urls import patterns, include, url
 from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtailadmin import urls as wagtailadmin_urls
 
+from garnahata_site.sitemaps import MainXML, AdressXML, NewsXML, StaticXML
+
+sitemaps = {
+    'main': MainXML,
+    'adresses': AdressXML,
+    'news': NewsXML,
+    'static': StaticXML,
+}
+
 
 urlpatterns = patterns(
     '',
@@ -25,6 +34,12 @@ urlpatterns = patterns(
     url(r'^search$', 'catalog.views.search',
         name='search'),
 
+    url(r'^sitemap.xml$', 'django.contrib.sitemaps.views.index',
+        {'sitemaps': sitemaps}),
+    url(r'^sitemap-(?P<section>.+).xml$',
+        'django.contrib.sitemaps.views.sitemap',
+        {'sitemaps': sitemaps}),
+
     url(r'^search_ownerships$', 'catalog.views.search',
         name='search_ownerships', kwargs={"sources": ["ownerships"]}),
 
@@ -32,6 +47,7 @@ urlpatterns = patterns(
         name='search_addresses', kwargs={"sources": ["addresses"]}),
 
     url(r'^tinymce/', include('tinymce.urls')),
+
     url(r'^admin/', include(admin.site.urls)),
     url(r'^cms/', include(wagtailadmin_urls)),
     url(r'', include(wagtail_urls)),
