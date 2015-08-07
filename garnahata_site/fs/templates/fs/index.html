@@ -1,8 +1,17 @@
-files:
-<br>
-{% for path in content %}
-	- <a href='{% url "fs:file_process" path %}'> {{ path }} </a>
-	<br>
-{% empty %}
-	No folders here.
-{% endfor %}
+<!DOCTYPE HTML>
+<html>
+ 	<head>
+ 		<title>FS browser for file convertation</title>
+  		<meta charset="utf-8">
+	</head>
+ 	<body>
+		files:
+		<br>
+		{% for path in content %}
+			- <a href='{% url "fs:file_process" path %}'> {{ path }} </a>
+			<br>
+		{% empty %}
+			No folders here.
+		{% endfor %}
+ 	</body>
+</html>

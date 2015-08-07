@@ -21,7 +21,7 @@ def index(request):
         request,
         "fs/index.html",
         {
-            'content': links,
+            'content': sorted(links),
         }
     )
 
