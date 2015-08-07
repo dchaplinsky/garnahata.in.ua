@@ -1,0 +1,8 @@
+files:
+<br>
+{% for path in content %}
+	- <a href='{% url "fs:file_process" path %}'> {{ path }} </a>
+	<br>
+{% empty %}
+	No folders here.
+{% endfor %}

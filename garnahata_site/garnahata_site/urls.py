@@ -24,7 +24,7 @@ urlpatterns = patterns(
     url(r'^a/(?P<slug>.+)$', 'catalog.views.address_details',
         name='address_details'),
 
-    url(r'^tag/', include('cms_pages.urls',namespace="cms_pages")),
+    url(r'^tag/', include('cms_pages.urls', namespace="cms_pages")),
 
     url(r'^latest$', 'catalog.views.latest_addresses',
         name='latest_addresses'),
@@ -40,7 +40,7 @@ urlpatterns = patterns(
     url(r'^sitemap-(?P<section>.+).xml$',
                         'django.contrib.sitemaps.views.sitemap',
                         {'sitemaps': sitemaps}),
-
+    url(r'^admin/fs/', include('fs.urls', namespace='fs')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^cms/', include(wagtailadmin_urls)),
     url(r'', include(wagtail_urls)),

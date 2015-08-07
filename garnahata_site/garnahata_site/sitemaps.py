@@ -11,12 +11,12 @@ class MainXML(sitemaps.Sitemap):
     changefreq = 'daily'
 
     def items(self):
-        pages = (
+        pages = [
             ('wagtail_serve', ['']),
             ('latest_addresses', ''),
             ('addresses_by_city', ''),
-        )
-        return [pages[0],pages[1],pages[2]]
+        ]
+        return pages
 
     def location(self, item):
         return reverse(item[0], args=item[1])

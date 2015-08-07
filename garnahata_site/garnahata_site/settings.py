@@ -13,8 +13,11 @@ import os
 from django_jinja.builtins import DEFAULT_EXTENSIONS
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+FS_ROOT = STATIC_ROOT + '/files/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -63,6 +66,7 @@ INSTALLED_APPS = (
 
     'catalog',
     'cms_pages',
+    'fs',
 )
 
 MIDDLEWARE_CLASSES = (
