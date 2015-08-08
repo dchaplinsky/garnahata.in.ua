@@ -2,6 +2,7 @@ from django import forms
 from django.contrib import admin
 
 from catalog.models import Address, Ownership
+from tinymce.widgets import TinyMCE
 from leaflet.admin import LeafletGeoAdmin
 
 
@@ -11,6 +12,9 @@ class AddressAdminForm(forms.ModelForm):
         required=False,
         help_text="Увага! Файл має бути у спеціальному форматі. "
                   "Усі записи для цієї адреси буде стерто!")
+
+    # description = forms.TextField(
+    #     widget=TinyMCE(attrs={'cols': 80, 'rows': 30}))
 
     def save(self, force_insert=False, force_update=False, commit=True):
         m = super(AddressAdminForm, self).save(commit=False)

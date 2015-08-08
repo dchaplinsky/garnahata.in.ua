@@ -1,4 +1,4 @@
-from django.core.paginator import Paginator, Page
+from django.core.paginator import Paginator, Page, EmptyPage
 from django.utils import six
 from django.conf import settings
 
@@ -22,7 +22,7 @@ class ElasticPaginator(Paginator):
 
 class ElasticPage(Page):
     def __len__(self):
-        raise NotImplemented
+        return self.paginator.count
 
     def __getitem__(self, index):
         if not isinstance(index, (slice,) + six.integer_types):
@@ -90,4 +90,7 @@ def paginated_search(request, search):
     """Helper function that handles common pagination pattern."""
     paginator = ElasticPaginator(search, settings.CATALOG_PER_PAGE)
     page = request.GET.get('page', 1)
-    return paginator.page(page)
+    try:
+        return paginator.page(page)
+    except EmptyPage:
+        return []

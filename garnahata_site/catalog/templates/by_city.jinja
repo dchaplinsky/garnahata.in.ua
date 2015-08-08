@@ -6,17 +6,29 @@
 
 {% block content %}
     <section id="bigMap" data-geojson="{{ addresses.map_markers()|jsonify }}" class="geojson-container fullScreenMap col col-sm-9 pull-right">
-                <h2 class="green text-center">Map of uncovered property (national level)</h2>
+                <h2 class="green text-center">Елітне житло України</h2>
                 {{ leaflet_map("yourmap") }}
     </section>
-	<div class="col col-sm-3 pull-left pre-scrollable" id="searchAdresses">
-		{% set city = None %}
-		{% for address in addresses %}
-			{% if address.get_city_display() != city %}
-				<h2>{{ address.get_city_display() }}</h2>
-				{% set city = address.get_city_display() %}
-			{% endif %}
-			{{ render_address(address) }}
-		{% endfor %}
-	</div>
+    <div class="col col-sm-3 pull-left pre-scrollable" id="searchAdresses">
+        <div class="panel-group" id="byCityAccordion" role="tablist" aria-multiselectable="true">
+        {% for city in addresses|groupby('city')|sort(reverse=True, attribute="grouper") %}
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading-{{loop.index}}">
+                  <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#byCityAccordion" href="#collapse-{{ city.grouper }}" aria-expanded="true" aria-controls="collapse-{{loop.index}}">
+                      {{ city.list.0.get_city_display() }} ({{ city.list|length }})
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapse-{{ city.grouper }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{{ city.grouper }}">
+                    <div class="panel-body">
+                    {% for address in city.list %}
+                        {{ render_address(address) }}
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
 {% endblock %}

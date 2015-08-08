@@ -1,3 +1,6 @@
+from django.conf import settings
+
+
 def get_site_root(request):
     # NB this returns a core.Page, not the implementation-specific model used
     # so object-comparison to self will return false as objects would differ
@@ -17,4 +20,10 @@ def menu_processor(request):
     return {
         'global_title': root_page.title,
         'top_menu': top_menu,
+    }
+
+
+def expose_settings(request):
+    return {
+        "GOOGLE_ANALYTICS_ID": getattr(settings, "GOOGLE_ANALYTICS_ID", None)
     }

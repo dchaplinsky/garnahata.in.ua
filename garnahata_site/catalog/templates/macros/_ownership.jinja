@@ -1,21 +1,31 @@
 {% macro render_property(list_of_ownerships, classname="", tags={}) %}
+    {% set owner = None %}
 	{% for ownership in list_of_ownerships %}
-	{{ render_ownership(ownership, classname, tags=tags)}}
+	{{ render_ownership(ownership, classname, tags=tags, hide_owner=(owner==ownership.owner))}}
+    {% set owner = ownership.owner %}
 	{% endfor %}
 {% endmacro %}
 
-{% macro render_ownership(ownership, classname="", with_link=False, tags={}) %}
+{% macro render_ownership(ownership, classname="", with_link=False, tags={}, hide_owner=False) %}
 	<tr{% if classname %} class="{{ classname }}"{% endif %}>
-		<td class="ownerCol-1">
-			{% if with_link %}
-				<a href="{{ ownership.url }}">{{ ownership.owner }}</a>
-			{% else %}
-				<span class="ownershipOwner">{{ ownership.owner }}</span>
-			{% endif %}
-            {% if ownership.owner.lower() in tags %}
-                <a href = {{ url('cms_pages:tag_news',slug = tags[ownership.owner.lower()].slug ) }}>&#x1f517;</a>
-            {% endif %}
-		</td>
+        {% if not hide_owner %}
+    		<td class="ownerCol-1">
+    			{% if with_link %}
+    				<a href="{{ ownership.url }}">{{ ownership.owner }}</a>
+    			{% else %}
+    				<span class="ownershipOwner">{{ ownership.owner }}</span>
+    			{% endif %}
+
+                {% for tag in tags.keys() %}
+                    {% if tag in ownership.owner.lower() %}
+                        <a class="btn btn-alert" href = {{ url('cms_pages:tag_news', slug = tags[tag].slug ) }}><i class="fa fa-user-secret"></i> <span>Є інформація</span></a>
+                    {% endif %}
+                {% endfor %}
+    		</td>
+        {% else %}
+            <td class="ownerCol-1 hidden_cell">
+            </td>
+        {% endif %}
 		<td class="ownerCol-2">
             <a class="ownerAnchor" name="ownership_{{ ownership.pk }}"></a>
             <span class="ownershipAsset">{{ ownership.asset }}</span>
@@ -25,7 +35,7 @@
         </td>
         <td class="ownerCol-3">
             {% if ownership.registered %}
-                {{ ownership.registered }}<br> 
+                {{ ownership.registered|date }}<br> 
             {% endif %}
             
             {% if ownership.ownership_ground %}
@@ -49,9 +59,9 @@
                         </div>
                         <div id="collapse_{{ ownership.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                           <div class="panel-body">
-                                <b>Дата реєстрації іпотекі:</b> {{ ownership.mortgage_registered }}<br>
+                                <b>Дата реєстрації іпотеки:</b> {{ ownership.mortgage_registered }}<br>
                                 <b>Підстава обтяження:</b> {{ ownership.mortgage_charge }}<br>
-                                <b>Деталі за іпотекой:</b> {{ ownership.mortgage_details }}<br>
+                                <b>Деталі за іпотекою:</b> {{ ownership.mortgage_details }}<br>
                                 <b>Суб'єкти обтяження:</b> {{ ownership.mortgage_charge_subjects }}<br>
                                 <b>Заявник або іпотекодержатель:</b> {{ ownership.mortgage_holder }}<br>
                                 <b>Власник або іпотекодавець:</b> {{ ownership.mortgage_mortgagor }}<br>

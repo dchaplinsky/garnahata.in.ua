@@ -6,19 +6,27 @@
         $b = $("body");
 
     $("#search-form").typeahead({
-        minLength: 2, 
+        minLength: 2,
         autoSelect: false,
         source: function(query, process) {
-            $.get('/ajax/suggest', {"q": query})
-                .success(function(data){
+            $.get('/ajax/suggest', {
+                    "q": query
+                })
+                .success(function(data) {
                     process(data);
                 })
         },
         matcher: function() {
             // Big guys are playing here
             return true;
+        },
+        afterSelect: function(item) {
+            var form = $("#search-form").closest("form");
+            form.find("input[name=is_exact]").val("on");
+
+            form.submit();
         }
-    })
+    });
 
     $('.massonry').imagesLoaded(function() {
         $('.massonry').masonry({
@@ -65,6 +73,22 @@
         adjust_margin();
         bigMap();
     });
+    
+    $( document ).ready(function() {
+        $(".overInfo h3").fitText(
+        1.4, {
+            minFontSize: '30px',
+            maxFontSize: '65px'
+        }
+    );
+
+        $(".overInfo h4").fitText(
+            1.4, {
+                minFontSize: '18px',
+                maxFontSize: '24px'
+            }
+        );
+    });
 
     adjust_margin();
     bigMap();
@@ -75,25 +99,23 @@
     });
 
     // Fit Text Plugin for Main Header
-    $(".overInfo h3").fitText(
-        1.2, {
-            minFontSize: '35px',
-            maxFontSize: '65px'
-        }
-    );
-
-    $(".overInfo h4").fitText(
-        1.2, {
-            minFontSize: '18px',
-            maxFontSize: '24px'
-        }
-    );
+    
 
     $(window).on('map:init', function (e) {
         var detail = e.originalEvent ?
                      e.originalEvent.detail : e.detail,
             data = $(".geojson-container").data("geojson"),
-            markers = new L.MarkerClusterGroup();
+            markers = new L.MarkerClusterGroup(),
+            yndx = new L.Yandex(),
+            yndxs = new L.Yandex('satellite'),
+            cadastre = new L.tileLayer.wms('http://212.26.144.110/geowebcache/service/wms', {
+                maxZoom: 19,
+                layers: 'kadastr',
+                format: 'image/png',
+                transparent: true,
+                hash: "cadastre",
+                overlay:true
+            });
 
         for (var i = data.length - 1; i >= 0; i--) {
             markers.addLayer(
@@ -114,48 +136,12 @@
         };
 
         detail.map.addLayer(markers);
-        detail.map.fitBounds(markers)
-    });    
-    
-    $(document).ready(function () {
+        detail.map.addLayer(yndx);
 
-        $('.objectAdressTable').each(function () {
-            var Column_number_to_Merge = 1;
- 
-            // Previous_TD holds the first instance of same td. Initially first TD=null.
-            var Previous_TD = null;
-            var i = 1;
-            $("tbody",this).find('tr').each(function () {
-                // find the correct td of the correct column
-                // we are considering the table column 1, You can apply on any table column
-                var Current_td = $(this).find('td:nth-child(' + Column_number_to_Merge + ')');
-                 
-                if (Previous_TD == null) {
-                    // for first row
-                    Previous_TD = Current_td;
-                    i = 1;
-                } 
-                else if (Current_td.text() == Previous_TD.text()) {
-                    // the current td is identical to the previous row td
-                    // remove the current td
-                    Current_td.remove();
-                    // increment the rowspan attribute of the first row td instance
-                    Previous_TD.attr('rowspan', i + 1);
-                    i = i + 1;
-                } 
-                else {
-                    // means new value found in current td. So initialize counter variable i
-                    Previous_TD = Current_td;
-                    i = 1;
-                }
-            });
-              
-              $('.ownershipAsset').each(function () {
-                    if($(this).text().length === 0) {
-                        $(this).parent("td").addClass("emptyTd");
-                    }
-              });
-        });
+        detail.map.layerscontrol.addBaseLayer(yndx, "Яндекс");
+        detail.map.layerscontrol.addBaseLayer(yndxs, "Яндекс Супутник");
+        detail.map.layerscontrol.addOverlay(cadastre, "Кадастр");
+
+        detail.map.fitBounds(markers)
     });
-    
 })(jQuery); // End of use strict

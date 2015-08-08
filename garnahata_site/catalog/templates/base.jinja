@@ -14,13 +14,14 @@
     {% stylesheet 'css_all' %}
     {{ leaflet_css() }}
 
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <script src="https://api-maps.yandex.ru/2.0/?load=package.map&lang=ru-RU" type="text/javascript"></script>
 </head>
 
 <body class="{% block bodyclass %}fixed-header regular-page{% endblock %}">
@@ -30,12 +31,14 @@
                 <div class="header-content">
                     <div class="header-content-inner container">
                         <h1 class="logo ani"><img  class="ani" src="{{ static("images/logo.png")}}" width="403" height="113" alt=""/><span>ГарнаХата &#8212;  база даних власників найдорожчої нерухомості України.</span></h1>
+                          <p class="text-center nm"><a href="https://www.facebook.com/kancelaristy" target="_blank">Проект канцелярської сотні</a></p>
+                          <p class="text-center nm"><a href="https://www.facebook.com/kancelaristy" target="_blank"><span class="clogos clogos_cs noAnimation">Канцелярська сотня</span></a></p>
                         {% block header_intro %}
                         {% endblock %}
                         <div id="search-box" class="col-lg-6 col-lg-offset-3">
                             <form action="{{ url("search") }}" method="GET">
                                 <div class="input-group">
-                                    <input type="text" id="search-form" class="form-control input-rounded" placeholder="Знайти негідника-багатія" autocomplete="off" name="q"/>
+                                    <input type="text" id="search-form" class="form-control input-rounded" placeholder="Введіть власника, адресу або назву комплексу" autocomplete="off" name="q"/>
                                     <span class="input-group-btn">
                                         <button class="btn btn-navigate" type="submit">Go!</button>
                                     </span>
@@ -60,10 +63,10 @@
                                 {% endfor %}
                             </ul>
                             <ul class="nav navbar-nav nav-social navbar-right">
-                                <li> <a class="green rounded" href="#">Я знаю цього тіпа</a> </li>
-                                <li> <a class="btn btn-default btn-circle" href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li> <a class="btn btn-default btn-circle" href="#"><i class="fa fa-twitter"></i></a> </li>
-                                <li> <a class="btn btn-default btn-circle" href="#"><i class="fa fa-google-plus"></i></a> </li>
+                                <li><a class="green rounded" href="https://docs.google.com/forms/d/1H9B4-lVbFtwoAAjqWdj4NSlE7BC_CHocTmQ9ZMyk-UA/viewform?c=0&w=1" target="_blank">Я знаю цього тіпа</a></li>
+<!--                                 <li><a class="btn btn-default btn-circle" href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a class="btn btn-default btn-circle" href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a class="btn btn-default btn-circle" href="#"><i class="fa fa-google-plus"></i></a></li> -->
                             </ul>
                         </div>
                         <!-- /.navbar-collapse -->
@@ -197,6 +200,16 @@
                 </aside>
             </div>
             {% endblock %}
+            <div id="social-likes">
+                <div class="container">
+                    <div class="social-likes pull-right">
+                        <div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div>
+                        <div class="twitter" title="Поделиться ссылкой в Твиттере">Twitter</div>
+                        <div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div>
+                        <div class="plusone" title="Поделиться ссылкой в Гугл-плюсе">Google+</div>
+                    </div>
+                </div>
+            </div>
         </div>
         <footer id="footer">
             <div class="container">
@@ -212,5 +225,18 @@
         {{ leaflet_js() }}
         {% javascript 'js_all' %}
     </div><!-- wraper -->
+
+    {% if GOOGLE_ANALYTICS_ID %}
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', '{{ GOOGLE_ANALYTICS_ID }}', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    {% endif %}
 </body>
 </html>

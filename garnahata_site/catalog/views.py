@@ -3,6 +3,9 @@ from django.http import JsonResponse
 
 from cms_pages.models import NewsPageTag
 from catalog.models import Address, Ownership
+from catalog.api import hybrid_response
+from catalog.paginator import paginated_search
+
 from catalog.elastic_models import (
     Ownership as ElasticOwnership,
     Address as ElasticAddress
@@ -56,17 +59,14 @@ def address_details(request, slug):
         {
             "address": address,
             "tags": tags,
-            "ownerships": Ownership.objects.filter(prop__address=address)
+            "ownerships": Ownership.objects.filter(
+                prop__address=address).order_by("prop_id", "owner", "pk")
         }
     )
 
 
 def addresses_by_city(request):
-    # TBD: pagination
-
-    # Because cities are weirdly ordered (according to koatuu), we are
-    # using this cheap hack to put Kiev on top.
-    addresses = Address.objects.order_by("-city")
+    addresses = Address.objects.order_by("city", "title")
 
     return render(
         request,
@@ -78,10 +78,6 @@ def addresses_by_city(request):
 
 
 def latest_addresses(request):
-    # TBD: pagination
-
-    # Because cities are weirdly ordered (according to koatuu), we are
-    # using this cheap hack to put Kiev on top.
     addresses = Address.objects.order_by("-date_added")
 
     return render(
@@ -93,27 +89,54 @@ def latest_addresses(request):
     )
 
 
-def search(request):
+def _ownership_search(request):
     query = request.GET.get("q", "")
 
-    news_results = None
-    addresses = None
     if query:
-        ownerships = ElasticOwnership.search().query(
-            "match", _all=query)[:20].execute()
-        addresses = ElasticAddress.search().query(
-            "match", _all=query)[:20].execute()
-        news_results = NewsPage.objects.search(query)
-    else:
-        ownerships = ElasticOwnership.search().query("match_all").execute()
+        return paginated_search(request, ElasticOwnership.search().query(
+            "match", _all={"query": query, "minimum_should_match": "2"}
+        ))
 
-    return render(
-        request,
-        "search.jinja",
-        {
-            "query": query,
-            "ownerships": ownerships,
-            "news_results": news_results,
-            "addresses": addresses
-        }
-    )
+    return paginated_search(
+        request, ElasticOwnership.search().query("match_all"))
+
+
+def _addresses_search(request):
+    query = request.GET.get("q", "")
+
+    if query:
+        return paginated_search(request, ElasticAddress.search().query(
+            "match", _all={"query": query, "minimum_should_match": "2"}
+        ))
+
+    return paginated_search(
+        request, ElasticAddress.search().query("match_all"))
+
+
+def _news_search(request):
+    query = request.GET.get("q", "")
+
+    if query:
+        return NewsPage.objects.search(query)
+    else:
+        return None
+
+
+@hybrid_response("search.jinja")
+def search(request, sources=["ownerships", "addresses", "news"]):
+    query = request.GET.get("q", "")
+
+    res = {
+        "query": query,
+    }
+
+    if "ownerships" in sources:
+        res["ownerships"] = _ownership_search(request)
+
+    if "addresses" in sources:
+        res["addresses"] = _addresses_search(request)
+
+    if "news" in sources:
+        res["news_results"] = _news_search(request)
+
+    return res

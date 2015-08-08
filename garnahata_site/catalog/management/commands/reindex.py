@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.core.management.base import BaseCommand
+from elasticsearch_dsl import Index
+
 from catalog.models import Address, Ownership
 from catalog.elastic_models import (
     Address as ElasticAddress,
@@ -10,24 +12,18 @@ from catalog.elastic_models import (
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        Index(ElasticAddress._doc_type.index).delete(ignore=404)
+
         ElasticAddress.init()
-        counter = 0
-        for p in Address.objects.all():
-            item = ElasticAddress(**p.to_dict())
-            item.save()
-            counter += 1
+        Address.objects.reindex()
 
         self.stdout.write(
-            'Loaded {} addresses to persistence storage'.format(counter))
+            'Loaded {} addresses to persistence storage'.format(
+                Address.objects.count()))
 
         ElasticOwnership.init()
-        counter = 0
-        for p in Ownership.objects.all():
-            item = ElasticOwnership(**p.to_dict(
-                include_address=True, include_name_alternatives=True
-            ))
-            item.save()
-            counter += 1
+        Ownership.objects.select_related("prop__address").reindex()
 
         self.stdout.write(
-            'Loaded {} ownerships to persistence storage'.format(counter))
+            'Loaded {} ownerships to persistence storage'.format(
+                Ownership.objects.count()))

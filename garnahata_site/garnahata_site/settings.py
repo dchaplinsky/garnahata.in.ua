@@ -63,6 +63,7 @@ INSTALLED_APPS = (
     'wagtail.wagtailsearch',
     'wagtail.wagtailredirects',
     'wagtail.wagtailforms',
+    'tinymce',
 
     'catalog',
     'cms_pages',
@@ -108,7 +109,7 @@ WAGTAILSEARCH_BACKENDS = {
         'BACKEND':
             'wagtail.wagtailsearch.backends.elasticsearch.ElasticSearch',
         'URLS': ['http://localhost:9200'],
-        'INDEX': 'garnahata',
+        'INDEX': 'garnahata_cms',
         'TIMEOUT': 5,
     }
 }
@@ -135,7 +136,8 @@ TEMPLATES = [
                 "django.core.context_processors.tz",
                 "django.core.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
-                "cms_pages.context_processors.menu_processor"
+                "cms_pages.context_processors.menu_processor",
+                "cms_pages.context_processors.expose_settings",
             ),
             "extensions": DEFAULT_EXTENSIONS + [
                 "jinja2.ext.do",
@@ -165,7 +167,8 @@ TEMPLATES = [
                 "django.core.context_processors.tz",
                 "django.core.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
-                "cms_pages.context_processors.menu_processor"
+                "cms_pages.context_processors.menu_processor",
+                "cms_pages.context_processors.expose_settings",
             )
         },
         "APP_DIRS": True
@@ -188,6 +191,7 @@ PIPELINE_CSS = {
             'css/nav.css',
             'css/header.css',
             'css/news.css',
+            'css/social-likes_flat.css',
             'css/style.css',
             'css/responsive.css',
         ),
@@ -206,6 +210,7 @@ PIPELINE_JS = {
             'js/masonry.pkgd.js',
             'js/jquery.easing.min.js',
             'js/jquery.fittext.js',
+            'js/social-likes.min.js',
             'js/garnahata.js',
         ),
         'output_filename': 'js/merged.js',
@@ -217,6 +222,7 @@ THUMBNAIL_ALIASES = {
         'homepage_news': {'size': (782, 394), 'crop': True},
         'news_thumbnail': {'size': (243, 450), 'crop': False},
         'address_thumbnail': {'size': (475, 336), 'crop': True},
+        'small_thumbnail': {'size': (64, 64), 'crop': True},
     },
 }
 
@@ -226,6 +232,8 @@ LEAFLET_CONFIG = {
     'DEFAULT_ZOOM': 10,
     'MIN_ZOOM': 3,
     'MAX_ZOOM': 18,
+    'TILES': [],
+    'OVERLAYS': [],
 
     'PLUGINS': {
         'markercluster': {
@@ -233,6 +241,10 @@ LEAFLET_CONFIG = {
             'js': 'js/leaflet.markercluster.js',
             'auto-include': True
         },
+        'yandex': {
+            'js': 'js/Yandex.js',
+            'auto-include': True
+        }
     }
 }
 
@@ -247,12 +259,13 @@ MEDIA_URL = '/media/'
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # Application settings
-CATALOG_PER_PAGE = 30
+CATALOG_PER_PAGE = 20
 
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_libsass.SassCompiler'),
 )
 
+DATE_FORMAT = "d.m.Y"
 LOGIN_URL = "/admin/login/"
 WAGTAIL_SITE_NAME = 'GarnaHata!'
 

@@ -1,4 +1,6 @@
 import logging
+from itertools import groupby
+from operator import itemgetter
 
 from django.db import models
 from django.core.validators import RegexValidator
@@ -7,13 +9,39 @@ from django.forms.models import model_to_dict
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 
+from tinymce import models as tinymce_models
 from djgeojson.fields import PointField
 from openpyxl import load_workbook
+from dateutil.parser import parse
+from elasticsearch.helpers import streaming_bulk
+from elasticsearch_dsl import Index
+from elasticsearch_dsl.connections import connections
 
-from catalog.exc import ImportException
+
+from catalog.elastic_models import (
+    Address as ElasticAddress,
+    Ownership as ElasticOwnership
+)
+
+
+class OwnershipsQuerySet(models.QuerySet):
+    def reindex(self):
+        conn = connections.get_connection()
+        docs_to_index = [
+            ElasticOwnership(**p.to_dict(include_address=True,
+                             include_name_alternatives=True))
+            for p in self]
+
+        for response in streaming_bulk(
+                conn, ({'_index': getattr(d.meta, 'index', d._doc_type.index),
+                        '_type': d._doc_type.name,
+                        '_source': d.to_dict()} for d in docs_to_index)):
+            pass
 
 
 class Ownership(models.Model):
+    objects = OwnershipsQuerySet.as_manager()
+
     owner = models.TextField("Власник")
     asset = models.TextField("Властивості нерухомості")
     registered = models.DateTimeField("Дата реєстрації", blank=True, null=True)
@@ -23,10 +51,10 @@ class Ownership(models.Model):
     comment = models.TextField("Коментар", blank=True)
 
     mortgage_registered = models.DateTimeField(
-        "Дата реєстрації іпотекі", blank=True, null=True)
+        "Дата реєстрації іпотеки", blank=True, null=True)
 
     mortgage_charge = models.TextField("Підстава обтяження", blank=True)
-    mortgage_details = models.TextField("Деталі за іпотекой", blank=True)
+    mortgage_details = models.TextField("Деталі за іпотекою", blank=True)
     mortgage_charge_subjects = models.TextField(
         "Суб'єкти обтяження", blank=True)
     mortgage_holder = models.TextField(
@@ -71,34 +99,38 @@ class Ownership(models.Model):
             first_name = ""
             patronymic = ""
             name_parts = d["owner"].split(None, 3)
-            last_name = name_parts[0]
 
-            if len(name_parts) > 1:
-                first_name = name_parts[1]
+            if name_parts:
+                last_name = name_parts[0]
 
-            if len(name_parts) > 2:
-                patronymic = name_parts[2]
+                if len(name_parts) > 1:
+                    first_name = name_parts[1]
 
-            d["full_name_suggest"] = {
-                "input": [
-                    u" ".join([last_name, first_name,
-                               patronymic]),
-                    u" ".join([first_name,
-                               patronymic,
-                               last_name]),
-                    u" ".join([first_name,
-                               last_name])
-                ],
-                "output": d["owner"]
-            }
+                if len(name_parts) > 2:
+                    patronymic = name_parts[2]
+
+                d["full_name_suggest"] = {
+                    "input": [
+                        u" ".join([last_name, first_name,
+                                   patronymic]),
+                        u" ".join([first_name,
+                                   patronymic,
+                                   last_name]),
+                        u" ".join([first_name,
+                                   last_name])
+                    ],
+                    "output": d["owner"]
+                }
 
         d["_id"] = d["id"]
+        d["prop_id"] = self.prop_id
         d["url"] = self.url
 
         return d
 
     def get_absolute_url(self):
-        return self.prop.address.get_absolute_url() + ("#ownership_%s" % self.pk)
+        return self.prop.address.get_absolute_url() + (
+            "#ownership_%s" % self.pk)
 
     @property
     def url(self):
@@ -107,6 +139,10 @@ class Ownership(models.Model):
     class Meta:
         verbose_name = u"Власник"
         verbose_name_plural = u"Власники"
+
+        index_together = [
+            ["id", "prop", "owner"],
+        ]
 
 
 class Property(models.Model):
@@ -129,8 +165,9 @@ class Property(models.Model):
 
 
 KOATUU = {
-    1: "Сімферополь",
     5: "Вінниця",
+    80: "м. Київ",
+    1: "Сімферополь",
     7: "Луцьк",
     12: "Дніпропетровськ",
     14: "Донецьк",
@@ -138,7 +175,7 @@ KOATUU = {
     21: "Ужгород",
     23: "Запоріжжя",
     26: "Івано-Франківськ",
-    32: "Київ",
+    32: "Київська область",
     35: "Кіровоград",
     44: "Луганськ",
     46: "Львів",
@@ -154,21 +191,35 @@ KOATUU = {
     71: "Черкаси",
     73: "Чернівці",
     74: "Чернігів",
-    80: "Київ",
     85: "Севастополь"
 }
 
 
-class MarkersQuerySet(models.QuerySet):
+class AddressesQuerySet(models.QuerySet):
     def map_markers(self):
-        return [res.map_marker() for res in self]
+        return [res.map_marker() for res in self if res.coords]
+
+    def reindex(self):
+        conn = connections.get_connection()
+        docs_to_index = [
+            ElasticAddress(**p.to_dict())
+            for p in self]
+
+        for response in streaming_bulk(
+                conn, ({'_index': getattr(d.meta, 'index', d._doc_type.index),
+                        '_type': d._doc_type.name,
+                        '_source': d.to_dict()} for d in docs_to_index)):
+            pass
 
 
 class Address(models.Model):
-    objects = MarkersQuerySet.as_manager()
+    objects = AddressesQuerySet.as_manager()
 
     title = models.CharField(
         "Коротка адреса", max_length=150)
+
+    description = tinymce_models.HTMLField(
+        "Опис об'єкта", default="", blank=True)
 
     slug = models.SlugField("slug", max_length=200)
 
@@ -183,7 +234,8 @@ class Address(models.Model):
         max_length=25)
 
     city = models.IntegerField(
-        "Місто", default=80, choices=KOATUU.items())
+        "Місто", default=80,
+        choices=sorted(KOATUU.items(), key=lambda x: x[1]))
 
     commercial_name = models.CharField(
         "Назва комплексу або району", max_length=150, blank=True)
@@ -220,19 +272,29 @@ class Address(models.Model):
         verbose_name = u"Адреса"
         verbose_name_plural = u"Адреси"
 
+        index_together = [
+            ["id", "city", "title"],
+        ]
+
     def to_dict(self):
         """
         Convert Address model to an indexable presentation for ES.
         """
         d = model_to_dict(self, fields=[
-            "id", "title", "address", "cadastral_number", "city",
+            "id", "title", "description", "address", "cadastral_number",
             "commercial_name", "link", "coords", "date_added"])
 
-        properties = []
-        for prop in self.property_set.all():
-            properties.append(prop.to_dict())
+        raw_props = [
+            o.to_dict()
+            for o in Ownership.objects.select_related("prop__address").filter(
+                prop__address_id=self.pk).order_by("prop_id")]
+
+        properties = [
+            list(owns)
+            for x, owns in groupby(raw_props, itemgetter("prop_id"))]
 
         d["_id"] = d["id"]
+        d["city"] = self.get_city_display()
         d["properties"] = properties
         d["url"] = self.url
 
@@ -271,6 +333,7 @@ class Address(models.Model):
 
             if not any(row):
                 prev_is_blank = True
+                prev_owner = ""
                 continue
 
             if prev_is_blank:
@@ -279,12 +342,13 @@ class Address(models.Model):
                 prev_is_blank = False
 
             if not owner:
-                if not prev_owner:
-                    raise ImportException(
-                        "В строці %s й попередніх до неї не вказан власник"
-                        % i)
-
                 owner = prev_owner
+
+            if isinstance(registered, str) and registered:
+                registered = parse(registered, dayfirst=True)
+
+            if isinstance(mortgage_registered, str) and mortgage_registered:
+                mortgage_registered = parse(mortgage_registered, dayfirst=True)
 
             Ownership(
                 prop=curr_property,
@@ -312,10 +376,21 @@ class Address(models.Model):
         return total_imported
 
     def map_marker(self):
-        return {
-            # WTF!?
-            "coords": self.coords["coordinates"][::-1],
-            "title": self.title,
-            "commercial_name": self.commercial_name,
-            "href": self.get_absolute_url()
-        }
+        if self.coords:
+            return {
+                # WTF!?
+                "coords": self.coords["coordinates"][::-1],
+                "title": self.title,
+                "commercial_name": self.commercial_name,
+                "href": self.get_absolute_url()
+            }
+        else:
+            return ""
+
+
+# @receiver(post_save, sender=Address)
+def reindex_addresses(sender, **kwargs):
+    Index(ElasticAddress.META.index).delete(ignore=404)
+
+    Address.objects.all().reindex()
+    Ownership.objects.select_related("prop__address").reindex()
