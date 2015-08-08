@@ -14,7 +14,8 @@ from fs.totxt import convert_many
 @staff_member_required
 def index(request):
     links = []
-    for root, dirs, files in os.walk(settings.PDF_STORAGE, topdown=True):
+
+    for root, dirs, files in os.walk(settings.PDFS_STORAGE, topdown=True):
         if not dirs and files:
             links.append([root, len(files)])
 
@@ -30,9 +31,9 @@ def index(request):
 
 @staff_member_required
 def get_xls(request, path):
-    pdf_dir = os.path.abspath(os.path.join(settings.PDF_STORAGE, path))
+    pdf_dir = os.path.abspath(os.path.join(settings.PDFS_STORAGE, path))
 
-    if os.path.exists(pdf_dir) and pdf_dir.startswith(settings.PDF_STORAGE):
+    if os.path.exists(pdf_dir) and pdf_dir.startswith(settings.PDFS_STORAGE):
         res = convert_many(pdf_dir + "/*.pdf")
         if res:
             response = HttpResponse(content=res.read(),
