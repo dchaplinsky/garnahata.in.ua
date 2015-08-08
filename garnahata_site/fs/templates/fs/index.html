@@ -6,12 +6,14 @@
 	</head>
  	<body>
 		files:
-		<br>
-		{% for path in content %}
-			- <a href='{% url "fs:file_process" path %}'> {{ path }} </a>
-			<br>
+		<ul>
+		{% for path, len in content %}
+			<li>
+				<a href='{% url "fs:file_process" path %}'> {{ path }} ({{ len }})</a>
+			</li>
 		{% empty %}
-			No folders here.
+			<li>No folders here.</li>
 		{% endfor %}
+		</ul>
  	</body>
 </html>
