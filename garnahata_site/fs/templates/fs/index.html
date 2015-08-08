@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html>
+ 	<head>
+ 		<title>FS browser for file convertation</title>
+  		<meta charset="utf-8">
+	</head>
+ 	<body>
+		files:
+		<ul>
+		{% for path, len in content %}
+			<li>
+				<a href='{% url "fs:file_process" path %}'> {{ path }} ({{ len }})</a>
+			</li>
+		{% empty %}
+			<li>No folders here.</li>
+		{% endfor %}
+		</ul>
+ 	</body>
+</html>

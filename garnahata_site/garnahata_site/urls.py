@@ -39,6 +39,7 @@ urlpatterns = patterns(
     url(r'^sitemap-(?P<section>.+).xml$',
         'django.contrib.sitemaps.views.sitemap',
         {'sitemaps': sitemaps}),
+    url(r'^admin/fs/', include('fs.urls', namespace='fs')),
 
     url(r'^search_ownerships$', 'catalog.views.search',
         name='search_ownerships', kwargs={"sources": ["ownerships"]}),
