@@ -44,7 +44,8 @@ def get_xls(request, path):
                                     content_type='application/ms-excel')
 
             response['Content-Disposition'] = 'attachment; filename=%s.xlsx' \
-                % translitua(pdf_dir.rsplit('/')[-1]).replace(" ", "_")
+                % translitua(pdf_dir.rsplit('/')[-1]).replace(
+                    " ", "_").replace(",", "_")
             return response
         else:
             return HttpResponse('Error: File was not returned.')
