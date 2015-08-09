@@ -16,8 +16,12 @@ def index(request):
     links = []
 
     for root, dirs, files in os.walk(settings.PDFS_STORAGE, topdown=True):
-        if not dirs and files:
-            links.append([root, len(files)])
+        if not dirs:
+            files = list(filter(lambda x: x.lower().endswith(".pdf"), files))
+
+            if files:
+                links.append([root.replace(settings.PDFS_STORAGE + "/", "", 1),
+                              len(files)])
 
     return render(
         request,
