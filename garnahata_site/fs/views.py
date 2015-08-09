@@ -20,8 +20,8 @@ def index(request):
             files = list(filter(lambda x: x.lower().endswith(".pdf"), files))
 
             if files:
-                links.append([root.replace(settings.PDFS_STORAGE + "/", "", 1),
-                              len(files)])
+                root = root.replace(settings.PDFS_STORAGE, "", 1).lstrip("/")
+                links.append([root, len(files)])
 
     return render(
         request,
