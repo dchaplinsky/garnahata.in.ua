@@ -59,14 +59,35 @@
                         </div>
                         <div id="collapse_{{ ownership.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                           <div class="panel-body">
-                                <b>Дата реєстрації іпотеки:</b> {{ ownership.mortgage_registered }}<br>
-                                <b>Підстава обтяження:</b> {{ ownership.mortgage_charge }}<br>
-                                <b>Деталі за іпотекою:</b> {{ ownership.mortgage_details }}<br>
-                                <b>Суб'єкти обтяження:</b> {{ ownership.mortgage_charge_subjects }}<br>
-                                <b>Заявник або іпотекодержатель:</b> {{ ownership.mortgage_holder }}<br>
-                                <b>Власник або іпотекодавець:</b> {{ ownership.mortgage_mortgagor }}<br>
-                                <b>Поручитель:</b> {{ ownership.mortgage_guarantor }}<br>
-                                <b>Інші суб'єкти обтяження:</b> {{ ownership.mortgage_other_persons }}
+                                <!-- TODO try to use https://github.com/fooplugins/FooTable on small screens -->
+                                <div class="table-responsive mortgage-cell">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Дата реєстрації іпотеки</th>
+                                                <th>Підстава обтяження</th>
+                                                <th>Деталі за іпотекою</th>
+                                                <th>Суб'єкти обтяження</th>
+                                                <th>Заявник або іпотекодержатель</th>
+                                                <th>Власник або іпотекодавець</th>
+                                                <th>Поручитель</th>
+                                                <th>Інші суб'єкти обтяження</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{ ownership.mortgage_registered }}</td>
+                                                <td>{{ ownership.mortgage_charge }}</td>
+                                                <td>{{ ownership.mortgage_details }}</td>
+                                                <td>{{ ownership.mortgage_charge_subjects }}</td>
+                                                <td>{{ ownership.mortgage_holder }}</td>
+                                                <td>{{ ownership.mortgage_mortgagor }}</td>
+                                                <td>{{ ownership.mortgage_guarantor }}</td>
+                                                <td>{{ ownership.mortgage_other_persons }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                           </div>
                         </div>
                     </div>

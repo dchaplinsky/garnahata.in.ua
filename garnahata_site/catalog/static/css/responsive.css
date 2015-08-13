@@ -1,7 +1,42 @@
+.not-fixed-header .logo {
+        width: 100%;
+        margin-left: 0;
+}
+.fixed-header #search-box {
+     margin-left: 0;
+}
+
+
+/*.not-fixed-header #search-box*/
+    
 @media(max-width:767px) {
     .grid-sizer, .massonry .item {
         width: 100%;
     }
+    
+    #intro .header-content {
+        padding: 25px 5px;
+    }
+    
+    h1 {
+        font-size: 30px;
+    }
+    
+    h2 {
+        font-size: 20px;
+    }
+    
+    #mainNav {
+        position: absolute;
+        top: auto;
+        bottom: auto;
+    }
+    
+    .not-fixed-header #search-box {
+        width: 100%;
+        margin-left: 0;
+    }
+
 }
 
 @media(min-width:768px) {
@@ -85,6 +120,7 @@
         font-size: 18px;
     }
 }
+
 /*iPad портрет */
 
 @media only screen and (max-device-width: 992px) and (orientation: portrait) {}

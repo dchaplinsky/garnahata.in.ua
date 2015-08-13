@@ -1,7 +1,7 @@
 {% extends "base.jinja" %}
 {% from "macros/_news.jinja" import render_news %}
 
-{% block bodyclass %}homepage{% endblock %}
+{% block bodyclass %}homepage not-fixed-header{% endblock %}
 
 {% block header_intro %}
 	<p class="text-center">{{ page.body|richtext }}</p>
