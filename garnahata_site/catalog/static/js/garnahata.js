@@ -98,6 +98,18 @@
     $('.navbar-collapse ul li a').click(function() {
         $('.navbar-toggle:visible').click();
     });
+    
+    $('.btn.mortgage_registered').on('click', function(e) {
+            $(this).closest('tr').next('tr').find('.mortgage-cell').toggleClass("show");
+        e.preventDefault();
+    });
+    
+    $('#navbar-collapse-1').on('show.bs.collapse', function () {
+       $('#navbar-collapse-1').addClass("show");
+    })
+    $('#navbar-collapse-1').on('hide.bs.collapse', function () {
+       $('#navbar-collapse-1').removeClass("show");
+    })
 
     // Fit Text Plugin for Main Header
     

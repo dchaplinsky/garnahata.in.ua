@@ -14,7 +14,7 @@
         width: 100%;
     }
     
-    #intro .header-content {
+     .homepage.fixed-header #intro .header-content {
         padding: 25px 5px;
     }
     
@@ -30,6 +30,10 @@
         position: absolute;
         top: auto;
         bottom: auto;
+    }
+    
+    .homepage #mainNav {
+        bottom: 0;
     }
     
     .not-fixed-header #search-box {

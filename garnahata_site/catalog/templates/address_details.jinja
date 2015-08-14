@@ -19,7 +19,7 @@
         </div>
         
         {% if address.photo or address.coords %}
-        <div class="container mt">
+        <div class="mt">
                 <div class="row">
                     {% if address.photo %}
                     <section class="col-sm-4">
@@ -41,27 +41,28 @@
        </div>
        {% endif %}
        
-        <section id="main" class="col col-sm-12 objectAdress">
-            <article>
-                <div class="table-responsive">
-                    <table class="table objectAdressTable">
-                        <thead>
-                            <tr>
-                                <th>Власник</th>
-                                <th>Тип нерухомості, частка</th>
-                                <th>Дата реєстрації, підстава власності, форма власності</th>
-                                <th><!--Іпотека--></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for group in ownerships|groupby('prop_id') %}
-                                {{ render_property(group.list, 
-                                                   "active" if loop.index is divisibleby(2) else False,
-                                                   tags) }}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </article>
-        </section>
+        <div class="row">
+            <section id="main" class="col col-sm-12 objectAdress">
+                <article>
+                    <div class="table-responsive table-bordered">
+                        <table class="table objectAdressTable">
+                            <thead>
+                                <tr>
+                                    <th>Власник</th>
+                                    <th>Тип нерухомості, частка</th>
+                                    <th>Дата реєстрації, підстава власності, форма власності</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for group in ownerships|groupby('prop_id') %}
+                                    {{ render_property(group.list, 
+                                                       "active" if loop.index is divisibleby(2) else False,
+                                                       tags) }}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+            </section>
+        </div>
 {% endblock %}

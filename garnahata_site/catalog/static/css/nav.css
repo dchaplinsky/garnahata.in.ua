@@ -8,6 +8,13 @@
     z-index: 999;
 }
 
+.fixed-header.regular-page #mainNav {
+     bottom: 0;
+}
+.fixed-header.regular-page #intro .header-content {
+    padding: 30px 15px;
+}
+
 .navbar-default {
     border-color: rgba(34, 34, 34, .05);
     background-color: #fff;
@@ -69,8 +76,13 @@
     height: 32px;
     font-size: 14px;
 }
-
-#mainNav .collapse.in {
+@media(max-width:719px) {
+#mainNav #navbar-collapse-1 {
+    display: none;
+}
+}
+#mainNav #navbar-collapse-1.show {
+    display: block;
     position: absolute;
     border-bottom: black 1px solid;
     padding-bottom: 20px;
