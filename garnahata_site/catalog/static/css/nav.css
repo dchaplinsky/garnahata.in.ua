@@ -5,6 +5,7 @@
     bottom: 0;
     width: 100%;
     margin-bottom: 0;
+    z-index: 999;
 }
 
 .navbar-default {
@@ -67,4 +68,13 @@
     width: 32px;
     height: 32px;
     font-size: 14px;
+}
+
+#mainNav .collapse.in {
+    position: absolute;
+    border-bottom: black 1px solid;
+    padding-bottom: 20px;
+    background: white none repeat scroll 0 0;
+    text-align: right;
+    width: 100%;
 }

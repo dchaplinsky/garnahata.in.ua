@@ -58,6 +58,7 @@
 
     function toggle_header() {
         $b.toggleClass('fixed-header', $w.scrollTop() >= $d);
+        $b.toggleClass('not-fixed-header', $w.scrollTop() < $d);
     }
     
     function bigMap() {

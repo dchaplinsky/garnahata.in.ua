@@ -30,12 +30,12 @@
             <div class="header_wrap">
                 <div class="header-content">
                     <div class="header-content-inner container">
-                        <h1 class="logo ani"><img  class="ani" src="{{ static("images/logo.png")}}" width="403" height="113" alt=""/><span>ГарнаХата &#8212;  база даних власників найдорожчої нерухомості України.</span></h1>
+                        <h1 class="logo ani col-sm-6 col-xs-3"><img  class="ani" src="{{ static("images/logo.png")}}" width="403" height="113" alt=""/><span>ГарнаХата &#8212;  база даних власників найдорожчої нерухомості України.</span></h1>
                           <p class="text-center nm"><a href="https://www.facebook.com/kancelaristy" target="_blank">Проект канцелярської сотні</a></p>
                           <p class="text-center nm"><a href="https://www.facebook.com/kancelaristy" target="_blank"><span class="clogos clogos_cs noAnimation">Канцелярська сотня</span></a></p>
                         {% block header_intro %}
                         {% endblock %}
-                        <div id="search-box" class="col-lg-6 col-lg-offset-3">
+                        <div id="search-box" class="col-sm-6 col-xs-9  col-sm-offset-3">
                             <form action="{{ url("search") }}" method="GET">
                                 <div class="input-group">
                                     <input type="text" id="search-form" class="form-control input-rounded" placeholder="Введіть власника, адресу або назву комплексу" autocomplete="off" name="q"/>
