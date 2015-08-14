@@ -373,8 +373,9 @@ body {
 table.objectAdressTable {
     margin-bottom: 40px;
 }
-table.objectAdressTable td {
-    padding: 15px !important;
+table.objectAdressTable  tbody  tr  td,
+table.objectAdressTable  thead  tr  td {
+    padding: 15px;
 }
 .ownershipOwner {
     font-weight: 600;
@@ -388,13 +389,20 @@ table.objectAdressTable td {
     background: #22c064;
     color: white;
 }
+.objectAdress {
+    padding-bottom: 20px;
+}
 .objectAdress .btn-alert span {
     font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
     font-weight: normal;
 }
 td.emptyTd {/* border: none !important; padding: 0 !important; display: none; */
 }
-.ownerCol-4 .panel-group {
+.table > tbody > tr > td.noBorder {
+    border: none;
+    padding: 0;
+}
+/*ownerCol-4 .panel-group {
     margin-bottom: 0;
 }
 .ownerCol-4 .panel-heading {
@@ -411,22 +419,21 @@ td.emptyTd {/* border: none !important; padding: 0 !important; display: none; */
 .ownerCol-4 .panel-collapse.collapse.in {
     background: #fff;
 }
-.ownerCol-3 {
-    font-size: 13px;
-}
 .ownerCol-4 {
      width: 120px;
 }
 .ownerCol-4 p {
     font-size: 12px;
+}*/
+.ownerCol-3 {
+    font-size: 13px;
 }
-
 .mortgage-cell {
-    left: 0;
-    margin-top: -46px;
-    padding: 30px;
-    position: absolute;
-    width: 100%;
+    display: none;
+    margin-top: 20px;
+}
+.mortgage-cell.show {
+    display: block;
 }
 .imgResponsiveHeightContainer {
     width: 100%;
@@ -449,7 +456,7 @@ td.emptyTd {/* border: none !important; padding: 0 !important; display: none; */
     height: 100%;
 }
 td.hidden_cell {
-    border: none!important;
+    /*border: none!important;*/
 }
 #social-likes {
     margin-top: 20px;
