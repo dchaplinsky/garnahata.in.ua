@@ -402,29 +402,6 @@ td.emptyTd {/* border: none !important; padding: 0 !important; display: none; */
     border: none;
     padding: 0;
 }
-/*ownerCol-4 .panel-group {
-    margin-bottom: 0;
-}
-.ownerCol-4 .panel-heading {
-    text-align: center;
-}
-.ownerCol-4 .panel-heading a {
-    font-weight: 400;
-}
-.ownerCol-4 .panel-heading, .ownerCol-4 .panel {
-    border: none;
-    background: none;
-    box-shadow: none;
-}
-.ownerCol-4 .panel-collapse.collapse.in {
-    background: #fff;
-}
-.ownerCol-4 {
-     width: 120px;
-}
-.ownerCol-4 p {
-    font-size: 12px;
-}*/
 .ownerCol-3 {
     font-size: 13px;
 }
