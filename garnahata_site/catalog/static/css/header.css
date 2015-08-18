@@ -18,7 +18,7 @@
     width: 100%;
     padding: 100px 15px;
     text-align: center;
-    z-index: 5;
+    z-index: 201;
 }
 
 #intro .header-content .header-content-inner h1 {
@@ -117,7 +117,11 @@
     float: right;
     left: 40px;
 }
+.logo img {
+    max-width: 100%;
+    height: auto;
+}
 
 .typeahead.dropdown-menu {
-    z-index: 100;
+    z-index: 1000;
 }

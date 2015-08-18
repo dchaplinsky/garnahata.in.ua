@@ -5,7 +5,7 @@
     bottom: 0;
     width: 100%;
     margin-bottom: 0;
-    z-index: 999;
+    z-index: 200;
 }
 
 .fixed-header.regular-page #mainNav {
@@ -39,7 +39,7 @@
     text-transform: uppercase;
     font-size: 13px;
     color: #222;
-    z-index: 6;
+    z-index: 201;
 }
 
 .navbar-default .nav > li>a:hover,

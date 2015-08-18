@@ -17,7 +17,9 @@
      .homepage.fixed-header #intro .header-content {
         padding: 25px 5px;
     }
-    
+    #intro .header-content .header-content-inner p {
+        font-size: 16px;
+    }
     h1 {
         font-size: 30px;
     }
