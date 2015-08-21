@@ -92,13 +92,30 @@ def latest_addresses(request):
 def _ownership_search(request):
     query = request.GET.get("q", "")
 
-    if query:
-        return paginated_search(request, ElasticOwnership.search().query(
-            "match", _all={"query": query, "minimum_should_match": "2"}
-        ))
+    fields_to_search = [
+        "owner", "asset", "ownership_ground", "ownership_form", "share",
+        "comment", "mortgage_charge", "mortgage_details",
+        "mortgage_charge_subjects", "mortgage_holder", "mortgage_mortgagor",
+        "mortgage_guarantor", "mortgage_other_persons"]
 
-    return paginated_search(
-        request, ElasticOwnership.search().query("match_all"))
+    if query:
+        ownerships = ElasticOwnership.search().query(
+            "multi_match", query=query, operator="and",
+            fields=fields_to_search
+        )
+
+        if ownerships.count() == 0:
+            # PLAN B, PLAN B
+            ownerships = ElasticOwnership.search().query(
+                "multi_match", query=query,
+                operator="or",
+                minimum_should_match="2",
+                fields=fields_to_search
+            )
+    else:
+        ownerships = ElasticOwnership.search().query("match_all")
+
+    return paginated_search(request, ownerships)
 
 
 def _addresses_search(request):

@@ -87,9 +87,13 @@ class NewsPage(AbstractJinjaPage, Page):
         related_name='+'
     )
 
+    def get_tags(self):
+        return '\n'.join(self.tags.all().values_list('name', flat=True))
+
     search_fields = Page.search_fields + (
         index.SearchField('lead'),
         index.FilterField('body'),
+        index.SearchField('get_tags'),
     )
 
     template = "cms_pages/news_page.jinja"

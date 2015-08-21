@@ -27,6 +27,9 @@
             </td>
         {% endif %}
 		<td class="ownerCol-2">
+            {% if with_link %}
+                {{ ownership.addr_title }}{% if ownership.addr_city %}, {{ ownership.addr_city }} {% endif %}
+            {% endif %}
             <a class="ownerAnchor" name="ownership_{{ ownership.pk }}"></a>
             <span class="ownershipAsset">{{ ownership.asset }}</span>
             {% if ownership.share %}
