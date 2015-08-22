@@ -122,12 +122,22 @@ def _addresses_search(request):
     query = request.GET.get("q", "")
 
     if query:
-        return paginated_search(request, ElasticAddress.search().query(
-            "match", _all={"query": query, "minimum_should_match": "2"}
-        ))
+        addresses = ElasticAddress.search().query(
+            "match", _all={"query": query, "operator": "and"}
+        )
 
-    return paginated_search(
-        request, ElasticAddress.search().query("match_all"))
+        print(addresses.count())
+        if addresses.count() == 0:
+            # PLAN B, PLAN B
+            addresses = ElasticAddress.search().query(
+                "match", _all={"query": query},
+                operator="or",
+                minimum_should_match="2"
+            )
+    else:
+        addresses = ElasticAddress.search().query("match_all")
+
+    return paginated_search(request, addresses)
 
 
 def _news_search(request):
