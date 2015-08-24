@@ -33,7 +33,7 @@ class AddressAdminForm(forms.ModelForm):
         }
         js = ('https://api-maps.yandex.ru/2.0/?load=package.map&lang=ru-RU',
               'js/Control.Geocoder.js', 'js/Yandex.js',
-              'js/geocoder.init.js')
+              'js/admin.map.init.js')
 
     class Meta:
         model = Address
