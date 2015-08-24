@@ -13,9 +13,6 @@ class AddressAdminForm(forms.ModelForm):
         help_text="Увага! Файл має бути у спеціальному форматі. "
                   "Усі записи для цієї адреси буде стерто!")
 
-    # description = forms.TextField(
-    #     widget=TinyMCE(attrs={'cols': 80, 'rows': 30}))
-
     def save(self, force_insert=False, force_update=False, commit=True):
         m = super(AddressAdminForm, self).save(commit=False)
 

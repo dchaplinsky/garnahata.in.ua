@@ -1,14 +1,16 @@
 # coding: utf-8
 import json
-from django.db import models
 
+from django.db import models
 from django.core.urlresolvers import reverse
+from django.utils.html import mark_safe
+
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailsearch import index
 from wagtail.wagtailadmin import widgets
-
+from wagtail.wagtailcore import hooks
 from wagtail.wagtailadmin.edit_handlers import (
     InlinePanel, FieldPanel, PageChooserPanel)
 
@@ -21,12 +23,31 @@ from catalog.models import Address
 
 class AdminMultiTagWidget(widgets.AdminTagWidget):
     def render_js_init(self, id_, name, value):
-        return "$('#' + {0}).tagit({{autocomplete: {{source: {1}}}, allowSpaces: true}});".format(
-            json.dumps(id_),
-            json.dumps(reverse('wagtailadmin_tag_autocomplete')))
+        return (
+            "$.ui.keyCode.COMMA=$.ui.keyCode.ENTER;" +
+            "$('#' + {0}).tagit({{autocomplete: {{source: {1}}}, allowSpaces: true}});".format(
+                json.dumps(id_),
+                json.dumps(reverse('wagtailadmin_tag_autocomplete'))))
 
 
 class AbstractJinjaPage(object):
+    @hooks.register('insert_editor_js')
+    def editor_js():
+        return mark_safe(
+            """
+            <script>
+                $(function() {
+                    $(".richtext").each(function() {
+                        console.log(this);
+                        var widget = $(this).data("IKSHallo");
+                        widget.keepActivated(true);
+                        widget.activate();
+                    });
+                });
+            </script>
+            """
+        )
+
     def get_context(self, request, *args, **kwargs):
         return {
             'page': self,
