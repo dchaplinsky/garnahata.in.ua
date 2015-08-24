@@ -29,11 +29,11 @@ class AddressAdminForm(forms.ModelForm):
 
     class Media:
         css = {
-            'all': ('css/Control.Geocoder.css',)
+            'all': ('css/Control.Geocoder.css', 'css/admin.map.css')
         }
-        js = ('js/Control.Geocoder.js', 'js/Yandex.js',
-              'js/geocoder.init.js',
-              'https://api-maps.yandex.ru/2.0/?load=package.map&lang=ru-RU')
+        js = ('https://api-maps.yandex.ru/2.0/?load=package.map&lang=ru-RU'
+              'js/Control.Geocoder.js', 'js/Yandex.js',
+              'js/geocoder.init.js')
 
     class Meta:
         model = Address
