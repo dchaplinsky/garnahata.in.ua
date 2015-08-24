@@ -126,13 +126,14 @@ def _addresses_search(request):
             "match", _all={"query": query, "operator": "and"}
         )
 
-        print(addresses.count())
         if addresses.count() == 0:
             # PLAN B, PLAN B
             addresses = ElasticAddress.search().query(
-                "match", _all={"query": query},
-                operator="or",
-                minimum_should_match="2"
+                "match", _all={
+                    "query": query,
+                    "operator": "or",
+                    "minimum_should_match": "2"
+                },
             )
     else:
         addresses = ElasticAddress.search().query("match_all")
