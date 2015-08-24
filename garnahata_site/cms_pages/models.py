@@ -38,7 +38,6 @@ class AbstractJinjaPage(object):
             <script>
                 $(function() {
                     $(".richtext").each(function() {
-                        console.log(this);
                         var widget = $(this).data("IKSHallo");
                         widget.keepActivated(true);
                         widget.activate();
