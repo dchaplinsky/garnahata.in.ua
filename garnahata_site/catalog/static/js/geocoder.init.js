@@ -5,8 +5,20 @@ django.jQuery(window).on('map:init', function (e) {
             "position": "topleft",
         }).addTo(detail.map);
 
-    detail.map.addLayer(
-        new L.TileLayer(
-            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}));
+    yndx = new L.Yandex(),
+    yndxs = new L.Yandex('satellite'),
+    cadastre = new L.tileLayer.wms('http://212.26.144.110/geowebcache/service/wms', {
+        maxZoom: 19,
+        layers: 'kadastr',
+        format: 'image/png',
+        transparent: true,
+        hash: "cadastre",
+        overlay: true
+    });
+
+    detail.map.addLayer(yndx);
+
+    detail.map.layerscontrol.addBaseLayer(yndx, "Яндекс");
+    detail.map.layerscontrol.addBaseLayer(yndxs, "Яндекс Супутник");
+    detail.map.layerscontrol.addOverlay(cadastre, "Кадастр");
 });
