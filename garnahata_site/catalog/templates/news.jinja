@@ -1,0 +1,41 @@
+{% extends "base.jinja" %}
+
+{% from "macros/_news.jinja" import render_news %}
+
+
+{% block bodyclass %}fixed-header regular-page news{% endblock %}
+
+{% block content %}
+<h1>News news news!</h1>
+
+<section id="news">
+            {% if hp_news %}
+            <div id="topNews">
+                <h2 class="blue">Останні новини</h2>
+                <div class="topNewsContainer">
+                    <div class="overImage"><img src="{{ hp_news.image.file|thumbnail_url("homepage_news") }}" /></div>
+                    <div class="overInfo">
+                        <div>
+                            <span class="dateInfo">{{ hp_news.date_added|date }}</span>
+                            <div><h3 class="shortTitle"><a href="{{ hp_news.url }}">{{ hp_news.title }}</a></h3></div>
+                            <div><h4 class="title"><a href="{{ hp_news.url }}">{{ hp_news.lead|richtext }}</a></h4></div>
+                            <div class="newsStats"> <span class="viewsCounter"><!-- <span class="commentsCounter"><i class="fa fa-comment-o"></i> 12 --></span> </div>
+                        </div>
+                    </div>
+                    <div class="clr"></div>
+                </div>
+            </div>
+            {% endif %}
+            <div id="news">
+                <div id="newsMassonry" class="massonry">
+                    <div class="grid-sizer"></div>
+                    {% for news in latest_news %}
+                    {{ render_news(news) }}
+                    {% endfor %}
+                </div>
+                <div class="clr h40"></div>
+                {# <p class="text-center"><a class="blue rounded text-center moreAjax">Ану покажіть більше новин <i class="fa fa-refresh"></i></a></p> #}
+            </div>
+</section>
+
+{% endblock %}
