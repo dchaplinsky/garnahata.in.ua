@@ -21,7 +21,7 @@
     z-index: 201;
 }
 
-#intro .header-content .header-content-inner h1 {
+#intro .header-content .header-content-inner .logo {
     margin-top: 0;
     text-transform: uppercase;
     font-weight: 700;
@@ -63,7 +63,7 @@
     top: 0;
 }
 
-#intro h1 span {
+#intro .logo span {
     display: none;
 }
 
@@ -99,7 +99,7 @@
     display: none;
 }
 
-.fixed-header #intro h1 {
+.fixed-header #intro .logo {
     margin-bottom: 0;
     float: left;
     text-align: left;
@@ -108,7 +108,7 @@
     font-size: 14px;
 }
 
-.fixed-header #intro h1 img {
+.fixed-header #intro .logo img {
     width: 132px;
     height: auto;
 }

@@ -20,19 +20,15 @@ class ElasticPaginator(Paginator):
         }
 
 
-class ElasticPage(Page):
-    def __len__(self):
-        return self.paginator.count
+class BetterPaginator(Paginator):
+    """Implementation of Django's Paginator that makes amends for
+    Elasticsearch DSL search object details. Pass a search object to the
+    constructor as `object_list` parameter."""
+    def _get_page(self, *args, **kwargs):
+        return BetterPage(*args, **kwargs)
 
-    def __getitem__(self, index):
-        if not isinstance(index, (slice,) + six.integer_types):
-            raise TypeError
-        # The object_list is converted to a Response so that its result can be
-        # used as a normal iterable. Doesn't trigger more than one hit too.
-        if not isinstance(self.object_list, Response):
-            self.object_list = self.object_list.execute()
-        return self.object_list[index]
 
+class BetterPage(Page):
     @property
     def contextual_page_range(self):
         """Determines a list of page numbers based on current page and total
@@ -77,6 +73,20 @@ class ElasticPage(Page):
         if current < final - 3:
             included.insert(len(included) - 1, None)
         return included
+
+
+class ElasticPage(BetterPage):
+    def __len__(self):
+        return self.paginator.count
+
+    def __getitem__(self, index):
+        if not isinstance(index, (slice,) + six.integer_types):
+            raise TypeError
+        # The object_list is converted to a Response so that its result can be
+        # used as a normal iterable. Doesn't trigger more than one hit too.
+        if not isinstance(self.object_list, Response):
+            self.object_list = self.object_list.execute()
+        return self.object_list[index]
 
     def to_api(self):
         return {

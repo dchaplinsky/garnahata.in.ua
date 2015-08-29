@@ -62,6 +62,10 @@
     .massonry .item {
         width: 50%;
     }
+    body.news .grid-sizer,
+    body.news .massonry .item {
+        width: 33.333%;
+    }
     .navbar-default {
         border-color: rgba(255, 255, 255, .3);
         background-color: transparent;
@@ -135,6 +139,10 @@
     .grid-sizer,
     .massonry .item {
         width: 33%;
+    }
+    body.news .grid-sizer,
+    body.news .massonry .item {
+        width: 25%;
     }
 }
 

@@ -1,0 +1,25 @@
+{% extends "base.jinja" %}
+
+{% from "macros/_news.jinja" import render_news %}
+
+
+{% block bodyclass %}fixed-header regular-page news{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Новини</h1>
+
+<section id="news">
+
+            <div id="news">
+                <div id="newsMassonry" class="massonry">
+                    <div class="grid-sizer"></div>
+                    {% for news in news %}
+                    {{ render_news(news) }}
+                    {% endfor %}
+                </div>
+                <div class="clr h40"></div>
+                {# <p class="text-center"><a class="blue rounded text-center moreAjax">Ану покажіть більше новин <i class="fa fa-refresh"></i></a></p> #}
+            </div>
+</section>
+
+{% endblock %}

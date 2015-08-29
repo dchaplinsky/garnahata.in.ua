@@ -1,0 +1,25 @@
+{% extends "base.jinja" %}
+
+{% from "macros/_news.jinja" import render_news %}
+{% from "macros/_pagination.jinja" import render_pagination with context %}
+
+
+{% block bodyclass %}fixed-header regular-page news{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Новини</h1>
+
+<section id="news">
+    <div id="news">
+        <div id="newsMassonry" class="massonry">
+            <div class="grid-sizer"></div>
+            {% for news in news %}
+            {{ render_news(news) }}
+            {% endfor %}
+        </div>
+        <div class="clr h40"></div>
+    </div>
+    {{ render_pagination(news, url("news")) }}
+</section>
+
+{% endblock %}
