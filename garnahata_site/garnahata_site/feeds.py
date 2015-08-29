@@ -5,12 +5,12 @@ from cms_pages.models import NewsPage
 
 
 class LatestNewsFeed(Feed):
-    title = "Garnahata.in.ua site news"
+    title = "Новини та розслідування Garnahata.in.ua"
     link = "/feeds/news/"
-    description = "Latest news"
+    description = "Останні новини"
 
     def items(self):
-        return NewsPage.objects.all()
+        return NewsPage.objects.live().order_by("-first_published_at")
 
     def item_title(self, item):
         return item.title
@@ -20,3 +20,6 @@ class LatestNewsFeed(Feed):
 
     def item_link(self, item):
         return item.url
+
+    def item_pubdate(self, item):
+        return item.first_published_at

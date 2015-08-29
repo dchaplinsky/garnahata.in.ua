@@ -49,7 +49,7 @@ urlpatterns = patterns(
     url(r'^search_addresses$', 'catalog.views.search',
         name='search_addresses', kwargs={"sources": ["addresses"]}),
 
-    url(r'^feeds/news/$', LatestNewsFeed()),
+    url(r'^feeds/news/$', LatestNewsFeed(), name="rss_feed"),
 
     url(r'^tinymce/', include('tinymce.urls')),
 
