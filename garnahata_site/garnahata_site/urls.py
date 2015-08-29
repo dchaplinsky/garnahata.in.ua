@@ -21,8 +21,8 @@ urlpatterns = patterns(
 
     url(r'^by_city$', 'catalog.views.addresses_by_city',
         name='addresses_by_city'),
-        
-     url(r'^news$', 'catalog.views.news',
+
+    url(r'^news$', 'cms_pages.views.news',
         name='news'),
 
     url(r'^search$', 'catalog.views.search',

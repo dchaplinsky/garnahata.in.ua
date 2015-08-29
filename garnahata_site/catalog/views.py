@@ -76,17 +76,6 @@ def addresses_by_city(request):
         }
     )
 
-def news(request):
-    news = NewsPage.objects.live().order_by("-date_added")
-
-    return render(
-        request,
-        "news.jinja",
-        {
-            "news": news,
-        }
-    )
-
 
 def latest_addresses(request):
     addresses = Address.objects.order_by("-date_added")
