@@ -62,6 +62,7 @@
                                 {% for menuitem in top_menu %}
                                     <li><a href="{{ menuitem.link }}">{{ menuitem.caption }}</a></li>
                                 {% endfor %}
+                                <li><a href="{{ url("rss_feed") }}" target="_blank">RSS <i class="fa fa-rss"></i></a></li>
                             </ul>
                             <ul class="nav navbar-nav nav-social navbar-right">
                                 <li><a class="green rounded" href="https://docs.google.com/forms/d/1H9B4-lVbFtwoAAjqWdj4NSlE7BC_CHocTmQ9ZMyk-UA/viewform?c=0&w=1" target="_blank">Я знаю цього тіпа</a></li>
