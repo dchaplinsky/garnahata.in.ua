@@ -33,7 +33,7 @@
                 <br> частка: {{ ownership.share }}
             {% endif %}
             {% if ownership.mortgage_registered %}
-                <a class="collapsed btn blue rounded mortgage_registered" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{ ownership.id }}" aria-expanded="false" aria-controls="collapse_{{ ownership.id }}">Іпотека ↓</a>
+                <a class="collapsed btn blue rounded mortgage_registered" role="button" href="#">Іпотека ↓</a>
             {% endif %}
         </td>
         <td class="ownerCol-3">
@@ -54,7 +54,7 @@
         <tr>
             <td colspan="4">
                 
-                    <div class="table-responsive mortgage-cell">
+                    <div class="table-responsive mortgage-cell mortgage-{{ ownership.prop_id }}">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>

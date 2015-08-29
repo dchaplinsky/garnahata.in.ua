@@ -77,7 +77,7 @@ def addresses_by_city(request):
     )
 
 def news(request):
-    news = NewsPage.objects.live()
+    news = NewsPage.objects.live().order_by("-date_added")
 
     return render(
         request,
