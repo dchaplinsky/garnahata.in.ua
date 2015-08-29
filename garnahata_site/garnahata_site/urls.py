@@ -3,10 +3,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.conf.urls import patterns, include, url
 
+
 from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtailadmin import urls as wagtailadmin_urls
 
 from garnahata_site.sitemaps import MainXML, AdressXML, NewsXML, StaticXML
+from garnahata_site.feeds import LatestNewsFeed
 
 sitemaps = {
     'main': MainXML,
@@ -46,6 +48,8 @@ urlpatterns = patterns(
 
     url(r'^search_addresses$', 'catalog.views.search',
         name='search_addresses', kwargs={"sources": ["addresses"]}),
+
+    url(r'^feeds/news/$', LatestNewsFeed(), name="rss_feed"),
 
     url(r'^tinymce/', include('tinymce.urls')),
 
