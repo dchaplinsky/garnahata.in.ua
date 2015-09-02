@@ -10,7 +10,7 @@ class LatestNewsFeed(Feed):
     description = "Останні новини"
 
     def items(self):
-        return NewsPage.objects.live().order_by("-first_published_at")
+        return NewsPage.objects.live().order_by("-date_added")
 
     def item_title(self, item):
         return item.title
@@ -22,4 +22,4 @@ class LatestNewsFeed(Feed):
         return item.url
 
     def item_pubdate(self, item):
-        return item.first_published_at
+        return item.date_added

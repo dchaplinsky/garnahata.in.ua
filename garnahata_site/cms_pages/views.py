@@ -26,7 +26,7 @@ def tag_news(request, slug):
 
 def news(request):
     news = BetterPaginator(
-        NewsPage.objects.live().order_by("-first_published_at"), 16)
+        NewsPage.objects.live().order_by("-date_added"), 16)
 
     page = request.GET.get('page')
     try:
