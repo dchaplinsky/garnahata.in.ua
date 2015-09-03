@@ -1,6 +1,6 @@
 {% extends "base.jinja" %}
 
-{% from "macros/_news.jinja" import render_news %}
+{% from "macros/_listnews.jinja" import render_news %}
 {% from "macros/_pagination.jinja" import render_pagination with context %}
 
 
@@ -10,18 +10,15 @@
 <h1 class="text-center">Новини</h1>
 
 <section id="news">
-    <div id="news">
-        <div id="newsMassonry" class="massonry">
-            <div class="grid-sizer"></div>
-            {% for news in news %}
-            {{ render_news(news) }}
-            {% endfor %}
-        </div>
-        <div class="clr h40"></div>
-    </div>
+    <ul class="media-list">
+        {% for news in news %}
+            <li class="media">
+                {{ render_news(news) }}
+            </li>
+        {% endfor %}
+    </ul>
     <div class="text-center">
     {{ render_pagination(news, url("news")) }}
-    </div>
 </section>
 
 {% endblock %}

@@ -1,0 +1,19 @@
+{% macro render_news(news) %}
+<div class="item{% if news.important %} important-news{% endif %}">
+        <div class="well">
+            <div class="media-left">
+                <a href="{{ news.url }}">
+                    <img class="media-object" src="{{ news.image.file|thumbnail_url("news_thumbnail") }}" alt="" />
+                </a>
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">
+                    <a href="{{ news.url }}">{{ news.title }}</a>
+                </h4>
+                <div class="newsStats"><!-- <span class="viewsCounter"><span class="commentsCounter"><i class="fa fa-comment-o"></i> 12</span> --><span>{{ news.date_added|date }}</span>
+                </div>
+                {{ news.lead|richtext}}
+            </div>
+        </div>
+</div>
+{% endmacro %}
