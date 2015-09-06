@@ -15,29 +15,43 @@ from cms_pages.models import NewsPage
 
 
 def suggest(request):
-    search = ElasticOwnership.search()\
-        .suggest(
-            'name',
-            request.GET.get('q', ''),
-            completion={
-                'field': 'full_name_suggest',
-                'size': 10,
-                'fuzzy': {
-                    'fuzziness': 2,
-                    'unicode_aware': 1
+    def assume(q, fuzziness):
+        search = ElasticOwnership.search()\
+            .suggest(
+                'name',
+                q,
+                completion={
+                    'field': 'full_name_suggest',
+                    'size': 10,
+                    'fuzzy': {
+                        'fuzziness': fuzziness,
+                        'unicode_aware': 1
+                    }
                 }
-            }
-    )
-
-    res = search.execute()
-
-    if res.success():
-        return JsonResponse(
-            [val['text'] for val in res.suggest['name'][0]['options']],
-            safe=False
         )
-    else:
-        return JsonResponse([], safe=False)
+
+        res = search.execute()
+
+        if res.success():
+            return [val['text'] for val in res.suggest['name'][0]['options']]
+        else:
+            []
+
+    q = request.GET.get('q', '').strip()
+
+    # It seems, that for some reason 'AUTO' setting doesn't work properly
+    # for unicode strings
+    fuzziness = 0
+
+    if len(q) > 2:
+        fuzziness = 1
+
+    suggestions = assume(q, fuzziness)
+
+    if not suggestions:
+        suggestions = assume(q, fuzziness + 1)
+
+    return JsonResponse(suggestions, safe=False)
 
 
 def address_details(request, slug):
