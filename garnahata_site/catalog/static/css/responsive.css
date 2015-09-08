@@ -2,6 +2,7 @@
         width: 100%;
         margin-left: 0;
 }
+
 .fixed-header #search-box {
      margin-left: 0;
 }
@@ -17,9 +18,11 @@
      .homepage.fixed-header #intro .header-content {
         padding: 25px 5px;
     }
+    
     #intro .header-content .header-content-inner p {
         font-size: 16px;
     }
+    
     h1 {
         font-size: 30px;
     }
@@ -49,50 +52,63 @@
     #sidebar {
         float: left;
     }
+    
     #main {
         float: right;
     }
+    
     .regular-page #sidebar {
         float: right;
     }
+    
     .regular-page #main {
         float: left;
     }
+    
     .grid-sizer,
     .massonry .item {
         width: 50%;
     }
+    
     body.news .grid-sizer,
     body.news .massonry .item {
         width: 33.333%;
     }
+    
     .navbar-default {
         border-color: rgba(255, 255, 255, .3);
         background-color: transparent;
     }
+    
     .navbar-default .navbar-header .navbar-brand {
         color: rgba(255, 255, 255, .7);
     }
+    
     .navbar-default .navbar-header .navbar-brand:hover,
     .navbar-default .navbar-header .navbar-brand:focus {
         color: #fff;
     }
+    
     .navbar-default .nav > li>a,
     .navbar-default .nav>li>a:focus {
         color: rgba(255, 255, 255, 1);
     }
+    
     .navbar-default .nav > li>a:hover,
     .navbar-default .nav>li>a:focus:hover {
         color: #fff;
     }
+    
     .navbar-default.affix {
         border-color: rgba(34, 34, 34, .05);
         background-color: #fff;
     }
+    
     .navbar-default.affix .navbar-header .navbar-brand {
         font-size: 14px;
         color: #f05f40;
     }
+    
     .navbar-default.affix .navbar-header .navbar-brand:hover,
     .navbar-default.affix .navbar-header .navbar-brand:focus {
         color: #eb3812;
@@ -101,13 +117,16 @@
     .navbar-default.affix .nav>li>a:focus {
         color: #222;
     }
+    
     .navbar-default.affix .nav > li>a:hover,
     .navbar-default.affix .nav>li>a:focus:hover {
         color: #f05f40;
     }
+    
     #intro {
         min-height: 100%;
     }
+    
     #intro .header-content {
         position: absolute;
         top: 35%;
@@ -116,13 +135,16 @@
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
     }
+    
     .fixed-header header .header-content {
         top: 50px;
     }
+    
     #intro .header-content .header-content-inner {
         margin-right: auto;
         margin-left: auto;
     }
+    
     #intro .header-content .header-content-inner p {
         margin-right: auto;
         margin-left: auto;
@@ -140,6 +162,7 @@
     .massonry .item {
         width: 33%;
     }
+    
     body.news .grid-sizer,
     body.news .massonry .item {
         width: 25%;
@@ -150,12 +173,15 @@
     #sidebar {
         float: left;
     }
+    
     #main {
         margin-left: 8.33333333%;
     }
+    
     .regular-page #sidebar {
         float: right;
     }
+    
     .regular-page #main {
         margin-left: 0;
         margin-right: 8.33333333%;

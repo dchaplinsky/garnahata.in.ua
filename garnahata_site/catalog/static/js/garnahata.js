@@ -76,14 +76,14 @@
     });
     
     $( document ).ready(function() {
-        $(".overInfo h3, .overInfo h1").fitText(
+        $(".overInfo h3").fitText(
         1.4, {
             minFontSize: '30px',
             maxFontSize: '65px'
         }
     );
 
-        $(".overInfo h4").fitText(
+        $(".overInfo h4, .overInfo h1").fitText(
             1.4, {
                 minFontSize: '18px',
                 maxFontSize: '24px'

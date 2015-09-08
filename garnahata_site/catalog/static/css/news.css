@@ -72,7 +72,7 @@ h2.green {
 
 .overImage img {
     position: relative;
-    width:auto;
+    width: 100%;
 }
 
 .topNewsContainer a {

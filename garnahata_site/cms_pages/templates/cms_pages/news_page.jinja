@@ -42,10 +42,12 @@
                         {% set article = related_article.content_object %}
                         {% if article != page %}
                         <div class="media">
-                            <div class="media-left media-middle">
-                                <a href="{{ article.url }}"> <img src="{{ article.image.file|thumbnail_url("small_thumbnail") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
-                            </div>
-                            <div class="media-body">
+                            {% if article.image %}
+                                <div class="media-left media-middle">
+                                    <a href="{{ article.url }}"> <img src="{{ article.image.file|thumbnail_url("small_thumbnail") }}" width="60" height="60" class="media-object img-circle" "width:64px; height: 64px;"> </a>
+                                </div>
+                            {% endif %}
+                            <div class="media-body {% if not article.image %}no-image{% endif %}">
                                 <h5 class="media-heading" id="middle-aligned-media"><a class="anchorjs-link" href="{{ article.url }}">{{ article.title }}<span class="anchorjs-icon"></span></a><span>{{ article.date_added|date }}</span></h5>
                             </div>
                         </div>
