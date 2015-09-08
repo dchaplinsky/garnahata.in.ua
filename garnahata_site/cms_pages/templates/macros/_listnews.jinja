@@ -1,12 +1,14 @@
 {% macro render_news(news) %}
 <div class="item{% if news.important %} important-news{% endif %}">
         <div class="well">
-            <div class="media-left">
-                <a href="{{ news.url }}">
-                    <img class="media-object" src="{{ news.image.file|thumbnail_url("news_thumbnail") }}" alt="" />
-                </a>
-            </div>
-            <div class="media-body">
+            {% if news.image %}
+                <div class="media-left">
+                    <a href="{{ news.url }}">
+                        <img class="media-object" src="{{ news.image.file|thumbnail_url("news_thumbnail") }}" alt="" />
+                    </a>
+                </div>
+            {% endif %}
+            <div class="media-body {% if not news.image %}no-image{% endif %}">
                 <h4 class="media-heading">
                     <a href="{{ news.url }}">{{ news.title }}</a>
                 </h4>
