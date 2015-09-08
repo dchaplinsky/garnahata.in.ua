@@ -76,7 +76,7 @@
     });
     
     $( document ).ready(function() {
-        $(".overInfo h3").fitText(
+        $(".overInfo h3, .overInfo h1").fitText(
         1.4, {
             minFontSize: '30px',
             maxFontSize: '65px'

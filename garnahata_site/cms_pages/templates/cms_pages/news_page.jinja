@@ -5,18 +5,25 @@
         <section id="main" class="col col-sm-8">
             <article>
                 <header>
-                    <div id="topNews">
-                        <div class="topNewsContainer">
-                            <div class="overImage">
-                                <img class="img-responsive" src="{{ page.image.file|thumbnail_url("homepage_news") }}" />
-                                <div class="overInfo">
-                                    <span class="dateInfo">{{ page.date_added|date }}</span>
-                                    <h4 class="title">{{ page.title }}</h4>
+                    {% if page.image %}
+                        <div id="topNews">
+                            <div class="topNewsContainer">
+                                <div class="overImage">
+                                        <img class="img-responsive" src="{{ page.image.file|thumbnail_url("homepage_news") }}" />
+                                    <div class="overInfo">
+                                        <span class="dateInfo">{{ page.date_added|date }}</span>
+                                        <h1 class="title">{{ page.title }}</h1>
+                                    </div>
                                 </div>
+                                <div class="clr"></div>
                             </div>
-                            <div class="clr"></div>
                         </div>
-                    </div>
+                    {% else %}
+                        <div id="topNews">
+                            <h1 class="title">{{ page.title }}</h1>
+                            <span class="dateInfo">{{ page.date_added|date }}</span>
+                        </div>
+                    {% endif %}
                 </header>
                 {{ page.body|richtext }}
             </article>

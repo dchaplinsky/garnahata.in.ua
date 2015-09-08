@@ -102,6 +102,10 @@ h2.green {
     text-align: left;
 }
 
+.overInfo h1 {
+    color: white;
+}
+
 .overInfo div {
     display: block;
     width: 100%;
