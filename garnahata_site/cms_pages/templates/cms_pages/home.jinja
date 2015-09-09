@@ -4,6 +4,8 @@
 {% block bodyclass %}homepage not-fixed-header{% endblock %}
 
 {% block header_intro %}
+    <p class="text-center nm"><a href="https://www.facebook.com/kancelaristy" target="_blank">Проект канцелярської сотні</a></p>
+    <p class="text-center nm"><a href="https://www.facebook.com/kancelaristy" target="_blank"><span class="clogos clogos_cs noAnimation">Канцелярська сотня</span></a></p>
 	<p class="text-center">{{ page.body|richtext }}</p>
 {% endblock %}
 
@@ -14,6 +16,7 @@
     <div id="main" class="col col-sm-8">
         <section id="bigMap" data-geojson="{{ latest_addresses.map_markers()|jsonify }}" class="geojson-container frontMap">
             <h2 class="green text-center">Елітне житло України</h2>
+            <div class="overlayMap" onClick="style.pointerEvents='none'"></div>
             {{ leaflet_map("yourmap") }}
         </section>
     

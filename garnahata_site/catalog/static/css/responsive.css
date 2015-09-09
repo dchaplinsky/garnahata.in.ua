@@ -128,15 +128,18 @@
     }
     
     #intro .header-content {
-        position: absolute;
-        top: 35%;
+        position: absolute;       
         padding: 0 50px;
+    }
+    
+    .homepage #intro .header-content {
+        top: 35%;
         -webkit-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
     }
     
-    .fixed-header header .header-content {
+    .homepage.fixed-header header .header-content {
         top: 50px;
     }
     

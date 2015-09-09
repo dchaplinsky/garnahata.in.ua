@@ -13,6 +13,10 @@
     -o-background-size: cover;
 }
 
+.fixed-header.regular-page #intro {
+    background-image: url(../images/fixedheader.jpg);
+}
+
 #intro .header-content {
     position: relative;
     width: 100%;
@@ -117,6 +121,7 @@
     float: right;
     left: 40px;
 }
+
 .logo img {
     max-width: 100%;
     height: auto;

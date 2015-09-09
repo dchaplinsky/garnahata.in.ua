@@ -598,3 +598,14 @@ td.hidden_cell {
 #news .media-list .media-left {
     padding-right: 20px;
 }
+
+.overlayMap {
+    /* prevent from zoom when scrolling page */
+     background: transparent; 
+     position: relative; 
+     width: 100%;
+     height: 300px;
+     top: 300px;
+     margin-top: -300px;
+     z-index: 100;
+}

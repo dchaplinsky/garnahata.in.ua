@@ -3,7 +3,7 @@
 
     var $d = $('header').height() - 160,
         $w = $(window),
-        $b = $("body");
+        $b = $("body.homepage");
 
     $("#search-form").typeahead({
         minLength: 2,
