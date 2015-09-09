@@ -1,34 +1,34 @@
 {% macro render_property(list_of_ownerships, classname="", tags={}) %}
     {% set owner = None %}
-	{% for ownership in list_of_ownerships %}
-	{{ render_ownership(ownership, classname, tags=tags, hide_owner=(owner==ownership.owner))}}
+    {% for ownership in list_of_ownerships %}
+    {{ render_ownership(ownership, classname, tags=tags, hide_owner=(owner==ownership.owner))}}
     {% set owner = ownership.owner %}
-	{% endfor %}
+    {% endfor %}
 {% endmacro %}
 
 {% macro render_ownership(ownership, classname="", with_link=False, tags={}, hide_owner=False) %}
-	<tr{% if classname %} class="{{ classname }}"{% endif %}>
+    <tr{% if classname %} class="{{ classname }}"{% endif %}>
         {% if not hide_owner %}
-    		<td class="ownerCol-1">
+            <td class="ownerCol-1">
                 <div itemscope itemtype='http://schema.org/Person'>
                     <meta itemprop="name" content="{{ ownership.owner }}" />
-        			{% if with_link %}
-        				<a href="{{ ownership.url }}" itemprop="url">{{ ownership.owner }}</a>
-        			{% else %}
-        				<span class="ownershipOwner">{{ ownership.owner }}</span>
-        			{% endif %}
+                    {% if with_link %}
+                        <a href="{{ ownership.url }}" itemprop="url">{{ ownership.owner }}</a>
+                    {% else %}
+                        <span class="ownershipOwner">{{ ownership.owner }}</span>
+                    {% endif %}
                 </div>
                 {% for tag in tags.keys() %}
                     {% if tag in ownership.owner.lower() %}
                         <a class="btn btn-alert" href = {{ url('cms_pages:tag_news', slug = tags[tag].slug ) }}><i class="fa fa-user-secret"></i> <span>Є інформація</span></a>
                     {% endif %}
                 {% endfor %}
-    		</td>
+            </td>
         {% else %}
             <td class="ownerCol-1 hidden_cell">
             </td>
         {% endif %}
-		<td class="ownerCol-2">
+        <td class="ownerCol-2">
             {% if with_link %}
                 {{ ownership.addr_title }}{% if ownership.addr_city %}, {{ ownership.addr_city }} {% endif %}
             {% endif %}
@@ -54,7 +54,7 @@
                 {{ ownership.ownership_form }}
             {% endif %}
         </td>
-	</tr>
+    </tr>
     {% if ownership.mortgage_registered %}
         <tr>
             <td colspan="4">
@@ -117,4 +117,3 @@
         </div>
     </div>
 {% endmacro %}
-
