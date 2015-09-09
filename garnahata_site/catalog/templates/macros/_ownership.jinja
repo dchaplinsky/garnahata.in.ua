@@ -11,18 +11,18 @@
         {% if not hide_owner %}
     		<td class="ownerCol-1">
                 <div itemscope itemtype='http://schema.org/Person'>
+                    <meta itemprop="name" content="{{ ownership.owner }}" />
         			{% if with_link %}
-                        <meta itemprop="name" content="{{ ownership.owner }}"/>
-        				<a href="{{ ownership.url }}" itemprop='url'>{{ ownership.owner }}</a>
+        				<a href="{{ ownership.url }}" itemprop="url">{{ ownership.owner }}</a>
         			{% else %}
-        				<span class="ownershipOwner" itemprop='name'>{{ ownership.owner }}</span>
+        				<span class="ownershipOwner">{{ ownership.owner }}</span>
         			{% endif %}
                 </div>
-                    {% for tag in tags.keys() %}
-                        {% if tag in ownership.owner.lower() %}
-                            <a class="btn btn-alert" href = {{ url('cms_pages:tag_news', slug = tags[tag].slug ) }}><i class="fa fa-user-secret"></i> <span>Є інформація</span></a>
-                        {% endif %}
-                    {% endfor %}
+                {% for tag in tags.keys() %}
+                    {% if tag in ownership.owner.lower() %}
+                        <a class="btn btn-alert" href = {{ url('cms_pages:tag_news', slug = tags[tag].slug ) }}><i class="fa fa-user-secret"></i> <span>Є інформація</span></a>
+                    {% endif %}
+                {% endfor %}
     		</td>
         {% else %}
             <td class="ownerCol-1 hidden_cell">
@@ -59,7 +59,7 @@
         <tr>
             <td colspan="4">
                 <div class="table-responsive mortgage-cell mortgage-{{ ownership.prop_id }}">
-                    <table class="table table-bordered" itemscope itemtype='http://schema.org/Action'>
+                    <table class="table table-bordered" itemscope itemtype="http://schema.org/Action">
                         <thead>
                             <tr>
                                 <th>Дата реєстрації іпотеки</th>
