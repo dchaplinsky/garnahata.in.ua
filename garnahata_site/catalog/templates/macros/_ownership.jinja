@@ -93,7 +93,7 @@
 
 {% macro render_address(address) %}
     <div class="media">
-        <div itemscope itemtype='http://schema.org/Residence'>
+        <div itemscope {% if address.commercial_name %} itemtype='http://schema.org/ApartmentComplex' {% else %} itemtype='http://schema.org/Residence' {% endif %} >
             {% if address.photo %}
                 <div class="media-left">
                     <a href="{{ address.url }}" itemprop='url'>
@@ -108,9 +108,7 @@
                     <meta itemprop="telephone" content="None"/>
                     <a class="anchorjs-link" href="{{ address.url }}">{{ address.title }}</a>
                     {% if address.commercial_name %}
-                        <div itemscope itemtype='http://schema.org/ApartmentComplex'>
-                            <span itemprop='name'>{{ address.commercial_name }}</span>
-                        </div>
+                        <span itemprop='alternateName'>{{ address.commercial_name }}</span>
                     {% endif %}
                 </h5>
             </div>
