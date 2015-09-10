@@ -10,7 +10,7 @@
     <tr{% if classname %} class="{{ classname }}"{% endif %}>
         {% if not hide_owner %}
             <td class="ownerCol-1">
-                <div itemscope itemtype='http://schema.org/Person'>
+                <div itemscope itemtype="http://schema.org/Person">
                     <meta itemprop="name" content="{{ ownership.owner }}" />
                     {% if with_link %}
                         <a href="{{ ownership.url }}" itemprop="url">{{ ownership.owner }}</a>
@@ -74,14 +74,14 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td {% if ownership.mortgage_registered|date %} itemprop='startTime' {% endif %}>{{ ownership.mortgage_registered|date }}</td>
-                                <td {% if ownership.mortgage_charge %} itemprop='instrument' {% endif %}>{{ ownership.mortgage_charge }}</td>
-                                <td {% if ownership.mortgage_details %} itemprop='description' {% endif %}>{{ ownership.mortgage_details }}</td>
-                                <td {% if ownership.mortgage_charge_subjects %} itemprop='participant' {% endif %}>{{ ownership.mortgage_charge_subjects }}</td>
-                                <td {% if ownership.mortgage_holder %} itemprop='participant' {% endif %}>{{ ownership.mortgage_holder }}</td>
-                                <td {% if ownership.mortgage_mortgagor %} itemprop='agent' {% endif %}>{{ ownership.mortgage_mortgagor }}</td>
-                                <td {% if ownership.mortgage_guarantor %} itemprop='participant' {% endif %}>{{ ownership.mortgage_guarantor }}</td>
-                                <td {% if ownership.mortgage_other_persons %} itemprop='participant' {% endif %}>{{ ownership.mortgage_other_persons }}</td>
+                                <td {% if ownership.mortgage_registered|date %} itemprop="startTime" {% endif %}>{{ ownership.mortgage_registered|date }}</td>
+                                <td {% if ownership.mortgage_charge %} itemprop="instrument" {% endif %}>{{ ownership.mortgage_charge }}</td>
+                                <td {% if ownership.mortgage_details %} itemprop="description" {% endif %}>{{ ownership.mortgage_details }}</td>
+                                <td {% if ownership.mortgage_charge_subjects %} itemprop="participant" {% endif %}>{{ ownership.mortgage_charge_subjects }}</td>
+                                <td {% if ownership.mortgage_holder %} itemprop="participant" {% endif %}>{{ ownership.mortgage_holder }}</td>
+                                <td {% if ownership.mortgage_mortgagor %} itemprop="agent" {% endif %}>{{ ownership.mortgage_mortgagor }}</td>
+                                <td {% if ownership.mortgage_guarantor %} itemprop="participant" {% endif %}>{{ ownership.mortgage_guarantor }}</td>
+                                <td {% if ownership.mortgage_other_persons %} itemprop="participant" {% endif %}>{{ ownership.mortgage_other_persons }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -93,11 +93,11 @@
 
 {% macro render_address(address) %}
     <div class="media">
-        <div itemscope itemtype='http://schema.org/Residence'>
+        <div itemscope {% if address.commercial_name %} itemtype="http://schema.org/ApartmentComplex" {% else %} itemtype="http://schema.org/Residence" {% endif %} >
             {% if address.photo %}
                 <div class="media-left">
-                    <a href="{{ address.url }}" itemprop='url'>
-                        <img class="media-object media64" src="{{ address.photo|thumbnail_url("address_thumbnail") }}" alt="{{ address.title }}" itemprop='photo'>
+                    <a href="{{ address.url }}" itemprop="url">
+                        <img class="media-object media64" src="{{ address.photo|thumbnail_url("address_thumbnail") }}" alt="{{ address.title }}" itemprop="photo">
                     </a>
                 </div>
             {% endif %}
@@ -106,11 +106,15 @@
                     <meta itemprop="name" content="{{ address.title }}"/>
                     <meta itemprop="address" content="{{ address.address }}"/>
                     <meta itemprop="telephone" content="None"/>
+                    {% if address.coords %}
+                        <div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
+                            <meta itemprop="latitude" content="{{ address.map_marker()["coords"][0] }}"/>
+                            <meta itemprop="longitude" content="{{ address.map_marker()["coords"][1] }}"/>
+                        </div>
+                    {% endif %}
                     <a class="anchorjs-link" href="{{ address.url }}">{{ address.title }}</a>
                     {% if address.commercial_name %}
-                        <div itemscope itemtype='http://schema.org/ApartmentComplex'>
-                            <span itemprop='name'>{{ address.commercial_name }}</span>
-                        </div>
+                        <span itemprop="alternateName">{{ address.commercial_name }}</span>
                     {% endif %}
                 </h5>
             </div>
