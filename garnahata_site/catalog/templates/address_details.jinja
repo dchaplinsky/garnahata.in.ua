@@ -3,29 +3,32 @@
 {% from "macros/_ownership.jinja" import render_property %}
 
 {% block content %}
-        <div class="col">
-            <h1>{{ address.title }}</h1>
-            {% if address.address %}
-            <h2>{{ address.get_city_display() }}, {{ address.address }} {{ address.cadastral_number }}</h2>
-            {% endif %}
-            {% if address.commercial_name %}
-            <h3>{{ address.commercial_name }}</h3>
-            {% endif %}
-            {{ address.description|safe }}
-
-            {% if address.link %}
-                <h5><a href="{{ address.link }}" rel="nofollow" target="_blank">Додаткова інформація</a></h5>
-            {% endif %}
-        </div>
-        
-        {% if address.photo or address.coords %}
-        <div class="mt">
+        <div itemscope {% if address.commercial_name %} itemtype="http://schema.org/ApartmentComplex" {% else %} itemtype="http://schema.org/Residence" {% endif %} >
+            <div class="col">
+                <h1 itemprop="name">{{ address.title }}</h1>
+                {% if address.address %}
+                <h2 itemprop="address">{{ address.get_city_display() }}, {{ address.address }} {{ address.cadastral_number }}</h2>
+                {% endif %}
+                {% if address.commercial_name %}
+                <h3 itemprop="alternateName">{{ address.commercial_name }}</h3>
+                {% endif %}
+                {% if address.description %}
+                    <span itemprop="description">{{ address.description|safe }}</span>
+                {% endif %}
+                <meta itemprop="telephone" content="None"/>
+                {% if address.link %}
+                    <h5><a href="{{ address.link }}" rel="nofollow" target="_blank" itemprop="url">Додаткова інформація</a></h5>
+                {% endif %}
+            </div>
+            
+            {% if address.photo or address.coords %}
+            <div class="mt">
                 <div class="row">
                     {% if address.photo %}
                     <section class="col-sm-4">
                         <div class="imgResponsiveHeightContainer">
                             <a href="{{ address.photo.url }}" target="_blank">
-                            <img class="imgResponsiveHeight" src="{{ address.photo|thumbnail_url("address_thumbnail") }}"/>
+                            <img class="imgResponsiveHeight" src="{{ address.photo|thumbnail_url("address_thumbnail") }}" itemprop="photo"/>
                             </a>
                         </div>
                     </section>
@@ -36,9 +39,14 @@
                         <h2 class="green text-center">{{ address.title }}</h2>
                         {{ leaflet_map("yourmap") }}
                     </section>
+                    <div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
+                        <meta itemprop="latitude" content="{{ address.map_marker()["coords"][0] }}"/>
+                        <meta itemprop="longitude" content="{{ address.map_marker()["coords"][1] }}"/>
+                    </div>
                     {% endif %}
-            </div>
-       </div>
+                </div>
+           </div>
+        </div>
        {% endif %}
        
         <div class="row">
