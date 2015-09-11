@@ -2,6 +2,7 @@
 
 {% from "macros/_ownership.jinja" import render_property %}
 
+{% block title %}{{ address.title }} {% if address.commercial_name %}({{ address.commercial_name }}){% endif %} — ГарнаХата, елітна нерухомість та її власники{% endblock %}
 {% block content %}
         <div itemscope {% if address.commercial_name %} itemtype="http://schema.org/ApartmentComplex" {% else %} itemtype="http://schema.org/Residence" {% endif %} >
             <div class="col">
