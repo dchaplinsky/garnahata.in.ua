@@ -106,10 +106,10 @@
                     <meta itemprop="name" content="{{ address.title }}"/>
                     <meta itemprop="address" content="{{ address.address }}"/>
                     <meta itemprop="telephone" content="None"/>
-                    {% if address.coords %}
+                    {% if address.map_marker %}
                         <div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
-                            <meta itemprop="latitude" content="{{ address.map_marker()["coords"][0] }}"/>
-                            <meta itemprop="longitude" content="{{ address.map_marker()["coords"][1] }}"/>
+                            <meta itemprop="latitude" content="{{ address.map_marker.coords[0] }}"/>
+                            <meta itemprop="longitude" content="{{ address.map_marker.coords[1] }}"/>
                         </div>
                     {% endif %}
                     <a class="anchorjs-link" href="{{ address.url }}">{{ address.title }}</a>
