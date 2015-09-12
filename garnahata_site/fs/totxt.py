@@ -8,6 +8,7 @@ import glob2
 import tempfile
 import xlsxwriter
 from io import BytesIO
+from operator import itemgetter
 
 usage = """\
 usage: parser.py source_file output_file
@@ -227,7 +228,7 @@ GROUP_REG1_1 = (
      r'Кадастровий номер:(\d{10}:\d{2}:\d{3}:\d{4})\n'),
     (REGISTRY1_1_5,
      r'Цільове призначення:\n(.*)\nАдреса'),
-    (REGISTRY1_1_6,r'Адреса:(.*?)\n(?:Актуальна інформація|Загальна площа|Земельні|Додаткові|Відомості|$)'),
+    (REGISTRY1_1_6,r'Адреса:(.*?)\n(?:Актуальна інформація|Загальна площа|Земельні|Додаткові|Відомості|Номер|$)'),
     (REGISTRY1_1_7,
      r'Земельні ділянки місця.*розташування:\n(.*?)($|Актуальна)'),
 )
@@ -282,7 +283,7 @@ GROUP_REG2_1 = (
      r'Реєстраційний номер\nмайна:\n(\d{8,14})\n'),
     (REGISTRY2_1_2,
      r'Тип майна:(.*?)\nАдреса'),
-    (REGISTRY2_1_3,r'Адреса нерухомого\nмайна:(.*?)\n(?:Актуальна інформація|Загальна площа|Земельні|Додаткові|Відомості|$)'),
+    (REGISTRY2_1_3,r'Адреса нерухомого\nмайна:(.*?)\n(?:Актуальна інформація|Загальна площа|Земельні|Додаткові|Відомості|Номер|Житлова площа|Площа|$)'),
     (REGISTRY2_1_4,
      r'Адреса нерухомого\nмайна:[\n|\s].*?\d{1,5}.*\n(Загальна площа.*)\nНомер запису:'),
     (REGISTRY2_1_5,r'Номер запису: (.*?)(\n|ВІДОМОСТІ|$)'),
@@ -405,32 +406,65 @@ def first_lvl_extraction(data,GROUP_PARAMS):
     return p
 
 def shorten(p):
-    p1 = re.search(r'(?:Т(?:ОВАРИСТВО З ОБМЕЖЕНОЮ ВІДПОВІДАЛЬНІСТЮ|овариство з обмеженою відповідальністю)|товариство з обмеженою відповідальністю) (.*?\d{8})',
+    p = p.strip(' ')
+    p1 = re.search(r'^(?:Т(?:ОВАРИСТВО З ОБМЕЖЕНОЮ ВІДПОВІДАЛЬНІСТЮ|овариство з обмеженою відповідальністю)|товариство з обмеженою відповідальністю) (.+?\d{8})',
                 p,re.U|re.I|re.S)
     if p1:
         return "TOB " + p1.group(1).replace(' код ЄДРПОУ:','')
 
-    p2 = re.search(r'(?:П(?:УБЛІЧНЕ АКЦІОНЕРНЕ ТОВАРИСТВО|ублічне акціонерне товариство|ублічне Акціонерне Товариство)|публічне акціонерне товариство) (.*?\d{8})',
+    p2 = re.search(r'^(?:П(?:УБЛІЧНЕ АКЦІОНЕРНЕ ТОВАРИСТВО|ублічне акціонерне товариство|ублічне Акціонерне Товариство)|публічне акціонерне товариство) (.+?\d{8})',
                 p,re.U|re.I|re.S)
 
     if p2:
         return "ПАТ " + p2.group(1).replace(' код ЄДРПОУ:','')
 
-    p3 = re.search(r'(?:А(?:КЦІОНЕРНО-КОМЕРЦІЙНИЙ БАНК|кціонерно-комерційний банк)|акціонерно-комерційний банк) (.*?\d{8})',
+    p3 = re.search(r'^(?:А(?:КЦІОНЕРНО-КОМЕРЦІЙНИЙ БАНК|кціонерно-комерційний банк)|акціонерно-комерційний банк) (.+?\d{8})',
                 p,re.U|re.I|re.S)
+
     if p3:
         return "АКБ " + p3.group(1).replace(' код ЄДРПОУ:','')
 
-    p4 = re.search(r'(?:П(?:РИВАТНЕ АКЦІОНЕРНЕ ТОВАРИСТВО|риватне акціонерне товариство|риватне Акціонерне Товариство)|приватне акціонерне товариство) (.*?\d{8})',
+    p4 = re.search(r'^(?:П(?:РИВАТНЕ АКЦІОНЕРНЕ ТОВАРИСТВО|риватне акціонерне товариство|риватне Акціонерне Товариство)|приватне акціонерне товариство) (.+?\d{8})',
                 p,re.U|re.I|re.S)
+
     if p4:
         return "ПрАТ " + p4.group(1).replace(' код ЄДРПОУ:','')
 
+
+    p9 = re.search(r'^(?:А(?:КЦІОНЕРНИЙ БАНК|кціонерний банк|кціонерний Банк)|акціонерний банк) (.+?\d{8})',
+                p,re.U|re.I|re.S)
+
+    if p9:
+        return "АБ " + p9.group(1).replace(' код ЄДРПОУ:','')
+
+
+    p11 = re.search(r'^(?:П(?:риватне підприємство|риватне підприємство|риватне Підприємство)|приватне підприємство) (.+?\d{8})',
+                p,re.U|re.I|re.S)
+    if p11:
+        return "ПП " + p11.group(1).replace(' код ЄДРПОУ:','')
+
+
+    p13 = re.search(r'^(?:К(?:омпанія з управління активами|омпанія з управління активами|омпанія З Управління Активами)|компанія з управління активами|КОМПАНІЯ З УПРАВЛІННЯ АКТИВАМИ) (.+?\d{8})',
+                p,re.U|re.I|re.S)
+    if p13:
+        return "КУА " + p13.group(1).replace(' код ЄДРПОУ:','')
+
+    p15 = re.search(r'^(?:ПАЙОВИЙ ЗАКРИТИЙ НЕДИВЕРСИФІКОВАНИЙ ВЕНЧУРНИЙ ІНВЕСТИЦІЙНИЙ ФОНД|пайовий закритий недиверсифікований венчурний інвестиційний фонд) (.+?\d{8})',
+                p,re.U|re.I|re.S)
+    if p15:
+        return "ПЗНВІФ " + p15.group(1).replace(' код ЄДРПОУ:','')
+    ############################
+    p16 = re.compile(r'(?:ПАЙОВИЙ ЗАКРИТИЙ НЕДИВЕРСИФІКОВАНИЙ ВЕНЧУРНИЙ ІНВЕСТИЦІЙНИЙ ФОНД|пайовий закритий недиверсифікований венчурний інвестиційний фонд)')
+    if p16:
+        return (p16.sub("ПЗНВІФ ",p))
+
     p5 = re.compile(r'(?:А(?:КЦІОНЕРНА КОМПАНІЯ З ОБМЕЖЕНОЮ ВІДПОВІДАЛЬНІСТЮ|кціонерна компанія з обмеженою відповідальністю)|акціонерна компанія з обмеженою відповідальністю)')
+    
     if p5:
         return (p5.sub("АК з ОВ ",p))
 
     p6 = re.compile(r'(?:В(?:ІДКРИТЕ АКЦІОНЕРНЕ ТОВАРИСТВО|ідкрите акціонерне товариство|ідкрите Акціонерне Товариство)|відкрите акціонерне товариство)')
+    
     if p6:
         return (p6.sub("ВАТ ",p))
 
@@ -442,42 +476,20 @@ def shorten(p):
     if p8:
         return (p8.sub("TOB ",p))
 
-    p9 = re.search(r'(?:А(?:КЦІОНЕРНИЙ БАНК|кціонерний банк|кціонерний Банк)|акціонерний банк) (.*?\d{8})',
-                p,re.U|re.I|re.S)
-    if p9:
-        return "АБ " + p9.group(1).replace(' код ЄДРПОУ:','')
-
     p10 = re.compile(r'(?:А(?:КЦІОНЕРНИЙ БАНК|кціонерний банк|кціонерний Банк)|акціонерний банк)')
+    
     if p10:
         return (p10.sub("АБ ",p))
 
-    p11 = re.search(r'(?:П(?:риватне підприємство|риватне підприємство|риватне Підприємство)|приватне підприємство) (.*?\d{8})',
-                p,re.U|re.I|re.S)
-    if p11:
-        return "ПП " + p11.group(1).replace(' код ЄДРПОУ:','')
-
     p12 = re.compile(r'(?:П(?:риватне підприємство|риватне підприємство|риватне Підприємство)|приватне підприємство)')
+    
     if p12:
         return (p12.sub("ПП ",p))
-
-    p13 = re.search(r'(?:К(?:омпанія з управління активами|омпанія з управління активами|омпанія З Управління Активами)|компанія з управління активами|КОМПАНІЯ З УПРАВЛІННЯ АКТИВАМИ) (.*?\d{8})',
-                p,re.U|re.I|re.S)
-    if p13:
-        return "КУА " + p13.group(1).replace(' код ЄДРПОУ:','')
 
     p14 = re.compile(r'(?:К(?:омпанія з управління активами|омпанія з управління активами|омпанія З Управління Активами)|компанія з управління активами|КОМПАНІЯ З УПРАВЛІННЯ АКТИВАМИ)')
     if p14:
         return (p14.sub("КУА ",p))
 
-    p15 = re.search(r'(?:ПАЙОВИЙ ЗАКРИТИЙ НЕДИВЕРСИФІКОВАНИЙ ВЕНЧУРНИЙ ІНВЕСТИЦІЙНИЙ ФОНД|пайовий закритий недиверсифікований венчурний інвестиційний фонд) (.*?\d{8})',
-                p,re.U|re.I|re.S)
-    if p15:
-        return "ПЗНВІФ " + p15.group(1).replace(' код ЄДРПОУ:','')
-
-    p16 = re.compile(r'(?:ПАЙОВИЙ ЗАКРИТИЙ НЕДИВЕРСИФІКОВАНИЙ ВЕНЧУРНИЙ ІНВЕСТИЦІЙНИЙ ФОНД|пайовий закритий недиверсифікований венчурний інвестиційний фонд)')
-    if p16:
-        return (p16.sub("ПЗНВІФ ",p))
-    
     return p
 
 def recieve_value(lst):
@@ -615,11 +627,13 @@ def first_part(text):
     #first level separation
     data = separate(text,GROUP_ALL) 
     #gets params of qwerty
+
     data[FETCH_PARAMS] = separate(data[FETCH_PARAMS],GROUP_OBJECT)
     #gets all possible records for each group in 'data' dictionary
     groups = [(REGISTRY1,GROUP_OBJECT1),(REGISTRY2,GROUP_OBJECT2),
               (REGISTRY3,GROUP_OBJECT3),(REGISTRY4,GROUP_OBJECT4)
     ]
+
     for group in groups:
         data[group[0]] = first_lvl_extraction(data[group[0]],group[1])
     #first level extractions for each group in 'data' dictionary
@@ -677,7 +691,7 @@ def second_part(check):
         for y in range(len(check[REGISTRY1][i][REGISTRY1_2])):
             dic = {}
             dic['Параметри запиту'] = \
-                    check[REGISTRY1][i][REGISTRY1_1][0][REGISTRY1_1_6].replace('\n',' ')
+                    check[REGISTRY1][i][REGISTRY1_1][0][REGISTRY1_1_6].replace('\n',' ').strip(' ')
             #a dictionary of lists of tuples containing fields of record and rule to process those strings
             fields = {
                     'Характеристики нерухомості': [(check[REGISTRY1][i][REGISTRY1_1][0][REGISTRY1_1_2],'x'),
@@ -699,7 +713,7 @@ def second_part(check):
             for y in range(len(check[REGISTRY2][i][REGISTRY2_2])):
                 dic = {}
                 dic['Параметри запиту'] = \
-                    check[REGISTRY2][i][REGISTRY2_1][0][REGISTRY2_1_3].replace('\n',' ')
+                    check[REGISTRY2][i][REGISTRY2_1][0][REGISTRY2_1_3].replace('\n',' ').strip(' ')
                 fields = {
                         'Характеристики нерухомості': [(check[REGISTRY2][i][REGISTRY2_1][0][REGISTRY2_1_2],'o'),
                                                        (check[REGISTRY2][i][REGISTRY2_1][0][REGISTRY2_1_4],'r'),],
@@ -717,7 +731,7 @@ def second_part(check):
         for y in range(len(check[REGISTRY1][i][REGISTRY1_3])):
             dic = {}
             dic['Параметри запиту'] = \
-                    check[REGISTRY1][i][REGISTRY1_1][0][REGISTRY1_1_6].replace('\n',' ')
+                    check[REGISTRY1][i][REGISTRY1_1][0][REGISTRY1_1_6].replace('\n',' ').strip(' ')
             fields = {
                     'Дата регистрации': [(check[REGISTRY1][i][REGISTRY1_3][y][REGISTRY1_3_2],'t'),],
                     'Причина обтяження': [(check[REGISTRY1][i][REGISTRY1_3][y][REGISTRY1_3_4],'h'),],
@@ -736,7 +750,7 @@ def second_part(check):
         for y in range(len(check[REGISTRY1][i][REGISTRY1_4])): 
             dic = {}
             dic['Параметри запиту'] = \
-                    check[REGISTRY1][i][REGISTRY1_1][0][REGISTRY1_1_6].replace('\n',' ')
+                    check[REGISTRY1][i][REGISTRY1_1][0][REGISTRY1_1_6].replace('\n',' ').strip(' ')
             fields = {
                     'Дата регистрации': [(check[REGISTRY1][i][REGISTRY1_4][y][REGISTRY1_4_2],'t'),],
                     'Причина обтяження': [(check[REGISTRY1][i][REGISTRY1_4][y][REGISTRY1_4_4],'h'),],
@@ -847,12 +861,12 @@ def convert_one(fname):
     os.unlink(output_file)
 
     # deletes junk
-    text = re.sub(r'стор. \d{1,3} з \d{1,3}|(?:RRP|REP)-.*?\n|  ', '' ,text) 
+    text = re.sub(r'стор. \d{1,6} з \d{1,6}|(?:RRP|REP)-.*?\n|  ', '' ,text) 
 
     check = first_part(text)
     check1 = second_part(check)
 
-    return check1, fname
+    return check, check1, fname
 
 
 def convert_many(mask):
@@ -882,10 +896,31 @@ def convert_many(mask):
     )
 
     row = 1
-    for check1, fname in to_export:
-        for item in check1[0]:
-            worksheet.write(row,0, fname.rsplit('/')[-1])
-            worksheet.write(row,1, item['Параметри запиту'])
+    for check, check1, fname in to_export:
+        query_keyword = (check[FETCH_PARAMS][OBJECT_ADDRESS].replace('\n',' ')  
+                if check[FETCH_PARAMS][OBJECT_ADDRESS] != 'None'
+                else check[FETCH_PARAMS][OBJECT_KOD]
+        ).replace('*','')
+        p = re.compile(r'( будинок.*| вулиця.*| провулок.*)')
+        query_keyword = p.sub("",query_keyword)
+
+        check1[0] = sorted(check1[0], key=lambda x: x['Параметри запиту'].rsplit(' ',1)[1])
+        check1[0] = sorted(check1[0], key=lambda x: x['Параметри запиту'].rsplit(',',1)[0])
+        check1[1] = sorted(check1[1], key=itemgetter('Параметри запиту'))
+
+        for index,item in enumerate(check1[0]):
+            if index-1 >= 0:
+                if check1[0][index-1]['Параметри запиту'] and \
+                    check1[0][index]['Параметри запиту']:
+                    p = re.compile(query_keyword)
+                    prev,cur = p.sub("",check1[0][index-1]['Параметри запиту']),\
+                                    p.sub("",check1[0][index]['Параметри запиту'])
+                    
+                    if prev.rsplit(' ',1)[1] != cur.rsplit(' ',1)[1]:
+                        worksheet.write(row,0,'')
+                        row += 1
+            worksheet.write(row,0,fname)
+            worksheet.write(row,1,item['Параметри запиту'])
             names = ['Дата регистрации','Власник',
                  'Характеристики нерухомості','Підстава власності',
                  'Форма власності','Частка',
@@ -895,9 +930,19 @@ def convert_many(mask):
                 map(lambda x: item[x], names))
             row += 1
 
-        for item in check1[1]:
-            worksheet.write(row, 0, fname.rsplit('/')[-1])
-            worksheet.write(row, 1, item['Параметри запиту'])
+        for index,item in enumerate(check1[1]):
+            if index-1 >= 0:
+                if check1[1][index-1]['Параметри запиту'] and \
+                    check1[1][index]['Параметри запиту']:
+                    p = re.compile(query_keyword)
+                    prev,cur = p.sub("",check1[1][index-1]['Параметри запиту']),\
+                                    p.sub("",check1[1][index]['Параметри запиту'])
+                    
+                    if prev.rsplit(' ',1)[1] != cur.rsplit(' ',1)[1]:
+                        worksheet.write(row,0,'')
+                        row += 1
+            worksheet.write(row,0,fname)
+            worksheet.write(row,1,item['Параметри запиту'])
             names = ['Дата регистрации','Причина обтяження','Деталі',
                  'Заявник','Власник','Поручитель',"Суб'єкти обтяження",
             ]
