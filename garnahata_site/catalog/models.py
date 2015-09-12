@@ -297,7 +297,7 @@ class Address(models.Model):
         d["city"] = self.get_city_display()
         d["properties"] = properties
         d["url"] = self.url
-        d["map_marker"] = self.map_marker()
+        d["map_marker"] = self.map_marker() or {}
 
         return d
 
