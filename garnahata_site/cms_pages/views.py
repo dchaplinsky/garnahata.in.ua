@@ -24,10 +24,9 @@ def tag_news(request, slug):
     )
 
 
-def news(request,special=False):
+def news(request, special=False):
     news = BetterPaginator(
-        NewsPage.objects.live().filter(special_case=True 
-                            if special=='True' else special).order_by(
+        NewsPage.objects.live().filter(special_case=special).order_by(
                                                     "-date_added"), 16)
 
     page = request.GET.get('page')

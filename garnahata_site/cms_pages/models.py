@@ -96,7 +96,7 @@ class NewsPage(AbstractJinjaPage, Page):
                                  default=False)
     important = models.BooleanField(verbose_name="Важлива новина",
                                     default=False)
-    special_case = models.BooleanField(default=False,db_index=True)
+    special_case = models.BooleanField(default=False, db_index=True)
 
     tags = ClusterTaggableManager(through=NewsPageTag, blank=True)
 
