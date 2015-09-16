@@ -96,6 +96,7 @@ class NewsPage(AbstractJinjaPage, Page):
                                  default=False)
     important = models.BooleanField(verbose_name="Важлива новина",
                                     default=False)
+    special_case = models.BooleanField(default=False,db_index=True)
 
     tags = ClusterTaggableManager(through=NewsPageTag, blank=True)
 
@@ -127,6 +128,7 @@ NewsPage.content_panels = [
     FieldPanel('body', classname="full"),
     FieldPanel('date_added', classname="full"),
     FieldPanel('sticky', classname="full"),
+    FieldPanel('special_case', classname="full"),
     FieldPanel('important', classname="full"),
     FieldPanel('reprint', classname="full"),
     ImageChooserPanel('image'),
@@ -180,7 +182,8 @@ class HomePage(AbstractJinjaPage, Page):
         hp_news = NewsPage.objects.live().filter(
             sticky=True).order_by("-date_added").first()
 
-        latest_news = NewsPage.objects.live().exclude(
+        latest_news = NewsPage.objects.live().filter(
+            special_case=False).exclude(
             pk=hp_news.pk if hp_news is not None else None).order_by(
             "-date_added")[:self.news_count]
 
