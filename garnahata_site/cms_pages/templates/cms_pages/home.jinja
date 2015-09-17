@@ -37,7 +37,6 @@
             {% endif %}
             <div id="news">
                 <div id="newsMassonry" class="massonry">
-                    <div class="grid-sizer"></div>
                     {% for news in latest_news %}
                     {{ render_news(news) }}
                     {% endfor %}
