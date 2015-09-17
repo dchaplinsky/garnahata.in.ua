@@ -201,7 +201,8 @@ article p {
     text-transform: uppercase;
 }
 
-.laba .ctext {
+.laba .ctext,
+.fv .ctext {
     font-size: 10px;
     line-height: 14px;
 }

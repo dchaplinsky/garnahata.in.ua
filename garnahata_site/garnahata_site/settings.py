@@ -207,7 +207,6 @@ PIPELINE_JS = {
             'js/bootstrap.js',
             "js/bootstrap3-typeahead.js",
             'js/imagesloaded.pkgd.js',
-            'js/masonry.pkgd.js',
             'js/jquery.easing.min.js',
             'js/jquery.fittext.js',
             'js/social-likes.min.js',

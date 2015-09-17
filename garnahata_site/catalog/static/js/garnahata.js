@@ -28,21 +28,6 @@
         }
     });
 
-    $('.massonry').imagesLoaded(function() {
-        $('.massonry').masonry({
-            itemSelector: '.item',
-            columnWidth: '.grid-sizer',
-            percentPosition: true,
-            singleMode: false,
-            isResizable: true,
-            isAnimated: true,
-            animationOptions: {
-                queue: false,
-                duration: 500
-            }
-        });
-    });
-
     // jQuery for page scrolling feature - requires jQuery Easing plugin
     $('a.page-scroll').bind('click', function(event) {
         var $anchor = $(this);
