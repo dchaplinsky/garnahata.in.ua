@@ -35,8 +35,8 @@ urlpatterns = patterns(
 
     url(r'^news$', 'cms_pages.views.news', name='news'),
 
-    url(r'^news/special$', 'cms_pages.views.news', name='news', 
-                                    kwargs={'special': True}),
+    url(r'^news/special$', 'cms_pages.views.news', name='special_news',
+        kwargs={'special': True}),
 
     url(r'^search$', 'catalog.views.search', name='search'),
 
