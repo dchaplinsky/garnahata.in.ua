@@ -904,10 +904,11 @@ def convert_many(mask):
         p = re.compile(r'( будинок.*| вулиця.*| провулок.*)')
         query_keyword = p.sub("",query_keyword)
 
-        check1[0] = sorted(check1[0], key=lambda x: x['Параметри запиту'].rsplit(' ',1)[1])
-        check1[0] = sorted(check1[0], key=lambda x: x['Параметри запиту'].rsplit(',',1)[0])
-        check1[1] = sorted(check1[1], key=itemgetter('Параметри запиту'))
-
+        check1[0] = sorted(check1[0], key=lambda x: x['Параметри запиту'].rsplit(' ',1)[1] if x['Параметри запиту'] != 'None' else '')
+        check1[0] = sorted(check1[0], key=lambda x: x['Параметри запиту'].rsplit(',',1)[0] if x['Параметри запиту'] != 'None' else '')
+        if check1[1]:
+            check1[1] = sorted(check1[1], key=itemgetter('Параметри запиту'))
+            
         for index,item in enumerate(check1[0]):
             if index-1 >= 0:
                 if check1[0][index-1]['Параметри запиту'] and \
@@ -915,10 +916,10 @@ def convert_many(mask):
                     p = re.compile(query_keyword)
                     prev,cur = p.sub("",check1[0][index-1]['Параметри запиту']),\
                                     p.sub("",check1[0][index]['Параметри запиту'])
-                    
-                    if prev.rsplit(' ',1)[1] != cur.rsplit(' ',1)[1]:
-                        worksheet.write(row,0,'')
-                        row += 1
+                    if prev != '' and cur != '':
+                        if prev.rsplit(' ',1)[1] != cur.rsplit(' ',1)[1]:
+                            worksheet.write(row,0,'')
+                            row += 1
             worksheet.write(row,0,fname)
             worksheet.write(row,1,item['Параметри запиту'])
             names = ['Дата регистрации','Власник',
