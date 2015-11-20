@@ -894,7 +894,6 @@ def convert_many(mask):
         u'Поручитель/Боржник',
         u"Iншi суб'єкти обтяження",], bold
     )
-
     row = 1
     for check, check1, fname in to_export:
         query_keyword = (check[FETCH_PARAMS][OBJECT_ADDRESS].replace('\n',' ')  
@@ -903,12 +902,10 @@ def convert_many(mask):
         ).replace('*','')
         p = re.compile(r'( будинок.*| вулиця.*| провулок.*)')
         query_keyword = p.sub("",query_keyword)
-
         check1[0] = sorted(check1[0], key=lambda x: x['Параметри запиту'].rsplit(' ',1)[1] if x['Параметри запиту'] != 'None' else '')
         check1[0] = sorted(check1[0], key=lambda x: x['Параметри запиту'].rsplit(',',1)[0] if x['Параметри запиту'] != 'None' else '')
         if check1[1]:
             check1[1] = sorted(check1[1], key=itemgetter('Параметри запиту'))
-            
         for index,item in enumerate(check1[0]):
             if index-1 >= 0:
                 if check1[0][index-1]['Параметри запиту'] and \
