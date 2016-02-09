@@ -221,6 +221,12 @@ class Address(models.Model):
     description = tinymce_models.HTMLField(
         "Опис об'єкта", default="", blank=True)
 
+    meta_title = models.CharField(
+        "title сторінки", max_length=150, blank=True, default="")
+
+    meta_description = models.TextField(
+        "meta description сторінки", default="", blank=True)
+
     slug = models.SlugField("slug", max_length=200)
 
     address = models.TextField(
