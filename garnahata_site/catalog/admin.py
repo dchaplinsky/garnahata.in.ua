@@ -54,6 +54,8 @@ class AddressAdmin(LeafletGeoAdmin):
     list_display = (
         "title", "city", "address_or_cadastral", "date_added", "records")
 
+    search_fields = ["title", "city", "address", "cadastral_number"]
+
 
 class OwnershipAdmin(admin.ModelAdmin):
     list_display = (
