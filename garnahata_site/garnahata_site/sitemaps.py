@@ -32,17 +32,6 @@ class NewsXML(sitemaps.Sitemap):
         return item.url
 
 
-class AdressXML(sitemaps.Sitemap):
-    def items(self):
-        return Address.objects.all()
-
-    def lastmod(self, obj):
-        return obj.date_added
-
-    def location(self, item):
-        return item.url
-
-
 class StaticXML(sitemaps.Sitemap):
     def items(self):
         return (list(StaticPage.objects.live()) +

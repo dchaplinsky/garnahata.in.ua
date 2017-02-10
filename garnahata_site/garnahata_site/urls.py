@@ -1,25 +1,19 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.contrib.sitemaps import views as sitemaps_views
+from django.contrib.sitemaps.views import sitemap
+from django.contrib.sitemaps import GenericSitemap
 from django.conf.urls import include, url
 
 
 from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtailadmin import urls as wagtailadmin_urls
 
-from garnahata_site.sitemaps import MainXML, AdressXML, NewsXML, StaticXML
+from garnahata_site.sitemaps import MainXML, NewsXML, StaticXML
 from garnahata_site.feeds import LatestNewsFeed
 from catalog import views as catalog_views
+from catalog.models import Address
 from cms_pages import views as cms_pages_views
-
-
-sitemaps = {
-    'main': MainXML,
-    'adresses': AdressXML,
-    'news': NewsXML,
-    'static': StaticXML,
-}
 
 
 urlpatterns = [
@@ -43,10 +37,17 @@ urlpatterns = [
 
     url(r'^search$', catalog_views.search, name='search'),
 
-    # TBD!
-    # url(r'^sitemap.xml$', sitemaps_views.index, {'sitemaps': sitemaps}),
-    # url(r'^sitemap-(?P<section>.+).xml$', sitemaps_views.sitemap,
-    #     {'sitemaps': sitemaps}),
+    url(r'^sitemap\.xml$', sitemap, {
+        'sitemaps': {
+            'main': MainXML,
+            'adresses': GenericSitemap({
+                'queryset': Address.objects.all(),
+                'date_field': "date_added",
+            }),
+            'news': NewsXML,
+            'static': StaticXML,
+        }},
+        name='django.contrib.sitemaps.views.sitemap'),
 
     url(r'^admin/fs/', include('fs.urls', namespace='fs')),
 
