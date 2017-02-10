@@ -54,7 +54,7 @@ class AbstractJinjaPage(object):
         }
 
 
-class StaticPage(AbstractJinjaPage, Page):
+class StaticPage(Page, AbstractJinjaPage):
     body = RichTextField(verbose_name="Текст сторінки")
     template = "cms_pages/static_page.jinja"
 
@@ -67,7 +67,7 @@ StaticPage.content_panels = [
 ]
 
 
-class RawHTMLPage(AbstractJinjaPage, Page):
+class RawHTMLPage(Page, AbstractJinjaPage):
     body = models.TextField(verbose_name="Текст сторінки")
     template = "cms_pages/static_page.jinja"
 
@@ -85,7 +85,7 @@ class NewsPageTag(TaggedItemBase):
         'cms_pages.NewsPage', related_name='tagged_items')
 
 
-class NewsPage(AbstractJinjaPage, Page):
+class NewsPage(Page, AbstractJinjaPage):
     lead = RichTextField(verbose_name="Лід", blank=True)
     body = RichTextField(verbose_name="Текст новини")
     date_added = models.DateTimeField(verbose_name="Опубліковано")
@@ -169,7 +169,7 @@ class HomePageTopMenuLink(Orderable, LinkFields):
     page = ParentalKey('cms_pages.HomePage', related_name='top_menu_links')
 
 
-class HomePage(AbstractJinjaPage, Page):
+class HomePage(Page, AbstractJinjaPage):
     body = RichTextField(verbose_name="Текст сторінки")
     news_count = models.IntegerField(
         default=6,
@@ -200,5 +200,5 @@ class HomePage(AbstractJinjaPage, Page):
 HomePage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('body', classname="full"),
-    InlinePanel(HomePage, 'top_menu_links', label="Меню зверху"),
+    InlinePanel('top_menu_links', label="Меню зверху"),
 ]

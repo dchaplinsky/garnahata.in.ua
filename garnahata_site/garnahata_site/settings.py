@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
     'pipeline',
+    'easy_thumbnails',
     'django_jinja',
     'django_jinja.contrib._humanize',
     'django_jinja.contrib._easy_thumbnails',
@@ -130,11 +131,11 @@ TEMPLATES = [
             "match_extension": ".jinja",
             "context_processors": (
                 "django.contrib.auth.context_processors.auth",
-                "django.core.context_processors.debug",
-                "django.core.context_processors.media",
-                "django.core.context_processors.static",
-                "django.core.context_processors.tz",
-                "django.core.context_processors.request",
+                "django.template.context_processors.debug",
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
+                "django.template.context_processors.tz",
+                "django.template.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
                 "cms_pages.context_processors.menu_processor",
                 "cms_pages.context_processors.expose_settings",
@@ -151,7 +152,7 @@ TEMPLATES = [
                 "django_jinja.builtins.extensions.UrlsExtension",
                 "django_jinja.builtins.extensions.StaticFilesExtension",
                 "django_jinja.builtins.extensions.DjangoFiltersExtension",
-                "pipeline.jinja2.ext.PipelineExtension"
+                "pipeline.jinja2.PipelineExtension",
             ]
         }
     },
@@ -161,11 +162,11 @@ TEMPLATES = [
         "OPTIONS": {
             "context_processors": (
                 "django.contrib.auth.context_processors.auth",
-                "django.core.context_processors.debug",
-                "django.core.context_processors.media",
-                "django.core.context_processors.static",
-                "django.core.context_processors.tz",
-                "django.core.context_processors.request",
+                "django.template.context_processors.debug",
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
+                "django.template.context_processors.tz",
+                "django.template.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
                 "cms_pages.context_processors.menu_processor",
                 "cms_pages.context_processors.expose_settings",
@@ -183,36 +184,38 @@ STATICFILES_FINDERS = (
     'pipeline.finders.PipelineFinder',
 )
 
-PIPELINE_CSS = {
-    'css_all': {
-        'source_filenames': (
-            'css/bootstrap.css',
-            'css/animate.css',
-            'css/nav.css',
-            'css/header.css',
-            'css/news.css',
-            'css/social-likes_flat.css',
-            'css/style.css',
-            'css/responsive.css',
-        ),
-        'output_filename': 'css/merged.css',
-        'extra_context': {},
+PIPELINE = {
+    'STYLESHEETS': {
+        'css_all': {
+            'source_filenames': (
+                'css/bootstrap.css',
+                'css/animate.css',
+                'css/nav.css',
+                'css/header.css',
+                'css/news.css',
+                'css/social-likes_flat.css',
+                'css/style.css',
+                'css/responsive.css',
+            ),
+            'output_filename': 'css/merged.css',
+            'extra_context': {},
+        }
     },
-}
 
-PIPELINE_JS = {
-    'js_all': {
-        'source_filenames': (
-            'js/jquery.js',
-            'js/bootstrap.js',
-            "js/bootstrap3-typeahead.js",
-            'js/imagesloaded.pkgd.js',
-            'js/jquery.easing.min.js',
-            'js/jquery.fittext.js',
-            'js/social-likes.min.js',
-            'js/garnahata.js',
-        ),
-        'output_filename': 'js/merged.js',
+    'JAVASCRIPT': {
+        'js_all': {
+            'source_filenames': (
+                'js/jquery.js',
+                'js/bootstrap.js',
+                "js/bootstrap3-typeahead.js",
+                'js/imagesloaded.pkgd.js',
+                'js/jquery.easing.min.js',
+                'js/jquery.fittext.js',
+                'js/social-likes.min.js',
+                'js/garnahata.js',
+            ),
+            'output_filename': 'js/merged.js',
+        }
     }
 }
 
