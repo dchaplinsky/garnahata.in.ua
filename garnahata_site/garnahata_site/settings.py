@@ -108,7 +108,7 @@ ELASTICSEARCH_CONNECTIONS = {
 WAGTAILSEARCH_BACKENDS = {
     'default': {
         'BACKEND':
-            'wagtail.wagtailsearch.backends.elasticsearch2',
+            'wagtail.wagtailsearch.backends.elasticsearch5',
         'URLS': ['http://localhost:9200'],
         'INDEX': 'garnahata_cms',
         'TIMEOUT': 5,

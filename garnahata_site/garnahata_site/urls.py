@@ -43,9 +43,10 @@ urlpatterns = [
 
     url(r'^search$', catalog_views.search, name='search'),
 
-    url(r'^sitemap.xml$', sitemaps_views.index, {'sitemaps': sitemaps}),
-    url(r'^sitemap-(?P<section>.+).xml$', sitemaps_views.sitemap,
-        {'sitemaps': sitemaps}),
+    # TBD!
+    # url(r'^sitemap.xml$', sitemaps_views.index, {'sitemaps': sitemaps}),
+    # url(r'^sitemap-(?P<section>.+).xml$', sitemaps_views.sitemap,
+    #     {'sitemaps': sitemaps}),
 
     url(r'^admin/fs/', include('fs.urls', namespace='fs')),
 

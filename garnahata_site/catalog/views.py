@@ -17,6 +17,8 @@ from cms_pages.models import NewsPage
 def suggest(request):
     def assume(q, fuzziness):
         search = ElasticOwnership.search()\
+            .source(['full_name_suggest', 'owner'])\
+            .params(size=0)\
             .suggest(
                 'name',
                 q,
@@ -25,7 +27,7 @@ def suggest(request):
                     'size': 10,
                     'fuzzy': {
                         'fuzziness': fuzziness,
-                        'unicode_aware': 1
+                        'unicode_aware': True
                     }
                 }
         )
@@ -33,9 +35,9 @@ def suggest(request):
         res = search.execute()
 
         if res.success():
-            return [val['text'] for val in res.suggest['name'][0]['options']]
+            return list(set(val._source.owner for val in res.suggest.name[0]['options']))
         else:
-            []
+            return []
 
     q = request.GET.get('q', '').strip()
 

@@ -118,8 +118,7 @@ class Ownership(models.Model):
                                    last_name]),
                         u" ".join([first_name,
                                    last_name])
-                    ],
-                    "output": d["owner"]
+                    ]
                 }
 
         d["_id"] = d["id"]
