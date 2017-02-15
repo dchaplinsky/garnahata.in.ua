@@ -211,7 +211,7 @@ PIPELINE = {
                 'js/imagesloaded.pkgd.js',
                 'js/jquery.easing.min.js',
                 'js/jquery.fittext.js',
-                'js/social-likes.min.js',
+                'js/social-likes.js',
                 'js/garnahata.js',
             ),
             'output_filename': 'js/merged.js',
