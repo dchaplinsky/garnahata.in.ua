@@ -109,17 +109,20 @@ class Ownership(models.Model):
                 if len(name_parts) > 2:
                     patronymic = name_parts[2]
 
-                d["full_name_suggest"] = {
-                    "input": [
-                        u" ".join([last_name, first_name,
-                                   patronymic]),
-                        u" ".join([first_name,
-                                   patronymic,
-                                   last_name]),
-                        u" ".join([first_name,
-                                   last_name])
-                    ]
-                }
+                d["full_name_suggest"] = [
+                    {
+                        "input": " ".join([last_name, first_name, patronymic]),
+                        "weight": 5
+                    },
+                    {
+                        "input": " ".join([first_name, patronymic, last_name]),
+                        "weight": 3
+                    },
+                    {
+                        "input": " ".join([first_name, last_name]),
+                        "weight": 3
+                    }
+                ]
 
         d["_id"] = d["id"]
         d["prop_id"] = self.prop_id
