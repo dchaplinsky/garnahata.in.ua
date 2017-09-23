@@ -242,10 +242,6 @@ LEAFLET_CONFIG = {
             'css': ['css/MarkerCluster.Default.css', 'css/MarkerCluster.css'],
             'js': 'js/leaflet.markercluster.js',
             'auto-include': True
-        },
-        'yandex': {
-            'js': 'js/Yandex.js',
-            'auto-include': True
         }
     }
 }
