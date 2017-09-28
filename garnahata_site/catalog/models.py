@@ -335,10 +335,16 @@ class Address(models.Model):
 
             row = [x if x is not None else "" for x in row]
 
-            (_, _, registered, owner, asset, ownership_ground, ownership_form,
-             share, mortgage_registered, mortgage_charge, mortgage_details,
-             mortgage_holder, mortgage_mortgagor, mortgage_charge_subjects,
-             mortgage_other_persons) = row
+            if len(row) == 14:
+                (_, registered, owner, asset, ownership_ground, ownership_form,
+                 share, mortgage_registered, mortgage_charge, mortgage_details,
+                 mortgage_holder, mortgage_mortgagor, mortgage_charge_subjects,
+                 mortgage_other_persons) = row
+            else:
+                (_, _, registered, owner, asset, ownership_ground, ownership_form,
+                 share, mortgage_registered, mortgage_charge, mortgage_details,
+                 mortgage_holder, mortgage_mortgagor, mortgage_charge_subjects,
+                 mortgage_other_persons) = row
 
             if not any(row):
                 prev_is_blank = True

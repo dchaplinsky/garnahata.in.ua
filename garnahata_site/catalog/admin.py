@@ -2,7 +2,6 @@ from django import forms
 from django.contrib import admin
 
 from catalog.models import Address, Ownership
-from tinymce.widgets import TinyMCE
 from leaflet.admin import LeafletGeoAdmin
 
 
@@ -28,9 +27,7 @@ class AddressAdminForm(forms.ModelForm):
         css = {
             'all': ('css/Control.Geocoder.css', 'css/admin.map.css')
         }
-        js = ('https://api-maps.yandex.ru/2.0/?load=package.map&lang=ru-RU',
-              'js/Control.Geocoder.js', 'js/Yandex.js',
-              'js/admin.map.init.js')
+        js = ('js/Control.Geocoder.js', 'js/admin.map.init.js')
 
     class Meta:
         model = Address
