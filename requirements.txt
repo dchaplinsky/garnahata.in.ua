@@ -14,3 +14,4 @@ XlsxWriter==0.7.3
 glob2==0.4.1
 django-tinymce==2.6.0
 translitua==1.1.0
+django-compressor==2.1.1
