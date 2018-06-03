@@ -15,6 +15,9 @@ from catalog.elastic_models import (
 class Command(BaseCommand):
     def handle(self, *args, **options):
         Index(ElasticAddress._doc_type.index).delete(ignore=404)
+        ElasticAddress.init()
+        ElasticOwnership.init()
+
         es = connections.get_connection('default')
         es.indices.put_settings(
             index=ElasticAddress._doc_type.index,
@@ -24,14 +27,12 @@ class Command(BaseCommand):
             }
         )
 
-        ElasticAddress.init()
         Address.objects.reindex()
 
         self.stdout.write(
             'Loaded {} addresses to persistence storage'.format(
                 Address.objects.count()))
 
-        ElasticOwnership.init()
         Ownership.objects.select_related("prop__address").reindex()
 
         self.stdout.write(
