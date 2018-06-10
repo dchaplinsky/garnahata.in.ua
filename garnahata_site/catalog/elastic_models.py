@@ -5,7 +5,7 @@ class Address(DocType):
     """Address document."""
 
     class Meta:
-        index = 'garnahata'
+        index = 'garnahata_addresses'
 
 
 class Ownership(DocType):
@@ -13,4 +13,4 @@ class Ownership(DocType):
     full_name_suggest = Completion(preserve_separators=False)
 
     class Meta:
-        index = 'garnahata'
+        index = 'garnahata_ownerships'

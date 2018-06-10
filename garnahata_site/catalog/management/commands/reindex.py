@@ -21,6 +21,7 @@ class Command(BaseCommand):
             'Loaded {} addresses to persistence storage'.format(
                 Address.objects.count()))
 
+        Index(ElasticOwnership._doc_type.index).delete(ignore=404)
         ElasticOwnership.init()
         Ownership.objects.select_related("prop__address").reindex()
 

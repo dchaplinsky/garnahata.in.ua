@@ -51,19 +51,20 @@ INSTALLED_APPS = (
     'leaflet',
 
     'compressor',
-    'taggit',
-    'modelcluster',
+    'wagtail.contrib.forms',
+    'wagtail.contrib.redirects',
+    'wagtail.embeds',
+    'wagtail.sites',
+    'wagtail.users',
+    'wagtail.snippets',
+    'wagtail.documents',
+    'wagtail.images',
+    'wagtail.search',
+    'wagtail.admin',
+    'wagtail.core',
 
-    'wagtail.wagtailcore',
-    'wagtail.wagtailadmin',
-    'wagtail.wagtaildocs',
-    'wagtail.wagtailsnippets',
-    'wagtail.wagtailusers',
-    'wagtail.wagtailimages',
-    'wagtail.wagtailembeds',
-    'wagtail.wagtailsearch',
-    'wagtail.wagtailredirects',
-    'wagtail.wagtailforms',
+    'modelcluster',
+    'taggit',
     'tinymce',
 
     'catalog',
@@ -71,17 +72,18 @@ INSTALLED_APPS = (
     'fs',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'wagtail.wagtailcore.middleware.SiteMiddleware',
-    'wagtail.wagtailredirects.middleware.RedirectMiddleware',
+    'wagtail.core.middleware.SiteMiddleware',
+    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 )
 
 ROOT_URLCONF = 'garnahata_site.urls'
@@ -108,7 +110,7 @@ ELASTICSEARCH_CONNECTIONS = {
 WAGTAILSEARCH_BACKENDS = {
     'default': {
         'BACKEND':
-            'wagtail.wagtailsearch.backends.elasticsearch5',
+            'wagtail.search.backends.elasticsearch6',
         'URLS': ['http://localhost:9200'],
         'INDEX': 'garnahata_cms',
         'TIMEOUT': 5,

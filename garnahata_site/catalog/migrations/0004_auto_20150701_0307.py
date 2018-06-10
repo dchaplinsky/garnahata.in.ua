@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             name='Property',
             fields=[
                 ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
-                ('address', models.ForeignKey(to='catalog.Address', verbose_name='Адреса')),
+                ('address', models.ForeignKey(to='catalog.Address', verbose_name='Адреса', on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -86,7 +86,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='ownership',
             name='prop',
-            field=models.ForeignKey(verbose_name='Власність', default=None, to='catalog.Property'),
+            field=models.ForeignKey(verbose_name='Власність', default=None, to='catalog.Property', on_delete=models.CASCADE),
             preserve_default=False,
         ),
         migrations.AddField(

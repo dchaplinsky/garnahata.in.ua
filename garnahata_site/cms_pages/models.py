@@ -2,16 +2,16 @@
 import json
 
 from django.db import models
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.html import mark_safe
 
-from wagtail.wagtailcore.fields import RichTextField
-from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
-from wagtail.wagtailcore.models import Page, Orderable
-from wagtail.wagtailsearch import index
-from wagtail.wagtailadmin import widgets
-from wagtail.wagtailcore import hooks
-from wagtail.wagtailadmin.edit_handlers import (
+from wagtail.core.fields import RichTextField
+from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.core.models import Page, Orderable
+from wagtail.search import index
+from wagtail.admin import widgets
+from wagtail.core import hooks
+from wagtail.admin.edit_handlers import (
     InlinePanel, FieldPanel, PageChooserPanel)
 
 from modelcluster.fields import ParentalKey
@@ -142,9 +142,10 @@ class LinkFields(models.Model):
 
     link_external = models.URLField("External link", blank=True)
     link_page = models.ForeignKey(
-        'wagtailcore.Page',
+        Page,
         null=True,
         blank=True,
+        on_delete=models.CASCADE,
         related_name='+'
     )
 

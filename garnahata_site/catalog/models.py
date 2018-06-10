@@ -7,7 +7,7 @@ from django.core.validators import RegexValidator
 from django.db import transaction
 from django.forms.models import model_to_dict
 from django.utils import timezone
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from tinymce import models as tinymce_models
 from djgeojson.fields import PointField
@@ -66,7 +66,7 @@ class Ownership(models.Model):
     mortgage_other_persons = models.TextField(
         "Інші суб'єкти обтяження", blank=True)
 
-    prop = models.ForeignKey("Property", verbose_name="Власність")
+    prop = models.ForeignKey("Property", verbose_name="Власність", on_delete=models.CASCADE)
 
     def __unicode__(self):
         return "%s: %s" % (
@@ -148,7 +148,7 @@ class Ownership(models.Model):
 
 
 class Property(models.Model):
-    address = models.ForeignKey("Address", verbose_name="Адреса")
+    address = models.ForeignKey("Address", verbose_name="Адреса", on_delete=models.CASCADE)
 
     def to_dict(self):
         """

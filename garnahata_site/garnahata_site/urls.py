@@ -6,8 +6,8 @@ from django.contrib.sitemaps import GenericSitemap
 from django.conf.urls import include, url
 
 
-from wagtail.wagtailcore import urls as wagtail_urls
-from wagtail.wagtailadmin import urls as wagtailadmin_urls
+from wagtail.core import urls as wagtail_urls
+from wagtail.admin import urls as wagtailadmin_urls
 
 from garnahata_site.sitemaps import MainXML, NewsXML, StaticXML
 from garnahata_site.feeds import LatestNewsFeed
@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^a/(?P<slug>.+)$', catalog_views.address_details,
         name='address_details'),
 
-    url(r'^tag/', include('cms_pages.urls', namespace="cms_pages")),
+    url(r'^tag/', include('cms_pages.urls')),
 
     url(r'^latest$', catalog_views.latest_addresses,
         name='latest_addresses'),
@@ -49,7 +49,7 @@ urlpatterns = [
         }},
         name='django.contrib.sitemaps.views.sitemap'),
 
-    url(r'^admin/fs/', include('fs.urls', namespace='fs')),
+    url(r'^admin/fs/', include('fs.urls')),
 
     url(r'^search_ownerships$', catalog_views.search,
         name='search_ownerships', kwargs={"sources": ["ownerships"]}),
@@ -61,7 +61,8 @@ urlpatterns = [
 
     url(r'^tinymce/', include('tinymce.urls')),
 
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),
     url(r'^cms/', include(wagtailadmin_urls)),
     url(r'', include(wagtail_urls)),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

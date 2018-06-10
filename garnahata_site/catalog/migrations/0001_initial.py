@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
                 ('asset', models.TextField(verbose_name='Власність')),
                 ('comment', models.TextField(blank=True, verbose_name='Коментар')),
                 ('mortgage', models.TextField(blank=True, verbose_name='Іпотека')),
-                ('address', models.ForeignKey(to='catalog.Address', verbose_name='Адреса')),
+                ('address', models.ForeignKey(to='catalog.Address', verbose_name='Адреса', on_delete=models.CASCADE)),
             ],
             options={
             },

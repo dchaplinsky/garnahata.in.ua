@@ -3,9 +3,9 @@ from functools import wraps
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from elasticsearch_dsl.result import Response
+from elasticsearch_dsl.response import Response
 from elasticsearch_dsl.utils import AttrDict, AttrList, ObjectBase
-from wagtail.wagtailsearch.backends.base import BaseSearchResults
+from wagtail.search.backends.base import BaseSearchResults
 
 
 def serialize_for_api(data):

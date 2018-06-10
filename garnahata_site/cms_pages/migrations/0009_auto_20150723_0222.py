@@ -47,6 +47,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='newspagetag',
             name='tag',
-            field=models.ForeignKey(related_name='cms_pages_newspagetag_items', to='taggit.Tag'),
+            field=models.ForeignKey(related_name='cms_pages_newspagetag_items', to='taggit.Tag', on_delete=models.CASCADE),
         ),
     ]

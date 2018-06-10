@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False, auto_created=True, verbose_name='ID')),
                 ('content_object', modelcluster.fields.ParentalKey(to='cms_pages.NewsPage', related_name='tagged_items')),
-                ('tag', models.ForeignKey(to='taggit.Tag', related_name='cms_pages_blogpagetag_items')),
+                ('tag', models.ForeignKey(to='taggit.Tag', related_name='cms_pages_blogpagetag_items', on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,

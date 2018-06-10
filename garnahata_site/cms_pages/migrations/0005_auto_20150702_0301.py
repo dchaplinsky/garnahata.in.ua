@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.db import models, migrations
 import django.db.models.deletion
 import cms_pages.models
-import wagtail.wagtailcore.fields
+import wagtail.core.fields
 
 
 class Migration(migrations.Migration):
@@ -19,9 +19,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='NewsPage',
             fields=[
-                ('page_ptr', models.OneToOneField(serialize=False, auto_created=True, primary_key=True, to='wagtailcore.Page', parent_link=True)),
-                ('lead', wagtail.wagtailcore.fields.RichTextField(blank=True, verbose_name='Лід')),
-                ('body', wagtail.wagtailcore.fields.RichTextField(verbose_name='Текст новини')),
+                ('page_ptr', models.OneToOneField(serialize=False, auto_created=True, primary_key=True, to='wagtailcore.Page', parent_link=True, on_delete=models.CASCADE)),
+                ('lead', wagtail.core.fields.RichTextField(blank=True, verbose_name='Лід')),
+                ('body', wagtail.core.fields.RichTextField(verbose_name='Текст новини')),
                 ('date_added', models.DateTimeField(verbose_name='Опубліковано')),
                 ('reprint', models.BooleanField(verbose_name='Новина не є унікальною', default=False)),
                 ('sticky', models.BooleanField(verbose_name='Закріпити новину', default=False)),
