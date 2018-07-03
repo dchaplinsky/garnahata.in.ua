@@ -17,3 +17,4 @@ glob2==0.4.1
 django-tinymce==2.6.0
 translitua==1.2.4
 django-compressor==2.1.1
+names-translator==1.1.0

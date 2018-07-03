@@ -17,7 +17,8 @@ from cms_pages import views as cms_pages_views
 
 
 urlpatterns = [
-    url(r'^ajax/suggest$', catalog_views.suggest, name='suggest'),
+    # url(r'^ajax/suggest$', catalog_views.suggest, name='suggest'),
+    url(r'^search/suggest$', catalog_views.SuggestView.as_view(), name="suggest"),
 
     url(r'^a/(?P<slug>.+)$', catalog_views.address_details,
         name='address_details'),

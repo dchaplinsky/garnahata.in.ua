@@ -5,23 +5,32 @@
         $w = $(window),
         $b = $("body");
 
-    $("#search-form").typeahead({
+    $(".search-form-q").typeahead({
         minLength: 2,
+        items: 100,
         autoSelect: false,
         source: function(query, process) {
-            $.get('/ajax/suggest', {
+            $.get($(".search-form-q").data("endpoint"), {
                     "q": query
                 })
-                .success(function(data) {
+                .done(function(data) {
                     process(data);
                 })
         },
         matcher: function() {
-            // Big guys are playing here
             return true;
         },
+        highlighter: function(instance) {
+            return instance;
+        },
+        updater: function(instance) {
+            return $(instance).data("sugg_text")
+        },
+        sorter: function(items) {
+            return items
+        },
         afterSelect: function(item) {
-            var form = $("#search-form").closest("form");
+            var form = $(".search-form-q").closest("form");
             form.find("input[name=is_exact]").val("on");
 
             form.submit();

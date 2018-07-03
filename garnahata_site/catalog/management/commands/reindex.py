@@ -8,7 +8,8 @@ from elasticsearch_dsl.connections import connections
 from catalog.models import Address, Ownership
 from catalog.elastic_models import (
     Address as ElasticAddress,
-    Ownership as ElasticOwnership
+    Ownership as ElasticOwnership,
+    ownership_idx
 )
 
 
@@ -16,7 +17,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         Index(ElasticAddress._doc_type.index).delete(ignore=404)
         ElasticAddress.init()
-        ElasticOwnership.init()
 
         es = connections.get_connection('default')
         es.indices.put_settings(
@@ -33,7 +33,8 @@ class Command(BaseCommand):
             'Loaded {} addresses to persistence storage'.format(
                 Address.objects.count()))
 
-        Index(ElasticOwnership._doc_type.index).delete(ignore=404)
+        ownership_idx.delete(ignore=404)
+        ownership_idx.create()
         ElasticOwnership.init()
         Ownership.objects.select_related("prop__address").reindex()
 

@@ -36,9 +36,9 @@
                         {% block header_intro %}
                         {% endblock %}
                         <div id="search-box" class="col-sm-6 col-xs-9  col-sm-offset-3">
-                            <form action="{{ url("search") }}" method="GET">
+                            <form action="{{ url('search') }}" method="GET">
                                 <div class="input-group">
-                                    <input type="text" id="search-form" class="form-control input-rounded" placeholder="Введіть власника, адресу або назву комплексу" autocomplete="off" name="q"/>
+                                    <input type="text" id="search-form" name="q" class="form-control search-name search-form-q input-rounded" placeholder="Введіть власника, адресу або назву комплексу" data-endpoint="{{ url("suggest") }}" autocomplete="off">
                                     <span class="input-group-btn">
                                         <button class="btn btn-navigate" type="submit">Go!</button>
                                     </span>

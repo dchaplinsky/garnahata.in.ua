@@ -1,5 +1,9 @@
 from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
 from django.http import JsonResponse
+from django.views import View
+
+from elasticsearch_dsl.query import Q
 
 from cms_pages.models import NewsPageTag
 from catalog.models import Address, Ownership
@@ -14,46 +18,71 @@ from catalog.elastic_models import (
 from cms_pages.models import NewsPage
 
 
-def suggest(request):
-    def assume(q, fuzziness):
-        search = ElasticOwnership.search()\
-            .source(['full_name_suggest', 'owner'])\
-            .params(size=0)\
-            .suggest(
-                'name',
-                q,
-                completion={
-                    'field': 'full_name_suggest',
-                    'size': 10,
-                    'fuzzy': {
-                        'fuzziness': fuzziness,
-                        'unicode_aware': True
-                    }
-                }
+class SuggestView(View):
+    def get(self, request):
+        q = request.GET.get('q', '').strip()
+
+        suggestions = []
+        seen = set()
+
+        s = ElasticOwnership.search().source(
+            ['names_autocomplete']
+        ).highlight('names_autocomplete').highlight_options(
+            order='score', fragment_size=100,
+            number_of_fragments=10,
+            pre_tags=['<strong>'],
+            post_tags=["</strong>"]
         )
 
-        res = search.execute()
+        s = s.query(
+            "bool",
+            must=[
+                Q(
+                    "match",
+                    names_autocomplete={
+                        "query": q,
+                        "operator": "and"
+                    }
+                )
+            ],
+            should=[
+                Q(
+                    "match_phrase",
+                    names_autocomplete__raw={
+                        "query": q,
+                        "boost": 2
+                    },
+                ),
+                Q(
+                    "match_phrase_prefix",
+                    names_autocomplete__raw={
+                        "query": q,
+                        "boost": 2
+                    },
+                )
+            ]
+        )[:200]
 
-        if res.success():
-            return list(set(val._source.owner for val in res.suggest.name[0]['options']))
-        else:
-            return []
+        res = s.execute()
 
-    q = request.GET.get('q', '').strip()
+        for r in res:
+            if "names_autocomplete" in r.meta.highlight:
+                for candidate in r.meta.highlight["names_autocomplete"]:
+                    if candidate.lower() not in seen:
+                        suggestions.append(candidate)
+                        seen.add(candidate.lower())
 
-    # It seems, that for some reason 'AUTO' setting doesn't work properly
-    # for unicode strings
-    fuzziness = 0
 
-    if len(q) > 2:
-        fuzziness = 1
+        rendered_result = [
+            render_to_string("autocomplete.jinja", {
+                "result": {
+                    "hl": k
+                }
+            })
+            for k in suggestions[:20]
+        ]
 
-    suggestions = assume(q, fuzziness)
-
-    if not suggestions:
-        suggestions = assume(q, fuzziness + 1)
-
-    return JsonResponse(suggestions, safe=False)
+        return JsonResponse(rendered_result, safe=False)
 
 
 def address_details(request, slug):
@@ -112,7 +141,8 @@ def _ownership_search(request):
         "owner", "asset", "ownership_ground", "ownership_form", "share",
         "comment", "mortgage_charge", "mortgage_details",
         "mortgage_charge_subjects", "mortgage_holder", "mortgage_mortgagor",
-        "mortgage_guarantor", "mortgage_other_persons"]
+        "mortgage_guarantor", "mortgage_other_persons", "persons",
+        "companies", "addresses"]
 
     if query:
         ownerships = ElasticOwnership.search().query(

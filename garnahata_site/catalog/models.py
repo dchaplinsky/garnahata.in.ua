@@ -1,3 +1,4 @@
+import re
 import logging
 from itertools import groupby
 from operator import itemgetter
@@ -17,11 +18,21 @@ from elasticsearch.helpers import streaming_bulk
 from elasticsearch_dsl import Index
 from elasticsearch_dsl.connections import connections
 
+from names_translator.name_utils import (
+    parse_and_generate,
+    autocomplete_suggestions,
+    concat_name,
+)
+
 
 from catalog.elastic_models import (
     Address as ElasticAddress,
     Ownership as ElasticOwnership
 )
+
+def generate_edrpou_options(company_code):
+    company_code = str(company_code)
+    return set((company_code.lstrip("0"), company_code, company_code.rjust(8, "0")))
 
 
 class OwnershipsQuerySet(models.QuerySet):
@@ -30,7 +41,7 @@ class OwnershipsQuerySet(models.QuerySet):
         docs_to_index = [
             ElasticOwnership(**p.to_dict(include_address=True,
                              include_name_alternatives=True))
-            for p in self]
+            for p in self.iterator()]
 
         for response in streaming_bulk(
                 conn, ({'_index': getattr(d.meta, 'index', d._doc_type.index),
@@ -80,6 +91,12 @@ class Ownership(models.Model):
         """
         Convert Ownership model to an indexable presentation for ES.
         """
+        names_autocomplete = set()
+        countries = set()
+        addresses = set()
+        companies = set()
+        persons = set()
+
         d = model_to_dict(self, fields=[
             "id", "owner", "asset", "registered", "ownership_ground",
             "ownership_form", "share", "comment", "mortgage_registered",
@@ -94,39 +111,41 @@ class Ownership(models.Model):
             d["addr_commercial_name"] = addr.commercial_name
             d["addr_city"] = addr.get_city_display()
 
+            if addr.title:
+                addresses.add("{}, {}".format(addr.title, addr.get_city_display()))
+
+            if addr.address:
+                addresses.add("{}, {}".format(addr.address, addr.get_city_display()))
+            addresses.add(addr.commercial_name)
+            addresses.add(addr.cadastral_number)
+            d["addresses"] = list(filter(None, addresses))
+
+        for field_name in ["mortgage_holder", "mortgage_mortgagor", "mortgage_other_persons", "owner"]:
+            val = d[field_name]
+            if val:
+                val = val.replace("Особа, в інтересах якої встановлено обтяження:", "").strip()
+                if len(val.split(" ")) > 4 or re.search(r"\d{5,}$", val):
+                    # That's a company!
+                    companies.add(val)
+                    m = re.search(r"(\d{5,})$", val)
+                    if m:
+                        names_autocomplete.add(m.group(1))
+                        companies |= generate_edrpou_options(m.group(1))
+
+                    names_autocomplete.add(val)
+                else:
+                    persons.add(val)
+                    persons |= parse_and_generate(val)
+                    names_autocomplete |= autocomplete_suggestions(val)
+
         if include_name_alternatives:
-            last_name = ""
-            first_name = ""
-            patronymic = ""
-            name_parts = d["owner"].split(None, 3)
-
-            if name_parts:
-                last_name = name_parts[0]
-
-                if len(name_parts) > 1:
-                    first_name = name_parts[1]
-
-                if len(name_parts) > 2:
-                    patronymic = name_parts[2]
-
-                d["full_name_suggest"] = [
-                    {
-                        "input": " ".join([last_name, first_name, patronymic]),
-                        "weight": 5
-                    },
-                    {
-                        "input": " ".join([first_name, patronymic, last_name]),
-                        "weight": 3
-                    },
-                    {
-                        "input": " ".join([first_name, last_name]),
-                        "weight": 3
-                    }
-                ]
+            d["names_autocomplete"] = list(filter(None, names_autocomplete))
 
         d["_id"] = d["id"]
         d["prop_id"] = self.prop_id
         d["url"] = self.url
+        d["persons"] = list(filter(None, persons))
+        d["companies"] = list(filter(None, companies))
 
         return d
 
@@ -205,7 +224,7 @@ class AddressesQuerySet(models.QuerySet):
         conn = connections.get_connection()
         docs_to_index = [
             ElasticAddress(**p.to_dict())
-            for p in self]
+            for p in self.iterator()]
 
         for response in streaming_bulk(
                 conn, ({'_index': getattr(d.meta, 'index', d._doc_type.index),
