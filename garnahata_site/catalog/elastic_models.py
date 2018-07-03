@@ -6,6 +6,7 @@ from elasticsearch_dsl import (
     analyzer,
     tokenizer,
     token_filter,
+    Date
 )
 
 namesAutocompleteAnalyzer = analyzer(
@@ -97,6 +98,8 @@ class Ownership(DocType):
     addresses = Text(analyzer="ukrainianAddressesStopwordsAnalyzer", copy_to="all")
     persons = Text(analyzer="ukrainian", copy_to="all")
     companies = Text(analyzer="ukrainian", copy_to="all")
+    registered = Date()
+    mortgage_registered = Date()
     names_autocomplete = Text(
         analyzer="namesAutocompleteAnalyzer",
         search_analyzer="namesAutocompleteSearchAnalyzer",
