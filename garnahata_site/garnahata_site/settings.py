@@ -274,7 +274,7 @@ WAGTAILSEARCH_BACKENDS = {
     'default': {
         'BACKEND':
             'wagtail.search.backends.elasticsearch6',
-        'URLS': [ ELASTICSEARCH_DSN ],
+        'URLS': [ 'http://' + ELASTICSEARCH_DSN ],
         'INDEX': 'garnahata_cms',
         'TIMEOUT': 5,
     }
