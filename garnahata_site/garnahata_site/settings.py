@@ -12,25 +12,35 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 from django_jinja.builtins import DEFAULT_EXTENSIONS
 
+def get_env_str(k, default):
+    return os.environ.get(k, default)
+
+def get_env_str_list(k, default=""):
+    if os.environ.get(k) is not None:
+        return os.environ.get(k).strip().split(" ")
+    return default
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = '/static/'
+MEDIA_ROOT = get_env_str('MEDIA_ROOT', os.path.join(BASE_DIR, "media"))
+STATIC_ROOT = get_env_str('STATIC_ROOT', os.path.join(BASE_DIR, "static"))
+MEDIA_URL = '/media/'
 
-PDFS_STORAGE = os.path.join(STATIC_ROOT, 'files')
+PDFS_STORAGE = get_env_str('PDFS_STORAGE', os.path.join(STATIC_ROOT, 'files'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'PLEASEREPLACEMEREPLACEMEREPLACEMDONTLEAVEMELIKETHAT'
+SECRET_KEY = get_env_str('SECRET_KEY', 'PLEASEREPLACEMEREPLACEMEREPLACEMDONTLEAVEMELIKETHAT')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = get_env_str_list('ALLOWED_HOSTS', [])
 
 
 # Application definition
@@ -94,26 +104,12 @@ WSGI_APPLICATION = 'garnahata_site.wsgi.application'
 # We don't need a database yet!
 DATABASES = {
     'default': {
-        # Strictly PostgreSQL
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    }
-}
-
-# Setup Elasticsearch default connection
-ELASTICSEARCH_CONNECTIONS = {
-    'default': {
-        'hosts': 'localhost',
-        'timeout': 20
-    }
-}
-
-WAGTAILSEARCH_BACKENDS = {
-    'default': {
-        'BACKEND':
-            'wagtail.search.backends.elasticsearch6',
-        'URLS': ['http://localhost:9200'],
-        'INDEX': 'garnahata_cms',
-        'TIMEOUT': 5,
+        'NAME': get_env_str('DB_NAME', None),
+        'USER': get_env_str('DB_USER', None),
+        'PASSWORD': get_env_str('DB_PASS', None),
+        'HOST': get_env_str('DB_HOST', None),
+        'PORT': get_env_str('DB_PORT', 5432)
     }
 }
 
@@ -251,11 +247,6 @@ LEAFLET_CONFIG = {
 
 PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
 
-STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
-MEDIA_URL = '/media/'
-
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # Application settings
@@ -269,11 +260,32 @@ DATE_FORMAT = "d.m.Y"
 LOGIN_URL = "/admin/login/"
 WAGTAIL_SITE_NAME = 'GarnaHata!'
 
+ELASTICSEARCH_DSN = get_env_str('ELASTICSEARCH_DSN', 'localhost:9200')
+
+# Setup Elasticsearch default connection
+ELASTICSEARCH_CONNECTIONS = {
+    'default': {
+        'hosts': ELASTICSEARCH_DSN,
+        'timeout': 20
+    }
+}
+
+WAGTAILSEARCH_BACKENDS = {
+    'default': {
+        'BACKEND':
+            'wagtail.search.backends.elasticsearch6',
+        'URLS': [ ELASTICSEARCH_DSN ],
+        'INDEX': 'garnahata_cms',
+        'TIMEOUT': 5,
+    }
+}
+
+GOOGLE_ANALYTICS_ID = get_env_str('GOOGLE_ANALYTICS_ID', None)
+
 try:
     from .local_settings import *
 except ImportError:
     pass
-
 
 # Init Elasticsearch connections
 from elasticsearch_dsl import connections
