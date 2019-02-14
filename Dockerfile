@@ -68,7 +68,7 @@ RUN apk add --no-cache --virtual .collect-rundeps npm \
 
 ENTRYPOINT [ "docker-entrypoint.sh" ]
 
-VOLUME [ "/static", "/media" ]
+VOLUME [ "${STATIC_ROOT}", "${MEDIA_ROOT}" ]
 
 EXPOSE 8000
 

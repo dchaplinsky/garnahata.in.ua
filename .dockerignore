@@ -1,0 +1,75 @@
+.git/
+# Byte-compiled / optimized / DLL files
+**/__pycache__/
+**/*.py[cod]
+
+# C extensions
+**/*.so
+
+# Distribution / packaging
+**/.Python
+**/env/
+**/venv/
+**/build/
+**/develop-eggs/
+**/dist/
+**/downloads/
+**/eggs/
+**/lib/
+**/lib64/
+**/parts/
+**/sdist/
+**/var/
+**/*.egg-info/
+**/.installed.cfg
+**/*.egg
+**/local_settings.py
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+**/*.manifest
+**/*.spec
+
+# Installer logs
+**/pip-log.txt
+**/pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+**/htmlcov/
+**/.tox/
+**/.coverage
+**/.cache
+**/nosetests.xml
+**/coverage.xml
+
+# Translations
+**/*.mo
+**/*.pot
+
+# Django stuff:
+**/*.log
+
+# Sphinx documentation
+**/docs/_build/
+
+# PyBuilder
+**/target/
+
+**/.DS_Store
+**/*sublime-*
+**/readme.txt
+**/Vagrantfile
+**/.vagrant/machines/default/virtualbox/action_provision
+**/.vagrant/machines/default/virtualbox/action_set_name
+**/.vagrant/machines/default/virtualbox/id
+**/.vagrant/machines/default/virtualbox/index_uuid
+**/.vagrant/machines/default/virtualbox/synced_folders
+**/garnahata_site/index.html
+**/garnahata_site/catalog/static/images/Thumbs.db
+
+**/.env
+
+Dockerfile
+.dockerignore
+**/.git*
