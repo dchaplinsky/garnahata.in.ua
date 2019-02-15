@@ -127,7 +127,7 @@
                 accessToken: 'pk.eyJ1IjoiZGNoYXBsaW5za3kiLCJhIjoiY2o3d2p1eWdoNXAzMDJxbnV1ZG05YmF6ZiJ9.tXdY9DfXJiR7t0GgYKMiug'
             }),
 
-            cadastre = new L.tileLayer.wms('http://212.26.144.110/geowebcache/service/wms', {
+            cadastre = new L.tileLayer.wms('https://map.land.gov.ua/geowebcache/service/wms', {
                 maxZoom: 22,
                 layers: 'kadastr',
                 format: 'image/png',
