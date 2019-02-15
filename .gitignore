@@ -66,3 +66,5 @@ Vagrantfile
 .vagrant/machines/default/virtualbox/synced_folders
 garnahata_site/index.html
 garnahata_site/catalog/static/images/Thumbs.db
+
+.env
