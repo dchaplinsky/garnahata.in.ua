@@ -117,14 +117,14 @@
                 attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
                 maxZoom: 18,
                 id: 'mapbox.streets',
-                accessToken: 'pk.eyJ1IjoiZGNoYXBsaW5za3kiLCJhIjoiY2o3d2p1eWdoNXAzMDJxbnV1ZG05YmF6ZiJ9.tXdY9DfXJiR7t0GgYKMiug'
+                accessToken: 'pk.eyJ1IjoiZGNoYXBsaW5za3kiLCJhIjoiY2p3N3Z0dnozMGUzdDQ2bzdrMm5vZXJmdSJ9.rc9StX2ALGB5TR2e6FGEjA'
             }),
 
             mapbox_sat = new L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
                 attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
                 maxZoom: 18,
                 id: 'mapbox.streets-satellite',
-                accessToken: 'pk.eyJ1IjoiZGNoYXBsaW5za3kiLCJhIjoiY2o3d2p1eWdoNXAzMDJxbnV1ZG05YmF6ZiJ9.tXdY9DfXJiR7t0GgYKMiug'
+                accessToken: 'pk.eyJ1IjoiZGNoYXBsaW5za3kiLCJhIjoiY2p3N3Z0dnozMGUzdDQ2bzdrMm5vZXJmdSJ9.rc9StX2ALGB5TR2e6FGEjA'
             }),
 
             cadastre = new L.tileLayer.wms('https://map.land.gov.ua/geowebcache/service/wms', {
