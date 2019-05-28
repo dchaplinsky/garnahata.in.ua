@@ -1,5 +1,5 @@
 django.jQuery(window).on('map:init', function (e) {
-    var mapBoxToken = 'pk.eyJ1IjoiZGNoYXBsaW5za3kiLCJhIjoiY2o3d2p1eWdoNXAzMDJxbnV1ZG05YmF6ZiJ9.tXdY9DfXJiR7t0GgYKMiug';
+    var mapBoxToken = 'pk.eyJ1IjoiZGNoYXBsaW5za3kiLCJhIjoiY2p3N3Z0dnozMGUzdDQ2bzdrMm5vZXJmdSJ9.rc9StX2ALGB5TR2e6FGEjA';
     var detail = e.originalEvent ?
                  e.originalEvent.detail : e.detail,
         geocoder = L.Control.geocoder({
