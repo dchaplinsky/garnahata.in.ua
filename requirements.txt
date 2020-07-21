@@ -4,7 +4,7 @@ django-pipeline==1.6.14
 django_jinja==2.4.1
 gunicorn==19.6.0
 psycopg2==2.7.3.2
-wagtail==2.5.1
+wagtail==2.7.4
 elasticsearch==6.3.0
 django-geojson==2.12.0
 jsonfield==1.0.3
