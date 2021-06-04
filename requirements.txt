@@ -1,4 +1,4 @@
-Django==2.2.1
+Django==2.2.21
 elasticsearch-dsl==6.1.0
 django-pipeline==1.6.14
 django_jinja==2.4.1
